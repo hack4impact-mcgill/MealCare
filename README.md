@@ -10,4 +10,3 @@ MealCare is a non-profit that helps organizations manage food waste. They are lo
 # Frontend
 
 # Backend
-
