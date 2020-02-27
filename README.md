@@ -3,7 +3,9 @@ MealCare is a non-profit that helps organizations manage food waste. They are lo
 
 ## Development Team
 
-**Developers**: Alina Kung, Geoffrion, GeGe Kanda, Philip Tam, Rob LeWoman, Z Dolla Wang, Zhi Go.
+
+**Developers**: Alina Kung, Geoffrey Kim, GeGe Kanda, Pho TamTam, Rob LeWoman, Z Dolla Wang, Zhi Go.
+
 
 **Product Managers**: Tyrone Wong, Yue Dai
 
