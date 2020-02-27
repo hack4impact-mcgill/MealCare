@@ -56,7 +56,37 @@ def vend(item: VendorBody):
     :return: JSON response with created entry
     """
 
-    create_vendor(item.name, item.address)
+    create_vendor(item)
     return item
 
+# FOOD REQUEST BODY
+class FoodBody(BaseModel):
+    name: str
+    weight: float
+    date_produced: date
+    expiry_date: date = None
+    description: str = ""
+    category: str
+    serving_size: str = ""
+
+@router.post("/add_food")
+def food(item: FoodBody):
+    """
+    Adds a new vendor to the database - MealCare
+
+    :body: JSON of the form 
+    {
+        "name":"str",
+        "weight":int,
+        "date_produced":"YYYY-MM-DD",
+        "expiry_date":"YYYY-MM-DD",
+        "decription":"str",
+        "category":"str",
+        "serving_size":"str"
+    }
+
+    :return: JSON response with created entry
+    """
+    create_food(item)
+    return item
 
