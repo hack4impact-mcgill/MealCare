@@ -70,8 +70,10 @@ Once you have Android Studio installed, you can follow these steps to configurat
 https://flutter.dev/docs/get-started/editor
 ```
 
+You will need an emulator too, to see the changes you make. The best option is to use an Android phone and have it connected to Android Studio. Otherwise, to install an Android emulator, select ```Tools> Android > AVD Manager``` and create one there.
 
-Alternatively, Xcode is needed for iOS development. You can install this from the App Store.
+
+Alternatively, Xcode can be used for iOS development. You can install this from the App Store.
 ```
 https://apps.apple.com/us/app/xcode/id497799835?mt=12
 ```
