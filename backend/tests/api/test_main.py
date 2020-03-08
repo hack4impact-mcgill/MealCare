@@ -12,3 +12,16 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
         assert "healthy" in str(response.content)
 
+    def test_vendor(self):
+        payload = {
+            "name":"Ratatouille",
+            "address":"2007 Pixar Avenue"
+        }
+        response = self.app.post('/add_vendor', json=payload)
+        assert response.status_code == 200
+        assert response.json() == {
+            "name":"Ratatouille",
+            "address":"2007 Pixar Avenue"
+        }
+         
+

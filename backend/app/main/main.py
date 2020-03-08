@@ -1,26 +1,11 @@
 from fastapi import APIRouter
 from starlette.responses import HTMLResponse
-from pony.orm import Database
+from pydantic import BaseModel
+from .dbase import *
 
 # APIRouter is equivalent to Flask's blueprint
 # It allows us to extend FastAPI Routes
 router = APIRouter()
-
-
-# Example function on how to create a db and to connect using pony.orm
-def get_db():
-    db = Database()
-    db.bind(provider="postgres",
-            user='mealadmin',
-            password='happymeal',
-            host='127.0.0.1',
-            database='mealcare_dev')
-    return db
-
-
-# Initialize the Database Object
-db = get_db()
-
 
 @router.get("/")
 def main():
@@ -55,3 +40,23 @@ def health():
     health = "healthy"
 
     return HTMLResponse(health)
+
+# VENDOR REQUEST BODY
+class VendorBody(BaseModel):
+    name: str
+    address: str
+
+@router.post("/add_vendor")
+def vend(item: VendorBody):
+    """
+    Adds a new vendor to the database - MealCare
+
+    :body: JSON of the form {name: "str", address: "str"}
+
+    :return: JSON response with created entry
+    """
+
+    create_vendor(item.name, item.address)
+    return item
+
+
