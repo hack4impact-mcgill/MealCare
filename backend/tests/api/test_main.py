@@ -44,5 +44,4 @@ class MainTest(BasicApiTestCase):
             "description":"The best pizza in town",
             "category":"Grains",
             "serving_size":"4"
-        }
-
+        } 
