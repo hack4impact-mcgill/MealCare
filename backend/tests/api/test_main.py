@@ -23,5 +23,27 @@ class MainTest(BasicApiTestCase):
             "name":"Ratatouille",
             "address":"2007 Pixar Avenue"
         }
-         
+
+    def test_food(self):
+        payload = {
+            "name":"Pineapple pizza",
+            "weight":500,
+            "date_produced":"2020-03-11",
+            "expiry_date":"2021-04-12",
+            "description":"The best pizza in town",
+            "category":"Grains",
+            "serving_size":"4"
+        }
+        response = self.app.post('/add_food', json=payload)
+        assert response.status_code == 200
+        assert response.json() == {
+            "name":"Pineapple pizza",
+            "weight":500,
+            "date_produced":"2020-03-11",
+            "expiry_date":"2021-04-12",
+            "description":"The best pizza in town",
+            "category":"Grains",
+            "serving_size":"4"
+        }
+
 
