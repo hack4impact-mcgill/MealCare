@@ -37,10 +37,7 @@ def get_db():
             password='happymeal',
             host='127.0.0.1',
             database='mealcare_dev')
-<<<<<<< HEAD
-=======
     db.provider.converter_classes.append((Enum, EnumConverter))
->>>>>>> 16c13b2... parent 7b31a72fc7ff6e84166ddc403596fbca73894388
     return db
 
 
@@ -52,8 +49,6 @@ class Vendor(db.Entity):
     name = Required(str)
     address = Required(str)
 
-<<<<<<< HEAD
-=======
 class Food(db.Entity):
     name = Required(str)
     weight = Required(Decimal)
@@ -63,7 +58,6 @@ class Food(db.Entity):
     category = Required(Category)
     serving_size = Optional(str)
 
->>>>>>> 16c13b2... parent 7b31a72fc7ff6e84166ddc403596fbca73894388
 
 # GENERATE MAPPING
 db.generate_mapping(create_tables=True)
@@ -71,10 +65,6 @@ db.generate_mapping(create_tables=True)
 
 # INSERTIONS
 @db_session
-<<<<<<< HEAD
-def create_vendor(n, a):
-    v = Vendor(name=n, address=a)
-=======
 def create_vendor(vendor):
     v = Vendor(name=vendor.name, address=vendor.address)
 
@@ -90,4 +80,3 @@ def create_food(food):
             serving_size=food.serving_size
         ) 
 
->>>>>>> 16c13b2... parent 7b31a72fc7ff6e84166ddc403596fbca73894388

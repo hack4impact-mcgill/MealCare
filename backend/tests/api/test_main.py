@@ -23,9 +23,6 @@ class MainTest(BasicApiTestCase):
             "name":"Ratatouille",
             "address":"2007 Pixar Avenue"
         }
-<<<<<<< HEAD
-         
-=======
 
     def test_food(self):
         payload = {
@@ -48,5 +45,4 @@ class MainTest(BasicApiTestCase):
             "category":"Grains",
             "serving_size":"4"
         }
->>>>>>> 16c13b2... parent 7b31a72fc7ff6e84166ddc403596fbca73894388
 
