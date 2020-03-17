@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class CButton extends StatelessWidget {
   final Function handler;
   final String text;
+  final double height;
+  final double width;
 
-  CButton(this.handler, this.text);
+  CButton(this.handler, this.text, this.height, this.width);
 
   @override
   Widget build(BuildContext context) {
-    var loginButton = new Container(
+    var customButton = new Container(
         decoration: new BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -23,11 +25,11 @@ class CButton extends StatelessWidget {
           ],
         ),
         margin: EdgeInsets.all(10),
-        width: 300,
-        height: 50,
+        width: width,
+        height: height,
         child: RaisedButton(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           onPressed: handler,
           color: Color(0xff4AA35B),
           textColor: Colors.white,
@@ -36,6 +38,6 @@ class CButton extends StatelessWidget {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ));
-    return Container(child: loginButton);
+    return Container(child: customButton);
   }
 }

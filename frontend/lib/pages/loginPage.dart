@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/formPage.dart';
 
 import '../widgets/customButton.dart';
 
@@ -20,6 +21,17 @@ class _LoginPageState extends State<LoginPage> {
       print("signUp Pressed");
     }
 
+    void signInGoogle() {
+      print("signInGoogle");
+    }
+
+    void toForm() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FormPage()),
+      );
+    }
+
     var email = new Container(
         margin: EdgeInsets.all(10),
         width: 300,
@@ -27,9 +39,12 @@ class _LoginPageState extends State<LoginPage> {
         child: TextField(
           decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              hintText: 'Email'),
-        ));
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+              hintText: 'Email',
+              contentPadding: const EdgeInsets.all(20.0)
+          ),
+        )
+      );
 
     var password = new Container(
         margin: EdgeInsets.all(10),
@@ -39,9 +54,12 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: true,
           decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              hintText: 'Password'),
-        ));
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+              hintText: 'Password',
+              contentPadding: const EdgeInsets.all(20.0)
+          ),
+        )
+      );
 
     var logo = new Container(
         width: 250.0,
@@ -77,11 +95,17 @@ class _LoginPageState extends State<LoginPage> {
             child: password,
           ),
           Center(
-            child: CButton(login, "Log in"),
+            child: CButton(login, "Log in", 50,  300),
           ),
           Center(
-            child: CButton(signUp, "Sign Up"),
+            child: CButton(signUp,"Sign Up",  50, 300),
           ),
+          Center(
+            child: CButton(signInGoogle, "", 50, 50),
+          ),
+          Center(
+            child: CButton(toForm, "Form", 50, 150),
+          )
         ],
       ),
     );
