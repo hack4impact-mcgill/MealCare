@@ -3,7 +3,7 @@ attrs==19.3.0
 certifi==2019.11.28
 chardet==3.0.4
 Click==7.0
-dataclasses==0.7
+# dataclasses==0.7
 fastapi==0.49.1
 h11==0.9.0
 httptools==0.1.1
