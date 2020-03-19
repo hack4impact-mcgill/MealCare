@@ -8,15 +8,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final emailInput = TextEditingController();
+  final passwordInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var assetImage = new AssetImage("assets/logo.png");
 
-    void login() {
+    void login(username, password) {
+      // here goes the function for login button
       print("login Pressed");
+      print(username + " " + password);
     }
 
     void signUp() {
+      // here goes the function for SignUp button
       print("signUp Pressed");
     }
 
@@ -25,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         width: 300,
         height: 50,
         child: TextField(
+          controller: emailInput,
           decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -36,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         width: 300,
         height: 50,
         child: TextField(
+          controller: passwordInput,
           obscureText: true,
           decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -48,17 +56,17 @@ class _LoginPageState extends State<LoginPage> {
         height: 250.0,
         margin: EdgeInsets.only(top: 25.0),
         decoration: new BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 20.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
-              offset: Offset(
-                5.0, // horizontal, move right 10
-                5.0, // vertical, move down 10
-              ),
-            )
-          ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 20.0, // has the effect of softening the shadow
+                spreadRadius: 2.0, // has the effect of extending the shadow
+                offset: Offset(
+                  5.0, // horizontal, move right 10
+                  5.0, // vertical, move down 10
+                ),
+              )
+            ],
             shape: BoxShape.circle,
             image: new DecorationImage(fit: BoxFit.fill, image: assetImage)));
 
@@ -77,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             child: password,
           ),
           Center(
-            child: CButton(login, "Log in"),
+            child: CButton(() => login(emailInput.text,passwordInput.text), "Log in"),
           ),
           Center(
             child: CButton(signUp, "Sign Up"),
@@ -87,5 +95,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
