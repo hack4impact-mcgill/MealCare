@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../widgets/customButton.dart';
 
+import './foodItemPage.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -19,6 +21,12 @@ class _LoginPageState extends State<LoginPage> {
       // here goes the function for login button
       print("login Pressed");
       print(username + " " + password);
+
+      // missing authentication Logic.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FoodItemPage()),
+      );
     }
 
     void signUp() {
@@ -85,7 +93,8 @@ class _LoginPageState extends State<LoginPage> {
             child: password,
           ),
           Center(
-            child: CButton(() => login(emailInput.text,passwordInput.text), "Log in"),
+            child: CButton(
+                () => login(emailInput.text, passwordInput.text), "Log in"),
           ),
           Center(
             child: CButton(signUp, "Sign Up"),
