@@ -154,7 +154,7 @@ Or using a debugger in Pycharm or VSCode.
 ##### Specific Tests
 
 ```
-python3 -m unittest tests/<directory>
+python3 -m unittest discover tests/<directory>
 ```
 
 `<directory>` can be either `api`, `integrations`, or `unit`.
