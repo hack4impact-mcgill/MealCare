@@ -48,6 +48,7 @@ def health():
 class VendorBody(BaseModel):
     name: str
     address: str
+    city: str
 
 
 @router.post("/add_vendor")

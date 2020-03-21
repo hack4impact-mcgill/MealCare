@@ -54,6 +54,7 @@ db = get_db()
 class Vendor(db.Entity):
     name = Required(str)
     address = Required(str)
+    city = Required(str)
 
 
 class Food(db.Entity):
@@ -73,17 +74,17 @@ db.generate_mapping(create_tables=True)
 # INSERTIONS
 @db_session
 def create_vendor(vendor):
-    v = Vendor(name=vendor.name, address=vendor.address)
+    Vendor(name=vendor.name, address=vendor.address,city=vendor.city)
 
 
 @db_session
 def create_food(food):
-    v = Food(
+    Food(
         name=food.name,
         weight=food.weight,
         date_produced=food.date_produced,
         expiry_date=food.expiry_date,
         description=food.description,
         category=Category[food.category],
-        serving_size=food.serving_size,
+        serving_size=food.serving_size
     )
