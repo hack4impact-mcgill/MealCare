@@ -1,11 +1,13 @@
 from fastapi import APIRouter
-from starlette.responses import HTMLResponse
 from pydantic import BaseModel
+from starlette.responses import HTMLResponse
+
 from .dbase import *
 
 # APIRouter is equivalent to Flask's blueprint
 # It allows us to extend FastAPI Routes
 router = APIRouter()
+
 
 @router.get("/")
 def main():
@@ -41,10 +43,12 @@ def health():
 
     return HTMLResponse(health)
 
+
 # VENDOR REQUEST BODY
 class VendorBody(BaseModel):
     name: str
     address: str
+
 
 @router.post("/add_vendor")
 def vend(item: VendorBody):
@@ -59,6 +63,7 @@ def vend(item: VendorBody):
     create_vendor(item)
     return item
 
+
 # FOOD REQUEST BODY
 class FoodBody(BaseModel):
     name: str
@@ -68,6 +73,7 @@ class FoodBody(BaseModel):
     description: str = ""
     category: str
     serving_size: str = ""
+
 
 @router.post("/add_food")
 def food(item: FoodBody):
@@ -89,4 +95,3 @@ def food(item: FoodBody):
     """
     create_food(item)
     return item
-

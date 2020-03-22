@@ -1,6 +1,8 @@
-from app import create_app
 import os
+
 import uvicorn
+
+from app import create_app
 
 # Import settings from .env file
 if os.path.exists(".env"):
@@ -23,13 +25,13 @@ def test():
     """
     import unittest
 
-    api_tests = unittest.TestLoader().discover('./tests/api')
+    api_tests = unittest.TestLoader().discover("./tests/api")
     unittest.TextTestRunner(verbosity=2).run(api_tests)
 
-    int_tests = unittest.TestLoader().discover('./tests/integrations')
+    int_tests = unittest.TestLoader().discover("./tests/integrations")
     unittest.TextTestRunner(verbosity=2).run(int_tests)
 
-    unit_tests = unittest.TestLoader().discover('./tests/unit')
+    unit_tests = unittest.TestLoader().discover("./tests/unit")
     unittest.TextTestRunner(verbosity=2).run(unit_tests)
 
 
@@ -39,4 +41,3 @@ if __name__ == "__main__":
         uvicorn.run(app, host="127.0.0.1", port=8000)
     elif mode == "testing":
         test()
-
