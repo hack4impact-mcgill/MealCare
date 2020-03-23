@@ -29,11 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    void signUp() {
-      // here goes the function for SignUp button
-      print("signUp Pressed");
-    }
-
     var email = new Container(
         margin: EdgeInsets.all(10),
         width: 300,
@@ -41,9 +36,15 @@ class _LoginPageState extends State<LoginPage> {
         child: TextField(
           controller: emailInput,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              hintText: 'Email'),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            hintText: 'Email',
+            hintStyle: TextStyle(fontSize: 22.0, color: Colors.white),
+          ),
         ));
 
     var password = new Container(
@@ -54,52 +55,63 @@ class _LoginPageState extends State<LoginPage> {
           controller: passwordInput,
           obscureText: true,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              hintText: 'Password'),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            hintText: "Password",
+            hintStyle: TextStyle(fontSize: 22.0, color: Colors.white),
+          ),
         ));
 
-    var logo = new Container(
-        width: 250.0,
-        height: 250.0,
-        margin: EdgeInsets.only(top: 25.0),
-        decoration: new BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 20.0, // has the effect of softening the shadow
-                spreadRadius: 2.0, // has the effect of extending the shadow
-                offset: Offset(
-                  5.0, // horizontal, move right 10
-                  5.0, // vertical, move down 10
+    return Center(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+          child: Container(
+            width: 900,
+            height: 900,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/bpic.png"),
+                    fit: BoxFit.fitHeight)),
+            child: Column(
+              children: <Widget>[
+                Center(
+                    child: Container(
+                  child: Text(
+                    "mealcare",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 50, letterSpacing: 0),
+                  ),
+                  padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
+                )),
+                Center(
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
+                      child: Text("Volunteer",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              letterSpacing: 6))),
                 ),
-              )
-            ],
-            shape: BoxShape.circle,
-            image: new DecorationImage(fit: BoxFit.fill, image: assetImage)));
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          Center(
-            child: logo,
-            heightFactor: 1.2,
+                Center(
+                  child: email,
+                ),
+                Center(
+                  child: password,
+                ),
+                Center(
+                  child: CButton(
+                      () => login(emailInput.text, passwordInput.text),
+                      "Log in"),
+                ),
+              ],
+            ),
           ),
-          Center(
-            child: email,
-          ),
-          Center(
-            child: password,
-          ),
-          Center(
-            child: CButton(
-                () => login(emailInput.text, passwordInput.text), "Log in"),
-          ),
-          Center(
-            child: CButton(signUp, "Sign Up"),
-          ),
-        ],
+        ),
       ),
     );
   }
