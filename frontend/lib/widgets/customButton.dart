@@ -9,27 +9,15 @@ class CButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loginButton = new Container(
-        decoration: new BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 20.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
-              offset: Offset(
-                5.0, // horizontal, move right 10
-                5.0, // vertical, move down 10
-              ),
-            )
-          ],
-        ),
         margin: EdgeInsets.all(10),
-        width: 300,
+        width: 200,
         height: 50,
-        child: RaisedButton(
+        child: FlatButton(
+          
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.white) ),
           onPressed: handler,
-          color: Color(0xff4AA35B),
+
           textColor: Colors.white,
           child: Text(
             text,
