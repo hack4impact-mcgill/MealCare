@@ -1,35 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/loginPage.dart';
 import './currentSessionPage.dart';
+import '../widgets/sidebar.dart';
 
-class FoodItemPage extends StatelessWidget {
+class FoodItemPage extends StatefulWidget {
   // Missing Logout Logic
-  void logout(context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
+  @override
+  _FoodItemPageState createState() => _FoodItemPageState();
+}
+
+class _FoodItemPageState extends State<FoodItemPage> {
+  var _ScaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _ScaffoldKey,
+      endDrawer: Drawer(
+        child: SideBar(),
+      ),
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
               onPressed: () {
-                logout(context);
+                _ScaffoldKey.currentState.openEndDrawer();
               },
               icon: Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
+                Icons.dehaze,
+                color: Colors.green,
                 size: 28.0,
               ))
         ],
-        backgroundColor: Color(0xff4AA35B),
+        backgroundColor: Colors.transparent,
+        bottomOpacity: 0.0,
+        elevation: 0.0,
         // Add Logout
         leading: new Text(""),
-        title: Text("Food Item Page"),
+        centerTitle: true,
+        title: Column(
+          children: <Widget>[
+            Text(
+              "MealCare",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.green, fontSize: 25),
+            ),
+            Text(
+              "Volunteer",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.green, fontSize: 12, letterSpacing: 3),
+            )
+          ],
+        ),
       ),
       body: Center(
         child: RaisedButton(
