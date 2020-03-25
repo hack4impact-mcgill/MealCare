@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/formPage.dart';
+import 'package:frontend/widgets/customFlatButton.dart';
 import 'package:frontend/widgets/customTextField.dart';
-
-import '../widgets/customButton.dart';
-import '../widgets/customTextField.dart';
+import './foodItemPage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,81 +10,109 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final emailInput = TextEditingController();
+  final passwordInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var assetImage = new AssetImage("assets/logo.png");
 
-    void login() {
+    void login(username, password) {
+      // here goes the function for login button
       print("login Pressed");
-    }
+      print(username + " " + password);
 
-    void signUp() {
-      print("signUp Pressed");
-    }
-
-    void signInGoogle() {
-      print("signInGoogle");
-    }
-
-    void toForm() {
+      // missing authentication Logic.
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FormPage()),
+        MaterialPageRoute(builder: (context) => FoodItemPage()),
       );
     }
 
-    var logo = new Container(
-        width: 250.0,
-        height: 250.0,
-        margin: EdgeInsets.only(top: 25.0),
-        decoration: new BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 20.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
-              offset: Offset(
-                5.0, // horizontal, move right 10
-                5.0, // vertical, move down 10
-              ),
-            )
-          ],
-            shape: BoxShape.circle,
-            image: new DecorationImage(fit: BoxFit.fill, image: assetImage)));
+    var email = new Container(
+        margin: EdgeInsets.all(10),
+        width: 300,
+        height: 50,
+        child: TextField(
+          controller: emailInput,
+          decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            hintText: 'Email',
+            hintStyle: TextStyle(fontSize: 22.0, color: Colors.white),
+          ),
+        ));
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          Center(
-            child: logo,
-            heightFactor: 1.2,
+    var password = new Container(
+        margin: EdgeInsets.all(10),
+        width: 300,
+        height: 50,
+        child: TextField(
+          controller: passwordInput,
+          obscureText: true,
+          decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            hintText: "Password",
+            hintStyle: TextStyle(fontSize: 22.0, color: Colors.white),
           ),
-          Center(
-            child: CTextField(placeholder: "Email",width: 300, height: 50),
+        ));
+
+    return Center(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+          child: Container(
+            width: 900,
+            height: 900,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/bpic.png"),
+                    fit: BoxFit.fitHeight)),
+            child: Column(
+              children: <Widget>[
+                Center(
+                    child: Container(
+                  child: Text(
+                    "mealcare",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 50, letterSpacing: 0),
+                  ),
+                  padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
+                )),
+                Center(
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
+                      child: Text("Volunteer",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              letterSpacing: 6))),
+                ),
+                Center(
+                  child: email,
+                ),
+                Center(
+                  child: password,
+                ),
+                Center(
+                  child: CFButton(
+                      () => login(emailInput.text, passwordInput.text),
+                      title: "Log in"),
+                ),
+              ],
+            ),
           ),
-          Center(
-            child: CTextField(placeholder: "Password",width: 300, height: 50),
-          ),
-          Center(
-            child: CButton(login, title:"Log In", width: 300, height:50),
-          ),
-          Center(
-            child: CButton(signUp, title:"Sign Up", width: 300, height:50),
-          ),
-          Center (
-            child: CButton(login),
-          ),
-          Center(
-            child: CButton(signInGoogle, width: 50),
-          ),
-          Center(
-            child: CButton(toForm, title: "Form"),
-          )
-        ],
+        ),
       ),
     );
   }
 }
-
-

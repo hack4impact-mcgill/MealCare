@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CButton extends StatelessWidget {
+class CRButton extends StatelessWidget {
   final Function handler;
   final String title;
   final double width;
@@ -8,7 +8,7 @@ class CButton extends StatelessWidget {
   final Color color;
   final Color textColor;
 
-  CButton(
+  CRButton(
       this.handler,
     { 
       this.title = "", 

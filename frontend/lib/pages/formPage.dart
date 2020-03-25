@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/customButton.dart';
+import 'package:frontend/widgets/customFlatButton.dart';
 
 class FormPage extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _FormPageState extends State<FormPage> {
               padding: EdgeInsets.all(24.0),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: CButton(navigateBack, width: 50)
+                  child: CFButton(navigateBack, width: 50)
               )
             )
           ],),
