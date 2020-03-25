@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 
 class CButton extends StatelessWidget {
   final Function handler;
-  final String text;
-  final double height;
+  final String title;
   final double width;
+  final double height;
+  final Color color;
+  final Color textColor;
 
-  CButton(this.handler, this.text, this.height, this.width);
+  CButton(
+      this.handler,
+    { 
+      this.title = "", 
+      this.width = 150,
+      this.height = 50, 
+      this.color = const Color(0xff4AA35B),
+      this.textColor = Colors.white
+    }
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +26,7 @@ class CButton extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 20.0, // has the effect of softening the shadow
+              blurRadius: 5.0, // has the effect of softening the shadow
               spreadRadius: 2.0, // has the effect of extending the shadow
               offset: Offset(
                 5.0, // horizontal, move right 10
@@ -29,12 +40,12 @@ class CButton extends StatelessWidget {
         height: height,
         child: RaisedButton(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(height / 2)),
           onPressed: handler,
-          color: Color(0xff4AA35B),
-          textColor: Colors.white,
+          color: this.color,
+          textColor: this.textColor,
           child: Text(
-            text,
+            title,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ));

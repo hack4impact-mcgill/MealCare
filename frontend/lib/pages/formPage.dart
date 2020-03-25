@@ -15,12 +15,15 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: CButton(navigateBack, "", 50, 50)
+            Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: CButton(navigateBack, width: 50)
+              )
             )
           ],),
     );

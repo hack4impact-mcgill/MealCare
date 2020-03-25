@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/formPage.dart';
+import 'package:frontend/widgets/customTextField.dart';
 
 import '../widgets/customButton.dart';
+import '../widgets/customTextField.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,35 +34,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    var email = new Container(
-        margin: EdgeInsets.all(10),
-        width: 300,
-        height: 50,
-        child: TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              hintText: 'Email',
-              contentPadding: const EdgeInsets.all(20.0)
-          ),
-        )
-      );
-
-    var password = new Container(
-        margin: EdgeInsets.all(10),
-        width: 300,
-        height: 50,
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              hintText: 'Password',
-              contentPadding: const EdgeInsets.all(20.0)
-          ),
-        )
-      );
-
     var logo = new Container(
         width: 250.0,
         height: 250.0,
@@ -89,22 +62,25 @@ class _LoginPageState extends State<LoginPage> {
             heightFactor: 1.2,
           ),
           Center(
-            child: email,
+            child: CTextField(placeholder: "Email",width: 300, height: 50),
           ),
           Center(
-            child: password,
+            child: CTextField(placeholder: "Password",width: 300, height: 50),
           ),
           Center(
-            child: CButton(login, "Log in", 50,  300),
+            child: CButton(login, title:"Log In", width: 300, height:50),
           ),
           Center(
-            child: CButton(signUp,"Sign Up",  50, 300),
+            child: CButton(signUp, title:"Sign Up", width: 300, height:50),
+          ),
+          Center (
+            child: CButton(login),
           ),
           Center(
-            child: CButton(signInGoogle, "", 50, 50),
+            child: CButton(signInGoogle, width: 50),
           ),
           Center(
-            child: CButton(toForm, "Form", 50, 150),
+            child: CButton(toForm, title: "Form"),
           )
         ],
       ),
