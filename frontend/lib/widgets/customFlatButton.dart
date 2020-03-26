@@ -23,12 +23,12 @@ class CFButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var flatButton = new Container(
         margin: EdgeInsets.all(10),
-        width: 200,
-        height: 50,
+        width: width,
+        height: height,
         child: FlatButton(
           
           shape:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.white) ),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(height/2),borderSide: BorderSide(color: Colors.white) ),
           onPressed: handler,
 
           textColor: Colors.white,

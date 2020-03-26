@@ -3,12 +3,9 @@ import 'package:frontend/pages/loginPage.dart';
 
 class SideBar extends StatelessWidget {
 
-  void logout(context) { // TODO: Missing Actual Functionality 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
+  final Function logout;
+  
+  SideBar(this.logout);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +58,7 @@ class SideBar extends StatelessWidget {
           SizedBox(height: 15),
           FlatButton(
             onPressed: () {
-              logout(context);
+              this.logout();
             },
             child: SizedBox(
               width: double.infinity,
@@ -73,7 +70,6 @@ class SideBar extends StatelessWidget {
             ),
           )
         ],
-        // ),
       ),
     );
   }

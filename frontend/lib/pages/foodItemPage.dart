@@ -12,12 +12,19 @@ class FoodItemPage extends StatefulWidget {
 class _FoodItemPageState extends State<FoodItemPage> {
   var _ScaffoldKey = new GlobalKey<ScaffoldState>();
 
+  void logout() {
+      // Note this Push Replacement is only if this foodItemPage is the parent of all the next pages.
+      print("Log out pressed");
+      Route route = MaterialPageRoute(builder: (context) => LoginPage());
+      Navigator.pushReplacement(context, route);
+  }   
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _ScaffoldKey,
       endDrawer: Drawer(
-        child: SideBar(),
+        child: SideBar(this.logout),
       ),
       appBar: AppBar(
         actions: <Widget>[

@@ -3,6 +3,7 @@ import 'package:frontend/pages/formPage.dart';
 import 'package:frontend/widgets/customFlatButton.dart';
 import 'package:frontend/widgets/customTextField.dart';
 import './foodItemPage.dart';
+import 'dart:ui';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,11 +24,11 @@ class _LoginPageState extends State<LoginPage> {
       print(username + " " + password);
 
       // missing authentication Logic.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => FoodItemPage()),
-      );
+      Route route = MaterialPageRoute(builder: (context) => FoodItemPage());
+      Navigator.pushReplacementNamed(context, 'foodItemPage');
     }
+
+    var keyboardIsVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     var email = new Container(
         margin: EdgeInsets.all(10),
@@ -66,53 +67,69 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
 
-    return Center(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Container(
-            width: 900,
-            height: 900,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/bpic.png"),
-                    fit: BoxFit.fitHeight)),
-            child: Column(
-              children: <Widget>[
-                Center(
-                    child: Container(
-                  child: Text(
-                    "mealcare",
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 50, letterSpacing: 0),
-                  ),
-                  padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
-                )),
-                Center(
-                  child: Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
-                      child: Text("Volunteer",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              letterSpacing: 6))),
-                ),
-                Center(
-                  child: email,
-                ),
-                Center(
-                  child: password,
-                ),
-                Center(
-                  child: CFButton(
-                      () => login(emailInput.text, passwordInput.text),
-                      title: "Log in"),
-                ),
-              ],
+    return new Scaffold(
+          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.transparent,
+          body: new GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/bpic.png"),
+                      fit: BoxFit.cover)
+              ),
+              child: Stack(
+                children: <Widget>[
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: 200),
+                    top: keyboardIsVisible ? 0 : 150,
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: 
+                      Column(children: <Widget>[
+                          Center( 
+                            child: Container(
+                              child: Text(
+                                "mealcare",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 50, letterSpacing: 0),
+                              ),
+                              padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
+                            )
+                          ),
+                          Center(
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                              child: Text("Volunteer",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      letterSpacing: 6)
+                              )
+                            )
+                          ),
+                          Center(
+                            child: email,
+                          ),
+                          Center(
+                            child: password,
+                          ),
+                          Center(
+                            child: CFButton(
+                                () => login(emailInput.text, passwordInput.text),
+                                title: "Log in"),
+                          ),
+                        ],
+                      ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          )
+      );
   }
 }
