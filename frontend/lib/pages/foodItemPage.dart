@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/loginPage.dart';
-import './currentSessionPage.dart';
-import '../widgets/sidebar.dart';
+import 'package:frontend/pages/LoginPage.dart';
+import 'package:frontend/widgets/AbstractButton.dart';
+import 'package:frontend/widgets/CustomFlatButton.dart';
+import 'package:frontend/widgets/CustomRaisedButton.dart';
+import './CurrentSessionPage.dart';
+import '../widgets/SideBar.dart';
 
 class FoodItemPage extends StatefulWidget {
   // Missing Logout Logic
@@ -15,9 +18,22 @@ class _FoodItemPageState extends State<FoodItemPage> {
   void logout() {
       // Note this Push Replacement is only if this foodItemPage is the parent of all the next pages.
       print("Log out pressed");
-      Route route = MaterialPageRoute(builder: (context) => LoginPage());
-      Navigator.pushReplacement(context, route);
+      Navigator.pushReplacementNamed(context, "/");
   }   
+
+  void goToCurrentSession() {
+      Navigator.pushNamed(
+              context,
+              "/currentSession",
+      );
+  }
+
+  void goToWidgets() {
+      Navigator.pushNamed(
+        context,
+        "/widgets",
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +76,31 @@ class _FoodItemPageState extends State<FoodItemPage> {
           ],
         ),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CurrentSessionPage()),
-            );
-          },
-          child: Text('Check Current Session!'),
-        ),
-      ),
+      body:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Center(child:
+                  CRButton(
+                    goToCurrentSession, 
+                    title: "Check Current Session!",
+                    width: 300.0,
+                    borderType: BorderType.rounded,
+                    margin: EdgeInsets.all(20)
+                  ),
+              ),
+                Center(child:
+                  CRButton(
+                    goToWidgets,
+                    title: "Go see Widgets!",
+                    width: 200.0,
+                    borderType: BorderType.round,
+                    margin: EdgeInsets.all(20)
+                  ),
+              )
+          ],
+          )
     );
   }
 }

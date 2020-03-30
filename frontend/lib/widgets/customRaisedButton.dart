@@ -1,52 +1,65 @@
 import 'package:flutter/material.dart';
+import 'AbstractButton.dart';
 
-class CRButton extends StatelessWidget {
-  final Function handler;
-  final String title;
-  final double width;
-  final double height;
-  final Color color;
-  final Color textColor;
+class CRButton extends AbstractButton {
 
   CRButton(
-      this.handler,
-    { 
-      this.title = "", 
-      this.width = 150,
-      this.height = 50, 
-      this.color = const Color(0xff4AA35B),
-      this.textColor = Colors.white
-    }
-  );
+      handler,
+      { 
+        title = "", 
+        titleStyle = const TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
+        width = 150.0,
+        height = 50.0, 
+        backgroundColor = Colors.grey,
+        borderColor = Colors.transparent,
+        textColor = Colors.black,
+        highlightColor: Colors.blueGrey,
+        margin: EdgeInsets.zero,
+        borderType: BorderType.none
+      } 
+    ) : super(
+      handler,
+      title: title, 
+      titleStyle: titleStyle,
+      width: width, 
+      height: height,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      textColor: textColor,
+      highlightColor: highlightColor,
+      margin: margin,
+      borderType: borderType,
+    );
 
   @override
   Widget build(BuildContext context) {
     var customButton = new Container(
         decoration: new BoxDecoration(
+          borderRadius: borderRadius(),
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 5.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
+              blurRadius: 2.0, // has the effect of softening the shadow
+              spreadRadius: 0.5,// has the effect of extending the shadow
               offset: Offset(
-                5.0, // horizontal, move right 10
-                5.0, // vertical, move down 10
+                2.0, // horizontal, move right 10
+                2.0, // vertical, move down 10
               ),
             )
           ],
         ),
-        margin: EdgeInsets.all(10),
-        width: width,
-        height: height,
+        margin: this.margin,
+        width: this.width,
+        height: this.height,
         child: RaisedButton(
           shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(height / 2)),
+            RoundedRectangleBorder(borderRadius: borderRadius()),
           onPressed: handler,
-          color: this.color,
+          color: this.backgroundColor,
           textColor: this.textColor,
           child: Text(
-            title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            this.title,
+            style: this.titleStyle,
           ),
         ));
     return Container(child: customButton);

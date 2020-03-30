@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/foodItemPage.dart';
+import 'package:frontend/pages/CurrentSessionPage.dart';
+import 'package:frontend/pages/FoodItemPage.dart';
+import 'package:frontend/pages/WidgetsPage.dart';
 
-import './pages/loginPage.dart';
+import './pages/LoginPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +15,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => LoginPage(),
-        '/foodItemPage': (context) => FoodItemPage()
+        '/currentSession': (context) => CurrentSessionPage(),
+        '/widgets': (context) => WidgetsPage(),
+        '/foodItem': (context) => FoodItemPage()
       },
       title: 'Welcome to MealCare'
     );

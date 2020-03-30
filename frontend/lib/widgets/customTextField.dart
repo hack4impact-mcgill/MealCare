@@ -1,45 +1,66 @@
 import 'package:flutter/material.dart';
 
 class CTextField extends StatefulWidget {
-  const CTextField({this.placeholder = "", this.width = 150, this.height = 50});
+  const CTextField(
+    this.textEditingController, {
+      this.placeholder = "",
+      this.width = 150,
+      this.height = 50,
+      this.secure = false,
+      this.textColor = Colors.white,
+      this.borderColor = Colors.white,
+      this.focusedBorderColor = Colors.blue,
+      this.margin = EdgeInsets.zero,
+      this.hintTextStyle = const TextStyle(fontSize: 20),
+    }
+  );
 
+  final TextEditingController textEditingController;
   final String placeholder;
   final double width;
   final double height;
+  final bool secure;
+  final Color borderColor;
+  final Color textColor;
+  final Color focusedBorderColor;
+  final EdgeInsets margin;
+  final TextStyle hintTextStyle;
 
   @override
   _CTextFieldState createState() => _CTextFieldState();
 }
 
 class _CTextFieldState extends State<CTextField> {
-  
-  final textEditingController = TextEditingController();
 
    @override
   void dispose() {
-    textEditingController.dispose();
+    if (widget.textEditingController != null)     
+    widget.textEditingController.dispose();    
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-        margin: EdgeInsets.all(10),
+        margin: widget.margin,
         width: widget.width,
         height: widget.height,
         child: TextField(
-          controller: textEditingController,
-          obscureText: true,
+          controller: widget.textEditingController,
+          obscureText: widget.secure,
+          style: new TextStyle(color: widget.textColor),
+          cursorColor: widget.textColor,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular( widget.width / 2)
-                  )
-              ),
-              hintText: widget.placeholder,
-              contentPadding: const EdgeInsets.all(20.0)
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: widget.borderColor),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: widget.focusedBorderColor),
+            ),
+            hintText: widget.placeholder,
+            hintStyle: widget.hintTextStyle,
           ),
-        )
-      );
+        ));
   }
 }

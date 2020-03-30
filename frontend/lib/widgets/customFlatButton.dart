@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/AbstractButton.dart';
 
-class CFButton extends StatelessWidget {
-  final Function handler;
-  final String title;
-  final double width;
-  final double height;
-  final Color color;
-  final Color textColor;
+class CFButton extends AbstractButton {
 
   CFButton(
-      this.handler,
-    { 
-      this.title = "", 
-      this.width = 150,
-      this.height = 50, 
-      this.color = const Color(0xff4AA35B),
-      this.textColor = Colors.white
-    }
-  );
+      handler,
+      { 
+        title = "", 
+        titleStyle = const TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
+        width = 150.0,
+        height = 50.0, 
+        backgroundColor = Colors.transparent,
+        borderColor = Colors.white,
+        textColor = Colors.white,
+        highlightColor = Colors.white,
+        margin: EdgeInsets.zero,
+        borderType: BorderType.none
+      } 
+    ) : super(
+      handler,
+      title: title, 
+      titleStyle: titleStyle,
+      width: width, 
+      height: height,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      textColor: textColor,
+      highlightColor: highlightColor,
+      margin: margin,
+      borderType: borderType,
+    );  
 
   @override
   Widget build(BuildContext context) {
     var flatButton = new Container(
-        margin: EdgeInsets.all(10),
+        margin: margin,
         width: width,
         height: height,
         child: FlatButton(
-          
           shape:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(height/2),borderSide: BorderSide(color: Colors.white) ),
+              OutlineInputBorder(borderRadius: borderRadius(), borderSide: BorderSide(color: this.borderColor) ),
           onPressed: handler,
-
-          textColor: Colors.white,
+          highlightColor: this.highlightColor,
+          textColor: textColor,
           child: Text(
             title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: titleStyle,
           ),
         ));
     return Container(child: flatButton);
