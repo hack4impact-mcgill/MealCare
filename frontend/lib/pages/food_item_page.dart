@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/LoginPage.dart';
-import 'package:frontend/widgets/AbstractButton.dart';
-import 'package:frontend/widgets/CustomFlatButton.dart';
-import 'package:frontend/widgets/CustomRaisedButton.dart';
-import './CurrentSessionPage.dart';
-import '../widgets/SideBar.dart';
+import 'package:frontend/widgets/abstract_button.dart';
+import 'package:frontend/widgets/custom_raised_button.dart';
+import 'package:frontend/widgets/side_bar.dart';
 
 class FoodItemPage extends StatefulWidget {
   // Missing Logout Logic

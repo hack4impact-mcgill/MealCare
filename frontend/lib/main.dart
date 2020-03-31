@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/CurrentSessionPage.dart';
-import 'package:frontend/pages/FoodItemPage.dart';
-import 'package:frontend/pages/WidgetsPage.dart';
-
-import './pages/LoginPage.dart';
+import 'package:frontend/pages/current_session_page.dart';
+import 'package:frontend/pages/food_item_page.dart';
+import 'package:frontend/pages/widgets_page.dart';
+import 'package:frontend/pages/login_page.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/AbstractButton.dart';
+import 'package:frontend/widgets/abstract_button.dart';
 
 class CFButton extends AbstractButton {
 

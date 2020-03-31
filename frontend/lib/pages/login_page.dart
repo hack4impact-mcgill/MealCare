@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/AbstractButton.dart';
-import 'package:frontend/widgets/CustomFlatButton.dart';
-import 'package:frontend/widgets/CustomTextField.dart';
+import 'package:frontend/widgets/abstract_button.dart';
+import 'package:frontend/widgets/custom_flat_button.dart';
+import 'package:frontend/widgets/custom_text_field.dart';
 import 'dart:ui';
 
 class LoginPage extends StatefulWidget {
