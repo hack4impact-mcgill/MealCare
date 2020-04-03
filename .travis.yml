@@ -9,5 +9,8 @@ before_script:
 script:
  - python3 -m unittest discover tests/api
  - python3 -m unittest discover tests/unit
+ - flake8 .
+ - isort --check-only
+ - black --check .
 services:
  - postgresql
