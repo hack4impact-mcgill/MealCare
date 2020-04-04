@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './pages/loginPage.dart';
+import './pages/HomePage.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome to MealCare',
-      home: Scaffold(
-      body: LoginPage(),
-      ),
+      theme: ThemeData(
+          accentColor: Colors.green, primaryColor: Colors.white),
+      home: HomePage(),
     );
   }
 }
