@@ -1,29 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/abstract_button.dart';
 
-class CButton extends StatelessWidget {
-  final Function handler;
-  final String text;
+class CFButton extends AbstractButton {
 
-  CButton(this.handler, this.text);
+  CFButton(
+      handler,
+      { 
+        title = "", 
+        titleStyle = const TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
+        width = 150.0,
+        height = 50.0, 
+        backgroundColor = Colors.transparent,
+        borderColor = Colors.white,
+        textColor = Colors.white,
+        highlightColor = Colors.white,
+        margin: EdgeInsets.zero,
+        borderType: BorderType.none
+      } 
+    ) : super(
+      handler,
+      title: title, 
+      titleStyle: titleStyle,
+      width: width, 
+      height: height,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      textColor: textColor,
+      highlightColor: highlightColor,
+      margin: margin,
+      borderType: borderType,
+    );  
 
   @override
   Widget build(BuildContext context) {
-    var loginButton = new Container(
-        margin: EdgeInsets.all(10),
-        width: 200,
-        height: 50,
+    var flatButton = new Container(
+        margin: margin,
+        width: width,
+        height: height,
         child: FlatButton(
-          
           shape:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.white) ),
+              OutlineInputBorder(borderRadius: borderRadius(), borderSide: BorderSide(color: this.borderColor) ),
           onPressed: handler,
-
-          textColor: Colors.white,
+          highlightColor: this.highlightColor,
+          textColor: textColor,
           child: Text(
-            text,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            title,
+            style: titleStyle,
           ),
         ));
-    return Container(child: loginButton);
+    return Container(child: flatButton);
   }
 }
