@@ -5,17 +5,22 @@ class CurrentSessionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // App bar need to be edited
         backgroundColor: Color(0xff4AA35B),
         title: Text("Current Session Page"),
       ),
-      body: Center(
-        child: RaisedButton(
+      body: Column(children: <Widget>[
+        RaisedButton(
           onPressed: () {
             Navigator.pop(context);
           },
           child: Text('Go back To Food Item Page!'),
         ),
-      ),
+        Text(
+          "This is an example of a push and pop page so it'll have its own appBar",
+          textAlign: TextAlign.center,
+        )
+      ]),
     );
   }
 }
