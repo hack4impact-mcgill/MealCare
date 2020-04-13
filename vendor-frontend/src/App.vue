@@ -1,18 +1,13 @@
 <template>
   <div id="app">
-    <img alt="MealCare logo" src="./assets/mealcarelogo.png">
-    <HelloWorld msg="Welcome to MealCare"/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
@@ -22,7 +17,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
+
+/* removes the default 8px margin Vue adds to the project*/
+* { margin: 0; }
 </style>
