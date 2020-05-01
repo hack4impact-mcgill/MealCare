@@ -56,7 +56,7 @@ def vend(item: VendorBody):
     """
     Adds a new vendor to the database - MealCare
 
-    :body: JSON of the form {name: "str", address: "str"}
+    :body: JSON of the form {name: "str", address: "str", city:"str"}
 
     :return: JSON response with created entry
     """

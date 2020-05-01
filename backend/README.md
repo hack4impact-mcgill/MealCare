@@ -119,7 +119,7 @@ uvicorn manage:app --reload
 Or using:
 
 ```text
-python3 manager.py
+python3 manage.py
 ```
 
 Or using a debugger in Pycharm or VSCode
