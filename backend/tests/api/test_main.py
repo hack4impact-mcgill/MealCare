@@ -15,14 +15,14 @@ class MainTest(BasicApiTestCase):
         payload = {
             "name": "Ratatouille",
             "address": "2007 Pixar Avenue",
-            "city": "Paris"
+            "city": "Paris",
         }
         response = self.app.post("/add_vendor", json=payload)
         assert response.status_code == 200
         assert response.json() == {
             "name": "Ratatouille",
             "address": "2007 Pixar Avenue",
-            "city": "Paris"
+            "city": "Paris",
         }
 
     def test_food(self):

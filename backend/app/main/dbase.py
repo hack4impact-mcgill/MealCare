@@ -74,7 +74,7 @@ db.generate_mapping(create_tables=True)
 # INSERTIONS
 @db_session
 def create_vendor(vendor):
-    Vendor(name=vendor.name, address=vendor.address,city=vendor.city)
+    Vendor(name=vendor.name, address=vendor.address, city=vendor.city)
 
 
 @db_session
@@ -86,5 +86,5 @@ def create_food(food):
         expiry_date=food.expiry_date,
         description=food.description,
         category=Category[food.category],
-        serving_size=food.serving_size
+        serving_size=food.serving_size,
     )

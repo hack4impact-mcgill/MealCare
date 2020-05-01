@@ -1,13 +1,32 @@
-language: python
-python:
- - 3.6
- - 3.7
-before_install:
- - cd backend
-before_script:
- - python3 ./scripts/setup_db.py
-script:
- - python3 -m unittest discover tests/api
- - python3 -m unittest discover tests/unit
-services:
- - postgresql
+matrix:
+ include:
+  - os:
+     - linux
+    language: python
+    python:
+     - 3.6
+     - 3.7
+    before_install:
+     - cd backend
+    before_script:
+     - python3 ./scripts/setup_db.py
+    script:
+     - python3 -m unittest discover tests/api
+     - python3 -m unittest discover tests/unit
+     - flake8 .
+     - isort --check-only
+     - black --check .
+    services:
+     - postgresql
+  - os:
+     - linux
+    language: dart
+    dart:
+     - stable
+    before_script:
+     - cd frontend
+     - git clone https://github.com/flutter/flutter.git -b beta
+     - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+     - ./flutter/bin/flutter doctor
+    script:
+     - flutter test
