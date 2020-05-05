@@ -10,12 +10,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        "Profile CONTENT...",
-        style: TextStyle(color: Colors.black, fontSize: 40),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
+    return Scaffold(backgroundColor: Theme.of(context).primaryColor,);
+}
 }

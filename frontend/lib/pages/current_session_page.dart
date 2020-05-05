@@ -6,7 +6,7 @@ class CurrentSessionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // App bar need to be edited
-        backgroundColor: Color(0xff4AA35B),
+        backgroundColor: Theme.of(context).accentColor,
         title: Text("Current Session Page"),
       ),
       body: Column(children: <Widget>[

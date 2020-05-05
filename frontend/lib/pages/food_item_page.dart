@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
-import 'package:frontend/widgets/side_bar.dart';
 
 class FoodItemPage extends StatefulWidget {
   // Missing Logout Logic
@@ -41,7 +40,7 @@ class _FoodItemPageState extends State<FoodItemPage> {
       children: <Widget>[
         Text(
           "Food Item Page",
-          style: TextStyle(color: Colors.green, fontSize: 40),
+          style: TextStyle(color: Theme.of(context).accentColor, fontSize: 40),
         ),
         Center(
           child: CRButton(goToCurrentSession,
