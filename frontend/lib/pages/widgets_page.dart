@@ -18,7 +18,7 @@ class _WidgetsPageState extends State<WidgetsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         body: new GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -54,7 +54,7 @@ class _WidgetsPageState extends State<WidgetsPage> {
                     title: "Round",
                     margin: EdgeInsets.all(20),
                     borderType: BorderType.round,
-                    textColor: Colors.white,
+                    textColor: Theme.of(context).primaryColor,
                   )),
                   Center(
                     child: CRButton(
@@ -65,7 +65,7 @@ class _WidgetsPageState extends State<WidgetsPage> {
                       title: "Rounded",
                       margin: EdgeInsets.all(20),
                       borderType: BorderType.rounded,
-                      textColor: Colors.white,
+                      textColor: Theme.of(context).primaryColor,
                     ),
                   ),
                   Center(

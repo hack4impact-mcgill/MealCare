@@ -61,11 +61,11 @@ class _HomePageState extends State<HomePage> {
             },
             icon: Icon(
               Icons.dehaze,
-              color: Colors.green,
+              color: Theme.of(context).accentColor,
               size: 28.0,
             ))
       ],
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).primaryColor,
       bottomOpacity: 0.0,
       elevation: 0.0,
       // Add Logout
@@ -76,13 +76,13 @@ class _HomePageState extends State<HomePage> {
           Text(
             page[pageIndex],
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.green, fontSize: 25),
+            style: TextStyle(color: Theme.of(context).accentColor, fontSize: 25),
           ),
           Text(
             "Volunteer",
             textAlign: TextAlign.center,
             style:
-                TextStyle(color: Colors.green, fontSize: 12, letterSpacing: 3),
+                TextStyle(color: Theme.of(context).accentColor, fontSize: 12, letterSpacing: 3),
           )
         ],
       ),
