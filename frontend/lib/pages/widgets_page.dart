@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
+import 'package:frontend/widgets/custom_icon_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
 import 'package:frontend/widgets/custom_text_field.dart';
 
 class WidgetsPage extends StatefulWidget {
+  static String routeName = "/widgets";
+  
   @override
   _WidgetsPageState createState() => _WidgetsPageState();
 }
@@ -35,10 +38,13 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         padding: EdgeInsets.all(24.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: CRButton(navigateBack,
-                            width: 50.0,
-                            borderType: BorderType.round,
-                            )
+                            child: CIButton(
+                                      navigateBack,
+                                      Icons.arrow_back,
+                                      size: 50.0,
+                                      textColor: Colors.black,
+                                      borderType: BorderType.round,
+                                    )
                         )
                       ),
                     ),
@@ -68,6 +74,7 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         margin: EdgeInsets.all(20),
                         borderType: BorderType.rounded,
                         textColor: Colors.white,
+                        highlightTextColor: Colors.black,  
                       ),
                     ),
                     Center(child: 
@@ -77,9 +84,13 @@ class _WidgetsPageState extends State<WidgetsPage> {
                           }, 
                           title: "Round",
                           margin:  EdgeInsets.all(20),
+                          backgroundColor: Colors.red,
                           textColor: Colors.black,
                           borderColor: Colors.black,
                           borderType: BorderType.round,
+                          highlightTextColor: Colors.red,
+                          highlightBackgroundColor: Colors.black,
+                          highlightBorderColor: Colors.red,
                       ),
                     ),
                     Center(child: 
@@ -102,7 +113,14 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         secure: true,
                         hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.black.withAlpha(205))
                       )
-                    )
+                    ),
+                    Center(child: 
+                       IconButton(
+                          onPressed: null,
+                          color: Colors.white,
+                          icon: Image.asset('assets/arrow.png'),
+                      )
+                    ,)
                   ],
               ),
           )

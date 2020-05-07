@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/helpers/arguments/user_arguments.dart';
+import 'package:frontend/pages/location_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
 import 'package:frontend/widgets/custom_text_field.dart';
 import 'dart:ui';
 
 class LoginPage extends StatefulWidget {
+  static String routeName = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -22,22 +26,26 @@ class _LoginPageState extends State<LoginPage> {
       print(username + " " + password);
 
       // missing authentication Logic.
-      Navigator.pushReplacementNamed(context, '/foodItem');
+      Navigator.pushNamed(context, 
+      LocationPage.routeName,
+      arguments: UserArguments(
+          username
+      ));
     }
 
     var email = CTextField(emailInput,
-      width: 300,
-      height: 50,
+      width: 282,
+      height: 32,
       placeholder: "Email",
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 31),
       hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205))
     );
 
     var password = CTextField(passwordInput,
-      width: 300,
-      height: 50,
+      width: 282,
+      height: 32,
       placeholder: "Password",
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 51),
       secure: true,
       hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205))
     );
@@ -87,9 +95,12 @@ class _LoginPageState extends State<LoginPage> {
                     Center(
                       child: CFButton(
                           () => login(emailInput.text, passwordInput.text),
-                          title: "Log in",
+                          width: 252.0,
+                          height: 52.0,
+                          title: "LOGIN",
                           margin: EdgeInsets.all(10),
-                          borderType: BorderType.round
+                          borderType: BorderType.round,
+                          highlightTextColor: Colors.green,
                       ),
                     ),
                   ],

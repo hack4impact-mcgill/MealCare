@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CurrentSessionPage extends StatelessWidget {
+  static String routeName = "/currentSession";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/current_session_page.dart';
 import 'package:frontend/pages/food_item_page.dart';
+import 'package:frontend/pages/location_page.dart';
 import 'package:frontend/pages/widgets_page.dart';
 import 'package:frontend/pages/login_page.dart';
 
@@ -11,12 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: LoginPage.routeName,
       routes: {
-        '/':(context) => LoginPage(),
-        '/currentSession': (context) => CurrentSessionPage(),
-        '/widgets': (context) => WidgetsPage(),
-        '/foodItem': (context) => FoodItemPage()
+        LoginPage.routeName:(context) => LoginPage(),
+        LocationPage.routeName: (context) => LocationPage(),
+        CurrentSessionPage.routeName: (context) => CurrentSessionPage(),
+        WidgetsPage.routeName: (context) => WidgetsPage(),
+        FoodItemPage.routeName: (context) => FoodItemPage()
       },
       title: 'Welcome to MealCare'
     );
