@@ -70,46 +70,22 @@ def create_vendor(vendor: schemas.VendorCreate, session: Session = Depends(get_d
     return crud.create_vendor(session=session, vendor=vendor)
 
 
-# def vend(item: VendorBody):
-#     """
-#     Adds a new vendor to the database - MealCare
+@router.post("/add_food", response_model=schemas.Food)
+def create_food(food: schemas.FoodCreate, session: Session = Depends(get_db)):
+    """
+    Adds a new food item to the database - MealCare
 
-#     :body: JSON of the form {name: "str", address: "str", city:"str"}
+    :body: JSON of the form
+    {
+        "name":"str",
+        "weight":int,
+        "date_produced":"YYYY-MM-DD",
+        "expiry_date":"YYYY-MM-DD",
+        "decription":"str",
+        "category":"str",
+        "serving_size":"str"
+    }
 
-#     :return: JSON response with created entry
-#     """
-
-#     return item
-
-
-# # FOOD REQUEST BODY
-# class FoodBody(BaseModel):
-#     name: str
-#     weight: float
-#     date_produced: date
-#     expiry_date: date = None
-#     description: str = ""
-#     category: str
-#     serving_size: str = ""
-
-
-# @router.post("/add_food")
-# def food(item: FoodBody):
-#     """
-#     Adds a new vendor to the database - MealCare
-
-#     :body: JSON of the form
-#     {
-#         "name":"str",
-#         "weight":int,
-#         "date_produced":"YYYY-MM-DD",
-#         "expiry_date":"YYYY-MM-DD",
-#         "decription":"str",
-#         "category":"str",
-#         "serving_size":"str"
-#     }
-
-#     :return: JSON response with created entry
-#     """
-#     create_food(item)
-#     return item
+    :return: JSON response with created entry
+    """
+    return crud.create_food(session=session, food=food)
