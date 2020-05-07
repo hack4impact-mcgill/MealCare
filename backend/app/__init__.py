@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from app.main import models
+from app.main.database import engine
 from config import config
 
 
@@ -10,6 +12,8 @@ def create_app(config_name):
     :param config_name: Setup the config name
     :return: A FastAPI Instance
     """
+
+    models.Base.metadata.create_all(bind=engine)
 
     # TODO: Setup proper configurations
     app_config = config[config_name]
