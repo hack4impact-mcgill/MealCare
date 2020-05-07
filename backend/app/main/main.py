@@ -1,12 +1,21 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from starlette.responses import HTMLResponse
 
-from .dbase import *
+from . import crud, schemas
+from .database import SessionLocal
 
 # APIRouter is equivalent to Flask's blueprint
 # It allows us to extend FastAPI Routes
 router = APIRouter()
+
+
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
 
 
 @router.get("/")
@@ -44,15 +53,9 @@ def health():
     return HTMLResponse(health)
 
 
-# VENDOR REQUEST BODY
-class VendorBody(BaseModel):
-    name: str
-    address: str
-    city: str
+@router.post("/add_vendor", response_model=schemas.Vendor)
+def create_vendor(vendor: schemas.VendorCreate, session: Session = Depends(get_db)):
 
-
-@router.post("/add_vendor")
-def vend(item: VendorBody):
     """
     Adds a new vendor to the database - MealCare
 
@@ -61,38 +64,52 @@ def vend(item: VendorBody):
     :return: JSON response with created entry
     """
 
-    create_vendor(item)
-    return item
+    db_vendor = crud.get_vendor_by_name(session, name=vendor.name)
+    if db_vendor:
+        raise HTTPException(status_code=400, detail="Vendor already registered")
+    return crud.create_vendor(session=session, vendor=vendor)
 
 
-# FOOD REQUEST BODY
-class FoodBody(BaseModel):
-    name: str
-    weight: float
-    date_produced: date
-    expiry_date: date = None
-    description: str = ""
-    category: str
-    serving_size: str = ""
+# def vend(item: VendorBody):
+#     """
+#     Adds a new vendor to the database - MealCare
+
+#     :body: JSON of the form {name: "str", address: "str", city:"str"}
+
+#     :return: JSON response with created entry
+#     """
+
+#     return item
 
 
-@router.post("/add_food")
-def food(item: FoodBody):
-    """
-    Adds a new vendor to the database - MealCare
+# # FOOD REQUEST BODY
+# class FoodBody(BaseModel):
+#     name: str
+#     weight: float
+#     date_produced: date
+#     expiry_date: date = None
+#     description: str = ""
+#     category: str
+#     serving_size: str = ""
 
-    :body: JSON of the form 
-    {
-        "name":"str",
-        "weight":int,
-        "date_produced":"YYYY-MM-DD",
-        "expiry_date":"YYYY-MM-DD",
-        "decription":"str",
-        "category":"str",
-        "serving_size":"str"
-    }
 
-    :return: JSON response with created entry
-    """
-    create_food(item)
-    return item
+# @router.post("/add_food")
+# def food(item: FoodBody):
+#     """
+#     Adds a new vendor to the database - MealCare
+
+#     :body: JSON of the form
+#     {
+#         "name":"str",
+#         "weight":int,
+#         "date_produced":"YYYY-MM-DD",
+#         "expiry_date":"YYYY-MM-DD",
+#         "decription":"str",
+#         "category":"str",
+#         "serving_size":"str"
+#     }
+
+#     :return: JSON response with created entry
+#     """
+#     create_food(item)
+#     return item
