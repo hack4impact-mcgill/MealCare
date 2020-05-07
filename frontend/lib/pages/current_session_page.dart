@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/add_food_item_page.dart';
+import 'package:frontend/pages/profile_page.dart';
 
 class CurrentSessionPage extends StatelessWidget {
   @override
@@ -19,7 +21,16 @@ class CurrentSessionPage extends StatelessWidget {
         Text(
           "This is an example of a push and pop page so it'll have its own appBar",
           textAlign: TextAlign.center,
-        )
+        ),
+        RaisedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddFoodItemPage()),
+            );
+          },
+          child: Text('Add food item'),
+        ),
       ]),
     );
   }
