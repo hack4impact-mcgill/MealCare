@@ -75,7 +75,29 @@ Stop server:
 sudo service postgresql stop
 ```
 
+To check if server exists:
+```text
+service postgresql status
+```
 
+if you encounter this error while running `python setup_db.py`:
+
+`Error while connecting to PostgreSQL FATAL:  role "$USER" does not exist`.
+
+A temporary work around for this would be to create a Superuser with $USER as name in your postgres.
+It can be done with these commands:
+
+```text
+sudo su postgres
+psql
+> \du (this will show PostgreSQL users)
+```
+To create a user
+```text
+> CREATE USER $USER WITH PASSWORD $PASSWORD;
+> ALTER USER $USER WITH SUPERUSER;
+```
+Running `python script/setup_db.py` should now work.
 ##### Windows:
 Locate the Database path in PostgresSQL, it should look like `C:\Program Files\PostgreSQL\#.#\data` where `#.#` stands for the version number, 
 with Powershell or Command Prompt run these commands:
