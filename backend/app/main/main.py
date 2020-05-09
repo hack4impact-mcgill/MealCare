@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette.responses import HTMLResponse
@@ -89,3 +91,37 @@ def create_food(food: schemas.FoodCreate, session: Session = Depends(get_db)):
     :return: JSON response with created entry
     """
     return crud.create_food(session=session, food=food)
+
+
+@router.get("/vendors/", response_model=List[schemas.Vendor])
+def read_vendors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    vendors = crud.get_vendors(db, skip=skip, limit=limit)
+    return vendors
+
+
+@router.get("/vendors/{vendor_id}", response_model=schemas.Vendor)
+def read_user(vendor_id: int, db: Session = Depends(get_db)):
+    db_vendor = crud.get_vendor(db, vendor_id=vendor_id)
+    if db_vendor is None:
+        raise HTTPException(status_code=404, detail="Vendor not found")
+    return db_vendor
+
+
+@router.post("/vendors/{vendor_id}/add_tray", response_model=schemas.Tray)
+def create_tray_for_vendor(
+    vendor_id: int, tray: schemas.TrayCreate, session: Session = Depends(get_db)
+):
+    """
+    Adds a new tray item to the database - MealCare
+
+    :body: JSON of the form
+    {
+        "type":"str",
+        "date_acquired":"YYYY-MM-DD HH:MM:SS.ffffff",
+        "vendor":"int",
+        "decription":"str"
+    }
+
+    :return: JSON response with created entry
+    """
+    return crud.create_tray(session=session, tray=tray, vendor_id=vendor_id)
