@@ -38,3 +38,14 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
         # TODO: remove entry from db
+
+    def test_vendors_tray(self):
+        payload = {
+            "type": "metal",
+            "date_acquired": "2020-05-09 22:56:51.291273",
+            "description": "from the pizza",
+        }
+        response = self.app.post("/vendors/1/add_tray", json=payload)
+        assert response.status_code == 200
+
+        # TODO remove entry from db

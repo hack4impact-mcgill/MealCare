@@ -1,6 +1,17 @@
 import enum
+from datetime import datetime
 
-from sqlalchemy import Column, Date, Enum, Integer, Numeric, String
+from sqlalchemy import (
+    Column,
+    Date,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+)
+from sqlalchemy.orm import relationship
 
 from .database import Base
 
@@ -12,6 +23,8 @@ class Vendor(Base):
     name = Column(String, unique=True)
     address = Column(String)
     city = Column(String)
+
+    trays = relationship("Tray", back_populates="vendor")
 
 
 class FoodEnum(enum.Enum):
@@ -34,3 +47,15 @@ class Food(Base):
     description = Column(String)
     category = Column(Enum(FoodEnum))
     serving_size = Column(String)
+
+
+class Tray(Base):
+    __tablename__ = "trays"
+
+    id = Column(Integer, primary_key=True, index=True)
+    type = Column(String)
+    date_acquired = Column(DateTime, default=datetime.now())
+    vendor_id = Column(Integer, ForeignKey("vendors.id"))
+    description = Column(String)
+
+    vendor = relationship("Vendor", back_populates="trays")

@@ -1,8 +1,27 @@
-from datetime import date
+from datetime import date, datetime
+from typing import List
 
 from pydantic import BaseModel
 
 from .models import FoodEnum
+
+
+class TrayBase(BaseModel):
+    type: str
+    date_acquired: datetime = datetime.now
+    description: str = ""
+
+
+class TrayCreate(TrayBase):
+    pass
+
+
+class Tray(TrayBase):
+    id: int
+    vendor_id: int
+
+    class Config:
+        orm_mode = True
 
 
 class VendorBase(BaseModel):
@@ -17,6 +36,7 @@ class VendorCreate(VendorBase):
 
 class Vendor(VendorBase):
     id: int
+    trays: List[Tray] = []
 
     class Config:
         orm_mode = True

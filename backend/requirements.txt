@@ -1,6 +1,8 @@
 alembic==1.4.2
 appdirs==1.4.3
 astroid==2.3.3
+async-exit-stack==1.0.1
+async-generator==1.10
 attrs==19.3.0
 black==19.10b0
 certifi==2019.11.28
@@ -33,6 +35,7 @@ pylint==2.4.4
 pyparsing==2.4.6
 python-dateutil==2.8.1
 python-editor==1.0.4
+python-multipart==0.0.5
 regex==2020.4.4
 requests==2.23.0
 six==1.14.0
