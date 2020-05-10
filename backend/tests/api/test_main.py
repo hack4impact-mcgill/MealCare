@@ -49,3 +49,41 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
         # TODO remove entry from db
+
+    def test_create_food_collect(self):
+        # Add a vendor first
+        vendor = {
+            "name": "ratata",
+            "address": "victory road",
+            "city": "sinnoh",
+        }
+        response = self.app.post("/add_vendor", json=vendor)
+
+        payload = {
+            "pickup_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": 1,
+        }
+        response = self.app.post("/add_food_collect", json=payload)
+        assert response.status_code == 200
+
+    def test_get_food_collect(self):
+        response = self.app.get("/get_food_collect/1")
+        assert response.status_code == 200
+
+    def test_get_all_food_collect(self):
+        response = self.app.get("/get_all_food_collect")
+        assert response.status_code == 200
+
+    # TODO: test it after having a test db with data
+    # def test_update_food_collect(self):
+    #     payload = {
+    #         "pickup_time": "2030-04-01T11:11",
+    #         "vendor_id": 1,
+    #         "id": 1,
+    #     }
+    #     response = self.app.put("/update_food_collect", json=payload)
+    #     assert response.status_code == 200
+
+    # def test_remove_food_collect(self):
+    #     response = self.app.delete("/remove_food_collect/1")
+    #     assert response.status_code == 200

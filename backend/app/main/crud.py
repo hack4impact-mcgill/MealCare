@@ -15,6 +15,10 @@ def get_vendors(session: Session, skip: int = 0, limit: int = 100):
     return session.query(models.Vendor).offset(skip).limit(limit).all()
 
 
+def get_vendor_by_id(session: Session, id: int):
+    return session.query(models.Vendor).filter(models.Vendor.id == id).first()
+
+
 def create_vendor(session: Session, vendor: schemas.VendorCreate):
     db_vendor = models.Vendor(
         name=vendor.name, address=vendor.address, city=vendor.city
@@ -65,3 +69,41 @@ def remove_tray(session: Session, tray_id: int):
     session.query(models.Tray).filter(models.Tray.id == tray_id).delete()
     session.commit()
     return tray_id
+
+
+def create_food_collect(session: Session, food_collect: schemas.FoodCollectCreate):
+    db_food_collect = models.FoodCollect(
+        pickup_time=food_collect.pickup_time, vendor_id=food_collect.vendor_id,
+    )
+    session.add(db_food_collect)
+    session.commit()
+    session.refresh(db_food_collect)
+    return db_food_collect
+
+
+def remove_food_collect(session: Session, food_collect_id: int):
+    session.query(models.FoodCollect).filter(
+        models.FoodCollect.id == food_collect_id
+    ).delete()
+    session.commit()
+    return food_collect_id
+
+
+def get_food_collect(session: Session, food_collect_id: int):
+    return (
+        session.query(models.FoodCollect)
+        .filter(models.FoodCollect.id == food_collect_id)
+        .first()
+    )
+
+
+def get_all_food_collect(session: Session):
+    return session.query(models.FoodCollect).all()
+
+
+def update_food_collect(session: Session, food_collect: schemas.FoodCollect):
+    session.query(models.FoodCollect).filter(
+        models.FoodCollect.id == food_collect.id
+    ).update(food_collect)
+    session.commit()
+    return food_collect
