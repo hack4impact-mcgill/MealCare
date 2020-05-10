@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/abstract_button.dart';
-import 'package:frontend/widgets/selectable_buttons/selectable_buttons.dart';
 
 class SButton extends AbstractButton {
 

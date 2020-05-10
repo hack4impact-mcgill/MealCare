@@ -55,7 +55,7 @@ class _LocationPageState extends State<LocationPage> {
       width: 205.0,
       textColor: Colors.white,
       highlightTextColor: Colors.green,
-      backgroundColor: Color(0x00000000),
+      backgroundColor: Colors.transparent,
       highlightBackgroundColor: Colors.white,
       titleStyle: TextStyle(fontWeight: FontWeight.bold),
       borderType: BorderType.rounded,
