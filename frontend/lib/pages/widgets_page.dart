@@ -13,28 +13,26 @@ class WidgetsPage extends StatefulWidget {
 }
 
 class _WidgetsPageState extends State<WidgetsPage> {
-  
   void navigateBack() {
-    Navigator.pop(context);
+    print("go back");
+    //Navigator.pop(context);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: 
-         new GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          }, 
-        child:
-            new Container(
-                height: MediaQuery.of(context).size.height, 
-                child:  
-                ListView( // List View to enable the GestureDetector
-                  children: <Widget>[
-                    Center(child:
-                      Padding(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: new GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: new Container(
+              height: MediaQuery.of(context).size.height,
+              child: ListView(
+                // List View to enable the GestureDetector
+                children: <Widget>[
+                  Center(
+                    child: Padding(
                         padding: EdgeInsets.all(24.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
@@ -100,7 +98,10 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         placeholder: "TextField",
                         textColor: Colors.black,
                         margin: EdgeInsets.all(10),
-                        hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.black.withAlpha(205))
+                         hintTextStyle: TextStyle(
+                            fontSize: 22.0,
+                            color: Colors.black.withAlpha(205)
+                          ),
                       ),
                     ),
                     Center(child: 
@@ -111,7 +112,10 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         textColor: Colors.black,
                         margin: EdgeInsets.all(10),
                         secure: true,
-                        hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.black.withAlpha(205))
+                         hintTextStyle: TextStyle(
+                            fontSize: 22.0,
+                            color: Colors.black.withAlpha(205)
+                        ),
                       )
                     ),
                     Center(child: 
@@ -123,8 +127,6 @@ class _WidgetsPageState extends State<WidgetsPage> {
                     ,)
                   ],
               ),
-          )
-        )
-    );
+            )));
   }
 }
