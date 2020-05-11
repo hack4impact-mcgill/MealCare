@@ -61,3 +61,19 @@ class Food(FoodBase):
 
     class Config:
         orm_mode = True
+
+
+class FoodCollectBase(BaseModel):
+    pickup_time: datetime
+    vendor_id: int
+
+
+class FoodCollectCreate(FoodCollectBase):
+    pass
+
+
+class FoodCollect(FoodCollectBase):
+    id: int
+
+    class Config:
+        orm_mode = True

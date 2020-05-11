@@ -37,15 +37,15 @@ class FoodEnum(enum.Enum):
 
 
 class Food(Base):
-    __tablename__ = "food"
+    __tablename__ = "foods"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    weight = Column(Numeric)
-    date_produced = Column(Date)
+    name = Column(String, index=True, nullable=False)
+    weight = Column(Numeric, nullable=False)
+    date_produced = Column(Date, nullable=False)
     expiry_date = Column(Date)
     description = Column(String)
-    category = Column(Enum(FoodEnum))
+    category = Column(Enum(FoodEnum), nullable=False)
     serving_size = Column(String)
 
 
@@ -59,3 +59,21 @@ class Tray(Base):
     description = Column(String)
 
     vendor = relationship("Vendor", back_populates="trays")
+    # Relationships
+    food_collect = relationship("FoodCollect")
+
+    # Foreign keys
+    food_collect_id = Column(Integer, ForeignKey("food_collects.id"))
+
+
+class FoodCollect(Base):
+    __tablename__ = "food_collects"
+
+    id = Column(Integer, primary_key=True, index=True)
+    pickup_time = Column(DateTime, nullable=False)
+
+    # Foreign keys
+    vendor_id = Column(Integer, ForeignKey("vendors.id"))
+
+    # Relationships
+    vendor = relationship("Vendor")
