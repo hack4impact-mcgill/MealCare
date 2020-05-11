@@ -1,3 +1,5 @@
+import json
+
 from tests.api.base_api_test import BasicApiTestCase
 
 
@@ -38,6 +40,28 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
         # TODO: remove entry from db
+
+    def test_remove_food(self):
+
+        add_food_payload = {
+            "name": "ratata",
+            "weight": 123,
+            "date_produced": "2020-05-10",
+            "expiry_date": "2025-05-10",
+            "decription": "victory hw",
+            "category": "Vegetables",
+            "serving_size": "1",
+        }
+        response = self.app.post("/add_food", json=add_food_payload)
+
+        all_food = self.app.get("/get_all_food")
+
+        data = json.loads(all_food.content)
+        last = len(data) - 1
+        food_id = data[last]["id"]
+        route = "/remove_food/{0}".format(str(food_id))
+        response = self.app.delete(route)
+        assert response.status_code == 200
 
     def test_vendors_tray(self):
         payload = {

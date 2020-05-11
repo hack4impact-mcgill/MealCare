@@ -57,6 +57,10 @@ def remove_food(session: Session, food_id: int):
     return food_id
 
 
+def get_all_food(session: Session):
+    return session.query(models.Food).all()
+
+
 def create_tray(session: Session, tray: schemas.TrayCreate, vendor_id: int):
     db_tray = models.Tray(**tray.dict(), vendor_id=vendor_id)
     session.add(db_tray)

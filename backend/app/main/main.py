@@ -93,6 +93,32 @@ def create_food(food: schemas.FoodCreate, session: Session = Depends(get_db)):
     return crud.create_food(session=session, food=food)
 
 
+@router.delete("/remove_food/{food_id}", response_model=int)
+def remove_food(food_id, session: Session = Depends(get_db)):
+    """
+    Remove a food item from the database - MealCare
+    :body: JSON of the form 
+    {
+        "id": "int"
+    } 
+    :return: JSON response with deleted entry
+    """
+    return crud.remove_food(session=session, food_id=food_id)
+
+
+@router.get("/get_all_food", response_model=List[schemas.Food])
+def get_all_food(session: Session = Depends(get_db)):
+    """
+    Get all food from the database - MealCare
+    :return: JSON response with get all entries
+    """
+
+    db_all_food = crud.get_all_food(session)
+    if not db_all_food:
+        raise HTTPException(status_code=404, detail="No food")
+    return db_all_food
+
+
 @router.get("/vendors/", response_model=List[schemas.Vendor])
 def read_vendors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     vendors = crud.get_vendors(db, skip=skip, limit=limit)
