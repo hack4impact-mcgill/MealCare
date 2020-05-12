@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/current_session_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
 
 class FoodItemPage extends StatefulWidget {
-  // Missing Logout Logic
+  static String routeName = "/foodItem";
+
   @override
   _FoodItemPageState createState() => _FoodItemPageState();
 }
 
 class _FoodItemPageState extends State<FoodItemPage> {
-  var _ScaffoldKey = new GlobalKey<ScaffoldState>();
-
-  void logout() {
-    // Note this Push Replacement is only if this foodItemPage is the parent of all the next pages.
-    print("Log out pressed");
-    Navigator.pushReplacementNamed(context, "/");
-  }
 
   void goToCurrentSession() {
     Navigator.pushNamed(
       context,
-      "/currentSession",
-    );
-  }
-
-  void goToWidgets() {
-    Navigator.pushNamed(
-      context,
-      "/widgets",
+      CurrentSessionPage.routeName,
     );
   }
 
