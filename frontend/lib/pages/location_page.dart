@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/helpers/arguments/user_arguments.dart';
 import 'package:frontend/pages/food_item_page.dart';
+import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_icon_button.dart';
 import 'package:frontend/widgets/selectable_buttons/selectable_buttons.dart';
@@ -20,7 +21,7 @@ class _LocationPageState extends State<LocationPage> {
     if(location != null) {
       Navigator.pushReplacementNamed(
         context,
-        FoodItemPage.routeName,
+        HomePage.routeName,
         arguments: UserArguments(name, location: location)
       );
     }
@@ -53,10 +54,10 @@ class _LocationPageState extends State<LocationPage> {
       locations,
       setLocation,
       width: 205.0,
-      textColor: Colors.white,
-      highlightTextColor: Colors.green,
+      textColor: Theme.of(context).primaryColor,
+      highlightTextColor: Theme.of(context).accentColor,
       backgroundColor: Colors.transparent,
-      highlightBackgroundColor: Colors.white,
+      highlightBackgroundColor: Theme.of(context).primaryColor,
       titleStyle: TextStyle(fontWeight: FontWeight.bold),
       borderType: BorderType.rounded,
       margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -64,7 +65,6 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     return new Scaffold(
-        backgroundColor: Color(0x00000000),
         body: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
@@ -90,10 +90,10 @@ class _LocationPageState extends State<LocationPage> {
                         size: 55,
                         iconSize: 24,
                         borderWidth: 2.0,
-                        textColor: Colors.white,
-                        highlightTextColor: Colors.green,
+                        textColor: Theme.of(context).primaryColor,
+                        highlightTextColor: Theme.of(context).accentColor,
                         margin: EdgeInsets.fromLTRB(20, 15, 20, 20),
-                        highlightBackgroundColor: Colors.white,
+                        highlightBackgroundColor: Theme.of(context).primaryColor,
                         padding: EdgeInsets.fromLTRB(175, 0, 0, 0),
                         opacity: 1.0
                       )

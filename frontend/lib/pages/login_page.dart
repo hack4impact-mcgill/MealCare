@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 32,
       placeholder: "Email",
       margin: EdgeInsets.fromLTRB(10, 10, 10, 31),
-      hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205))
+      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
     );
 
     var password = CTextField(passwordInput,
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       placeholder: "Password",
       margin: EdgeInsets.fromLTRB(10, 10, 10, 51),
       secure: true,
-      hintTextStyle: TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205))
+      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
     );
 
     return new Scaffold(
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "mealcare",
                       style: TextStyle(
-                          color: Colors.white, fontSize: 50, letterSpacing: 0),
+                          color: Theme.of(context).primaryColor, fontSize: 50, letterSpacing: 0),
                     ),
                     padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
                   )),
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
                         child: Text("Volunteer",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 18,
                                 letterSpacing: 6)
                         )
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                           title: "LOGIN",
                           margin: EdgeInsets.all(10),
                           borderType: BorderType.round,
-                          highlightTextColor: Colors.green,
+                          highlightTextColor: Theme.of(context).accentColor,
                       ),
                     ),
                   ],
@@ -105,6 +105,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
             ),
           ),
-        ));
+      );
   }
 }

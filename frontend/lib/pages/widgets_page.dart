@@ -13,10 +13,6 @@ class WidgetsPage extends StatefulWidget {
 }
 
 class _WidgetsPageState extends State<WidgetsPage> {
-  void navigateBack() {
-    print("go back");
-    //Navigator.pop(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +27,26 @@ class _WidgetsPageState extends State<WidgetsPage> {
               child: ListView(
                 // List View to enable the GestureDetector
                 children: <Widget>[
-                  Center(
-                    child: Padding(
-                        padding: EdgeInsets.all(24.0),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: CIButton(
-                                      navigateBack,
-                                      Icons.arrow_back,
-                                      size: 50.0,
-                                      textColor: Colors.black,
-                                      borderType: BorderType.round,
-                                    )
-                        )
-                      ),
+                    Padding(padding: 
+                      EdgeInsets.all(20)
                     ),
                     Center(child: 
                       Text(
                         "This is a page to display/play with widgets! \n Feel free to test out widgets here!", 
                         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
                       ),
+                    ),
+                    Center(
+                      child: 
+                      CIButton(
+                        () => {
+                          print("Back Button")
+                        },
+                        Icons.arrow_back,
+                        size: 50.0,
+                        textColor: Colors.black,
+                        borderType: BorderType.round,
+                      )
                     ),
                     Center(child: 
                       CRButton(() => {
