@@ -13,9 +13,12 @@ class CRButton extends AbstractButton {
         backgroundColor = Colors.grey,
         borderColor = Colors.transparent,
         textColor = Colors.black,
-        highlightColor: Colors.blueGrey,
+        highlightBackgroundColor: Colors.blueGrey,
+        highlightTextColor: Colors.black,
         margin: EdgeInsets.zero,
-        borderType: BorderType.none
+        borderType: BorderType.none,
+        borderWidth: 1.0,
+        opacity: 1.0
       } 
     ) : super(
       handler,
@@ -25,17 +28,25 @@ class CRButton extends AbstractButton {
       height: height,
       backgroundColor: backgroundColor,
       borderColor: borderColor,
+      highlightBackgroundColor: highlightBackgroundColor,
       textColor: textColor,
-      highlightColor: highlightColor,
+      highlightTextColor: highlightTextColor,
       margin: margin,
       borderType: borderType,
+      borderWidth: borderWidth,
+      opacity: opacity
     );
 
+  @override
+  _CRButtonState createState() => new _CRButtonState();
+}
+
+class _CRButtonState extends AbstractButtonState {
   @override
   Widget build(BuildContext context) {
     var customButton = new Container(
         decoration: new BoxDecoration(
-          borderRadius: borderRadius(),
+          borderRadius: widget.borderRadius(),
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
@@ -48,20 +59,28 @@ class CRButton extends AbstractButton {
             )
           ],
         ),
-        margin: this.margin,
-        width: this.width,
-        height: this.height,
+        margin: widget.margin,
+        width: widget.width,
+        height: widget.height,
         child: RaisedButton(
           shape:
-            RoundedRectangleBorder(borderRadius: borderRadius()),
-          onPressed: handler,
-          color: this.backgroundColor,
-          textColor: this.textColor,
+            RoundedRectangleBorder(
+              borderRadius: widget.borderRadius(),
+              side: BorderSide(
+                color: super.borderColor,
+                width: widget.borderWidth 
+              )
+            ),
+          onPressed: widget.handler,
+          onHighlightChanged: (isHighlighted) => super.setHighlighting(isHighlighted),
+          highlightColor: widget.highlightBackgroundColor,
+          color: widget.backgroundColor,
+          textColor: super.textColor,
           child: Text(
-            this.title,
-            style: this.titleStyle,
+            widget.title,
+            style: widget.titleStyle,
           ),
         ));
-    return Container(child: customButton);
+    return Opacity(opacity: widget.opacity, child: customButton);
   }
 }
