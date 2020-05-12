@@ -36,18 +36,6 @@ class _WidgetsPageState extends State<WidgetsPage> {
                         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
                       ),
                     ),
-                    Center(
-                      child: 
-                      CIButton(
-                        () => {
-                          print("Back Button")
-                        },
-                        Icons.arrow_back,
-                        size: 50.0,
-                        textColor: Colors.black,
-                        borderType: BorderType.round,
-                      )
-                    ),
                     Center(child: 
                       CRButton(() => {
                           // Necessary to activate button
@@ -115,12 +103,16 @@ class _WidgetsPageState extends State<WidgetsPage> {
                       )
                     ),
                     Center(child: 
-                       IconButton(
-                          onPressed: null,
-                          color: Colors.white,
-                          icon: Image.asset('assets/arrow.png'),
+                      CIButton(
+                        () => {
+                          print("Back Button")
+                        },
+                        Icons.arrow_back,
+                        size: 50.0,
+                        textColor: Colors.black,
+                        borderType: BorderType.round,
                       )
-                    ,)
+                    ),
                   ],
               ),
             )));

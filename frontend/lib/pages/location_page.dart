@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/helpers/arguments/user_arguments.dart';
-import 'package:frontend/pages/food_item_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_icon_button.dart';
@@ -16,8 +15,10 @@ class LocationPage extends StatefulWidget {
 class _LocationPageState extends State<LocationPage> {
   Map<String, bool> locations = {"MONTREAL" : false, "OTTAWA": false, "GUELPH": false};
   String chosenLocation;
+  bool enableHomeButton = false;
 
   void toHome(name, location) {
+    // Only allow to go to home page if location is set
     if(location != null) {
       Navigator.pushReplacementNamed(
         context,
@@ -26,29 +27,27 @@ class _LocationPageState extends State<LocationPage> {
       );
     }
   }
-
+  
   void setLocation(String location) {
-    if(chosenLocation == location) {
-      chosenLocation = null;
-      locations[location] = false;
-    } else {
-      locations.forEach((loc, sel) {
-        if(loc == location) {
-            locations[loc] = true;
-            chosenLocation = loc;
-        } else {
-          locations[loc] = false;
-        }
-      });
-    }
+    setState(() {
+      if(chosenLocation == location) {
+        chosenLocation = null;
+        locations[location] = false;
+        enableHomeButton = false;
+      } else {
+        if(chosenLocation != null)
+          locations[chosenLocation] = false;     
+        locations[location] = true;
+        chosenLocation = location; 
+        enableHomeButton = true;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
     UserArguments args = ModalRoute.of(context).settings.arguments;
-
-    bool enableHomeButton = chosenLocation != null;
 
     SButtons buttons = SButtons(
       locations,
@@ -62,6 +61,21 @@ class _LocationPageState extends State<LocationPage> {
       borderType: BorderType.rounded,
       margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
       borderWidth: 2.0,
+    );
+
+    CIButton arrowButton = CIButton(
+      () => toHome(args.name, chosenLocation),
+      Icons.arrow_forward,
+      backgroundColor: Colors.transparent,
+      size: 55,
+      iconSize: 24,
+      borderWidth: 2.0,
+      textColor: Theme.of(context).primaryColor,
+      highlightTextColor: this.enableHomeButton ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
+      margin: EdgeInsets.fromLTRB(20, 15, 20, 20),
+      highlightBackgroundColor:  enableHomeButton ? Theme.of(context).primaryColor : Colors.transparent,
+      padding: EdgeInsets.fromLTRB(175, 0, 0, 0),
+      opacity: this.enableHomeButton ? 1.0 : 0.5,
     );
 
     return new Scaffold(
@@ -83,20 +97,7 @@ class _LocationPageState extends State<LocationPage> {
                         padding: EdgeInsets.fromLTRB(20, 150, 20, 20),
                       ),
                       buttons,
-                      CIButton(
-                        () => toHome(args.name, chosenLocation),
-                        Icons.arrow_forward,
-                        backgroundColor: Colors.transparent,
-                        size: 55,
-                        iconSize: 24,
-                        borderWidth: 2.0,
-                        textColor: Theme.of(context).primaryColor,
-                        highlightTextColor: Theme.of(context).accentColor,
-                        margin: EdgeInsets.fromLTRB(20, 15, 20, 20),
-                        highlightBackgroundColor: Theme.of(context).primaryColor,
-                        padding: EdgeInsets.fromLTRB(175, 0, 0, 0),
-                        opacity: 1.0
-                      )
+                      arrowButton 
                     ],
                   ),
               ),
