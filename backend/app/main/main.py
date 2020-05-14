@@ -236,3 +236,22 @@ def update_food_collect(
     if not db_update_food_collect:
         raise HTTPException(status_code=404, detail="No updates")
     return db_update_food_collect
+
+
+@router.post("/add_user", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, session: Session = Depends(get_db)):
+    """
+    Adds a new user to the database - MealCare
+
+    :body:
+    {
+        "name":"str",
+        "username":"str",
+        "password":"str",
+        "is_vendor":"bool",
+        "disabled":"bool"
+    }
+
+    :return: JSON response with created entry
+    """
+    return crud.create_user(session=session, user=user)

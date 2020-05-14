@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 
 from sqlalchemy import (
+    Boolean,
     Column,
     Date,
     DateTime,
@@ -77,3 +78,14 @@ class FoodCollect(Base):
 
     # Relationships
     vendor = relationship("Vendor")
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    username = Column(String)
+    password = Column(String)
+    is_vendor = Column(Boolean)
+    disabled = Column(Boolean)

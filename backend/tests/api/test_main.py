@@ -111,3 +111,15 @@ class MainTest(BasicApiTestCase):
     # def test_remove_food_collect(self):
     #     response = self.app.delete("/remove_food_collect/1")
     #     assert response.status_code == 200
+
+    def test_user(self):
+        payload = {
+            "name": "alice",
+            "username": "in",
+            "password": "wonderland",
+            "is_vendor": "false",
+        }
+        response = self.app.post("/add_user", json=payload)
+        assert response.status_code == 200
+
+        # TODO: remove entry from db

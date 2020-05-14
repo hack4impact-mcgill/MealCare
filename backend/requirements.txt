@@ -4,8 +4,10 @@ astroid==2.3.3
 async-exit-stack==1.0.1
 async-generator==1.10
 attrs==19.3.0
+bcrypt==3.1.7
 black==19.10b0
 certifi==2019.11.28
+cffi==1.14.0
 chardet==3.0.4
 Click==7.0
 dataclasses==0.6
@@ -23,12 +25,14 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 more-itertools==8.2.0
 packaging==20.1
+passlib==1.7.2
 pathspec==0.8.0
 pluggy==0.13.1
 pony==0.7.12
 psycopg2-binary==2.8.4
 py==1.8.1
 pycodestyle==2.5.0
+pycparser==2.20
 pydantic==1.4
 pyflakes==2.1.1
 pylint==2.4.4

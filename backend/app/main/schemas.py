@@ -77,3 +77,22 @@ class FoodCollect(FoodCollectBase):
 
     class Config:
         orm_mode = True
+
+
+class UserBase(BaseModel):
+    name: str
+    username: str
+    password: str
+    is_vendor: bool
+    disabled: bool = True
+
+
+class UserCreate(UserBase):
+    pass
+
+
+class User(UserBase):
+    id: int
+
+    class Config:
+        orm_mode = True
