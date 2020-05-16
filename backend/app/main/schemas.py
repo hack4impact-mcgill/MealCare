@@ -10,6 +10,7 @@ class TrayBase(BaseModel):
     type: str
     date_acquired: datetime = datetime.now
     description: str = ""
+    food_collect_id: int
 
 
 class TrayCreate(TrayBase):
@@ -50,6 +51,7 @@ class FoodBase(BaseModel):
     description: str = ""
     category: FoodEnum
     serving_size: str = ""
+    food_collect_id: int
 
 
 class FoodCreate(FoodBase):

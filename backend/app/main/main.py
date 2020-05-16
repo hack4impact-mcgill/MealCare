@@ -238,6 +238,23 @@ def update_food_collect(
     return db_update_food_collect
 
 
+@router.post("/new_session", response_model=int)
+def begin_new_session(
+    food_collect: schemas.FoodCollectCreate, session: Session = Depends(get_db)
+):
+    """
+    Adds new food_collect, then returns its id for future operations
+
+    :return: JSON response with id of the created entry 
+    """
+    db_vendor_id = crud.get_vendor_by_id(session, id=food_collect.vendor_id)
+    if db_vendor_id is None:
+        raise HTTPException(status_code=404, detail="Vendor not registered")
+
+    db_food_collect = crud.create_food_collect(session, food_collect)
+    return db_food_collect.id
+
+
 @router.post("/add_user", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, session: Session = Depends(get_db)):
     """

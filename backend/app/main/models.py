@@ -49,6 +49,12 @@ class Food(Base):
     category = Column(Enum(FoodEnum), nullable=False)
     serving_size = Column(String)
 
+    # Foreign Keys
+    food_collect_id = Column(Integer, ForeignKey("food_collects.id"))
+
+    # Relationships
+    food_collect = relationship("FoodCollect")
+
 
 class Tray(Base):
     __tablename__ = "trays"
@@ -56,15 +62,15 @@ class Tray(Base):
     id = Column(Integer, primary_key=True, index=True)
     type = Column(String)
     date_acquired = Column(DateTime, default=datetime.now())
-    vendor_id = Column(Integer, ForeignKey("vendors.id"))
     description = Column(String)
 
-    vendor = relationship("Vendor", back_populates="trays")
-    # Relationships
-    food_collect = relationship("FoodCollect")
-
-    # Foreign keys
+    # Foreign Keys
+    vendor_id = Column(Integer, ForeignKey("vendors.id"))
     food_collect_id = Column(Integer, ForeignKey("food_collects.id"))
+
+    # Relationships
+    vendor = relationship("Vendor", back_populates="trays")
+    food_collect = relationship("FoodCollect")
 
 
 class FoodCollect(Base):

@@ -45,6 +45,7 @@ def create_food(session: Session, food: schemas.FoodCreate):
         description=food.description,
         category=food.category,
         serving_size=food.serving_size,
+        food_collect_id=food.food_collect_id,
     )
     session.add(db_food)
     session.commit()
