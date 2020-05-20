@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/models/food.dart';
+import 'package:frontend/pages/current_session_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
@@ -9,6 +10,7 @@ import 'package:frontend/widgets/custom_text_field.dart';
 import 'package:http/http.dart' as http;
 
 class FoodItemPage extends StatefulWidget {
+  static String routeName = "/foodItem";
 
   @override
   _FoodItemPageState createState() => _FoodItemPageState();
@@ -44,14 +46,7 @@ class _FoodItemPageState extends State<FoodItemPage> {
   void goToCurrentSession() {
     Navigator.pushNamed(
       context,
-      "/currentSession",
-    );
-  }
-
-  void goToWidgets() {
-    Navigator.pushNamed(
-      context,
-      "/widgets",
+      CurrentSessionPage.routeName,
     );
   }
 

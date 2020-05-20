@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/helpers/arguments/user_arguments.dart';
+import 'package:frontend/pages/location_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
 import 'package:frontend/widgets/custom_text_field.dart';
 import 'dart:ui';
 
 class LoginPage extends StatefulWidget {
+  static String routeName = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -21,25 +25,29 @@ class _LoginPageState extends State<LoginPage> {
       print(username + " " + password);
 
       // missing authentication Logic.
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushNamed(context, 
+      LocationPage.routeName,
+      arguments: UserArguments(
+          username
+      ));
     }
-
+  
     var email = CTextField(emailInput,
-        width: 300,
-        height: 50,
-        placeholder: "Email",
-        margin: EdgeInsets.all(10),
-        hintTextStyle:
-            TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205)));
+      width: 282,
+      height: 32,
+      placeholder: "Email",
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 31),
+      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
+    );
 
     var password = CTextField(passwordInput,
-        width: 300,
-        height: 50,
-        placeholder: "Password",
-        margin: EdgeInsets.all(10),
-        secure: true,
-        hintTextStyle:
-            TextStyle(fontSize: 22.0, color: Colors.white.withAlpha(205)));
+      width: 282,
+      height: 32,
+      placeholder: "Password",
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 51),
+      secure: true,
+      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
+    );
 
     return new Scaffold(
         backgroundColor: Colors.transparent,
@@ -60,35 +68,43 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "mealcare",
                       style: TextStyle(
-                          color: Colors.white, fontSize: 50, letterSpacing: 0),
+                          color: Theme.of(context).primaryColor, fontSize: 50, letterSpacing: 0),
                     ),
                     padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
                   )),
                   Center(
                       child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-                          child: Text("Volunteer",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  letterSpacing: 6)))),
-                  Center(
-                    child: email,
-                  ),
-                  Center(
-                    child: password,
-                  ),
-                  Center(
-                    child: CFButton(
-                        () => login(emailInput.text, passwordInput.text),
-                        title: "Log in",
-                        margin: EdgeInsets.all(10),
-                        borderType: BorderType.round),
-                  ),
-                ],
-              ),
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                        child: Text("Volunteer",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18,
+                                letterSpacing: 6)
+                        )
+                      )
+                    ),
+                    Center(
+                      child: email,
+                    ),
+                    Center(
+                      child: password,
+                    ),
+                    Center(
+                      child: CFButton(
+                          () => login(emailInput.text, passwordInput.text),
+                          width: 252.0,
+                          height: 52.0,
+                          title: "LOGIN",
+                          margin: EdgeInsets.all(10),
+                          borderType: BorderType.round,
+                          highlightTextColor: Theme.of(context).accentColor,
+                      ),
+                    ),
+                  ],
+                      ),
+                ),
             ),
           ),
-        ));
+      );
   }
 }

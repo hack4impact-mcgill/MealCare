@@ -3,10 +3,11 @@ import 'package:frontend/pages/profile_page.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'package:frontend/pages/widgets_page.dart';
 import 'package:frontend/widgets/side_bar.dart';
-
-import 'food_item_page.dart';
+import 'package:frontend/pages/food_item_page.dart';
 
 class HomePage extends StatefulWidget {
+  static String routeName = "/home";
+
   HomePage({Key key}) : super(key: key);
 
   @override
@@ -17,12 +18,11 @@ class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   final page = ["MealCare", "Profile", "Settings", "Widgets"];
   PageController pageController;
-  final ScaffoldKey = new GlobalKey<ScaffoldState>();
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void logout() {
     // Note this Push Replacement is only if this foodItemPage is the parent of all the next pages.
-    print("Log out pressed");
-    Navigator.pushReplacementNamed(context, "/");
+    Navigator.pushReplacementNamed(context, "/login");
   }
 
   void changePage(int pageIndex) {
@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       this.pageIndex = pageIndex;
     });
+    // Pop the drawer
+    Navigator.pop(context);
   }
 
   @override
@@ -57,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         IconButton(
             onPressed: () {
               print("object");
-              ScaffoldKey.currentState.openEndDrawer();
+              scaffoldKey.currentState.openEndDrawer();
             },
             icon: Icon(
               Icons.dehaze,
@@ -92,7 +94,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: ScaffoldKey,
+      key: scaffoldKey,
       endDrawer: Drawer(child: SideBar(changePage, logout)),
       appBar: buildAppBar(),
       body: PageView(
