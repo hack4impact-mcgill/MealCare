@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CTextField extends StatefulWidget {
-  const CTextField(
+  
+  final TextEditingController textEditingController;
+  final String placeholder;
+  final double width;
+  final double height;
+  final bool secure;
+  final Color borderColor;
+  final Color textColor;
+  final Color focusedBorderColor;
+  final EdgeInsets margin;
+  final TextStyle hintTextStyle;
+
+  CTextField(
     this.textEditingController, {
       this.placeholder = "",
       this.width = 150,
@@ -62,7 +74,7 @@ class _CTextFieldState extends State<CTextField> {
               borderSide: BorderSide(color: widget.focusedBorderColor),
             ),
             hintText: widget.placeholder,
-            hintStyle: widget.hintTextStyle,
+            hintStyle: widget.hintTextStyle
           ),
         ));
   }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 
-class CFButton extends AbstractButton {
+class SButton extends AbstractButton {
 
-  CFButton(
+  final bool selected;
+
+  SButton(
       handler,
+      this.selected,
       { 
         title = "", 
         titleStyle = const TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
@@ -19,7 +22,7 @@ class CFButton extends AbstractButton {
         margin: EdgeInsets.zero,
         borderType: BorderType.none,
         borderWidth: 1.0,
-        isSelectable: false,
+        opacity: 1.0,
       } 
     ) : super(
       handler,
@@ -35,36 +38,66 @@ class CFButton extends AbstractButton {
       highlightBorderColor: highlightBorderColor,
       margin: margin,
       borderType: borderType,
-      borderWidth: borderWidth
+      borderWidth: borderWidth,
+      opacity: opacity,
     );
 
   @override
-  _CFButtonState createState() {
-    return new _CFButtonState();
+  _SButtonState createState() {
+    return new _SButtonState();
   }
 }
 
-class _CFButtonState extends AbstractButtonState {
-   @override
+class _SButtonState extends State<SButton> {  
+  
+  bool highlighted = false;
+
+  void setHighlighting(bool isHighlighted) {
+    setState(() {
+      this.highlighted = isHighlighted;
+    });
+  }
+
+  Color get textColor {
+    if(widget.selected) {
+      return highlighted ? widget.textColor : widget.highlightTextColor;
+    }
+    return highlighted ? widget.highlightTextColor : widget.textColor;
+  }
+
+  Color get borderColor {
+    if(widget.selected) {
+      return highlighted ? widget.borderColor : widget.highlightBorderColor;
+    }
+    return highlighted ? widget.highlightBorderColor : widget.borderColor;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var flatButton = new Container(
+    Color selectedBorderColor = borderColor;
+    Color selectedBackgroundColor = widget.selected ? widget.highlightBackgroundColor : widget.backgroundColor;
+    Color selectedTextColor =  textColor;
+  
+    var selectableButton =  new Container(
         margin: widget.margin,
         width: widget.width,
         height: widget.height,
         child: FlatButton(
-          color: widget.backgroundColor,
+          color: selectedBackgroundColor,
           shape:
               RoundedRectangleBorder(
                 borderRadius: widget.borderRadius(), 
                 side: BorderSide(
-                  color: super.borderColor,
+                  color:  selectedBorderColor,
                   width: widget.borderWidth,
                 )
               ),
           onPressed: widget.handler,
-          onHighlightChanged: (isHighlighted) => this.setHighlighting(isHighlighted),
+          onHighlightChanged: (isHighlighted) {
+            this.setHighlighting(isHighlighted);
+          },
           highlightColor: widget.highlightBackgroundColor,
-          textColor: super.textColor,
+          textColor: selectedTextColor,
           child: Stack(children: [
             Positioned(
               child: 
@@ -74,7 +107,7 @@ class _CFButtonState extends AbstractButtonState {
                 ),
             ),
           ]),
-        ));
-    return Container(child: flatButton);
+      ));
+    return Opacity(opacity: widget.opacity, child: selectableButton);
   }
 }
