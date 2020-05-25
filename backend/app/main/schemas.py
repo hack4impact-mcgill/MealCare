@@ -1,9 +1,17 @@
 from datetime import date, datetime
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, BaseSettings
 
 from .models import FoodEnum
+
+
+class Settings(BaseSettings):
+    secret_key: str
+    algorithm: str
+
+    class Config:
+        env_file = ".env"
 
 
 class TrayBase(BaseModel):
@@ -94,6 +102,18 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class TokenBase(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class Token(TokenBase):
     id: int
 
     class Config:

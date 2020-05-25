@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -119,8 +122,12 @@ def update_food_collect(session: Session, food_collect: schemas.FoodCollect):
     return food_collect
 
 
-def get_user(session: Session, user_id: int):
+def get_user_with_id(session: Session, user_id: int):
     return session.query(models.User).filter(models.User.id == user_id).first()
+
+
+def get_user(session: Session, username: str):
+    return session.query(models.User).filter(models.User.username == username).first()
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -157,3 +164,29 @@ def get_session_food_items(session: Session, food_collect_id: int):
         .filter(models.Food.food_collect_id == food_collect_id)
         .all()
     )
+
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def authenticate_user(session: Session, username: str, password: str):
+    user = get_user(session, username)
+    if not user:
+        return False
+    if not verify_password(password, user.password):
+        return False
+    return user
+
+
+def create_access_token(
+    *, data: dict, expires_delta: timedelta = None, SECRET_KEY: str, ALGORITHM: str
+):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
