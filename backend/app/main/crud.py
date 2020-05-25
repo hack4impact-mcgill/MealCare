@@ -145,3 +145,11 @@ def remove_user(session: Session, user_id: int):
     session.query(models.User).filter(models.User.id == user_id).delete()
     session.commit()
     return user_id
+
+
+def get_session_food_items(session: Session, food_collect_id: int):
+    return (
+        session.query(models.Food)
+        .filter(models.Food.food_collect_id == food_collect_id)
+        .all()
+    )
