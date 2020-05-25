@@ -162,3 +162,36 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
         # TODO: remove entry from db
+
+    def test_get_session_food_items(self):
+        # Add a vendor first
+        vendor = {
+            "name": "ratata",
+            "address": "victory road",
+            "city": "sinnoh",
+        }
+        self.app.post("/add_vendor", json=vendor)
+
+        add_food_payload = {
+            "pickup_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": 1,
+        }
+        self.app.post("/add_food_collect", json=add_food_payload)
+
+        all_food_collect = self.app.get("/get_all_food_collect")
+        data = json.loads(all_food_collect.content)
+        last = len(data) - 1
+        food_collect_id = data[last]["id"]
+
+        add_food_payload = {
+            "name": "ratata",
+            "weight": 123,
+            "date_produced": "2020-05-10",
+            "expiry_date": "2025-05-10",
+            "decription": "victory hw",
+            "category": "Vegetables",
+            "serving_size": "1",
+            "food_collect_id": food_collect_id,
+        }
+        response = self.app.post("/add_food", json=add_food_payload)
+        assert response.status_code == 200
