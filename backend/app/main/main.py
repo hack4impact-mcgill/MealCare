@@ -1,15 +1,21 @@
+from datetime import timedelta
+from functools import lru_cache
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from starlette.responses import HTMLResponse
+from starlette.status import HTTP_401_UNAUTHORIZED
 
 from . import crud, schemas
 from .database import SessionLocal
 
 # APIRouter is equivalent to Flask's blueprint
 # It allows us to extend FastAPI Routes
-router = APIRouter()
+# changed APIRouter to FastAPI for auth purposes -- TODO: restructure this file to include APIRouter later
+router = FastAPI()
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 def get_db():
@@ -18,6 +24,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@lru_cache()
+def get_settings():
+    return schemas.Settings()
 
 
 @router.get("/")
@@ -281,6 +292,29 @@ def create_user(user: schemas.UserCreate, session: Session = Depends(get_db)):
     :return: JSON response with created entry
     """
     return crud.create_user(session=session, user=user)
+
+
+@router.post("/token")
+async def login_for_access_token(
+    session: Session = Depends(get_db),
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    settings: schemas.Settings = Depends(get_settings),
+):
+    user = crud.authenticate_user(session, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = crud.create_access_token(
+        data={"sub": user.username},
+        expires_delta=access_token_expires,
+        SECRET_KEY=settings.secret_key,
+        ALGORITHM=settings.algorithm,
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.get(

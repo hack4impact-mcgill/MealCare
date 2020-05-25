@@ -95,3 +95,11 @@ class User(Base):
     password = Column(String)
     is_vendor = Column(Boolean)
     disabled = Column(Boolean)
+
+
+class Token(Base):
+    __tablename__ = "tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    access_token = Column(String)
+    token_type = Column(String)

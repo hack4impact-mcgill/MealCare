@@ -35,9 +35,11 @@ pycodestyle==2.5.0
 pycparser==2.20
 pydantic==1.4
 pyflakes==2.1.1
+PyJWT==1.7.1
 pylint==2.4.4
 pyparsing==2.4.6
 python-dateutil==2.8.1
+python-dotenv==0.13.0
 python-editor==1.0.4
 python-multipart==0.0.5
 regex==2020.4.4
