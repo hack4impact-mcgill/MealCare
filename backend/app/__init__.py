@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from app.main import models
 from app.main.database import engine
@@ -22,6 +23,16 @@ def create_app(config_name):
         description=app_config.description,
         version=app_config.version,
         debug=app_config.debug,
+    )
+
+    origins = ["http://localhost:8080", "http://localhost", "http://192.168.50.37:8080/"]
+
+    app.add_middleware(     
+        CORSMiddleware,     
+        allow_origins=origins,     
+        allow_credentials=True,     
+        allow_methods=["*"],     
+        allow_headers=["*"], 
     )
 
     # TODO: Get the router from the main file and other files later on
