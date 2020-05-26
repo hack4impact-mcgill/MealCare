@@ -27,12 +27,12 @@ def create_app(config_name):
 
     origins = ["http://localhost:8080", "http://localhost", "http://192.168.50.37:8080/"]
 
-    app.add_middleware(     
-        CORSMiddleware,     
-        allow_origins=origins,     
-        allow_credentials=True,     
-        allow_methods=["*"],     
-        allow_headers=["*"], 
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # TODO: Get the router from the main file and other files later on
