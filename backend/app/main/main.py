@@ -284,7 +284,9 @@ def get_session_food_items(food_collect_id, session: Session = Depends(get_db)):
     :return: JSON response with get all entries
     """
 
-    db_session_food_items = crud.get_session_food_items(session, food_collect_id)
+    db_session_food_items = crud.get_session_food_items(
+        session=Session, food_collect_id=food_collect_id
+    )
     if not db_session_food_items:
         raise HTTPException(status_code=404, detail="No food_collects")
     return db_session_food_items
