@@ -7,7 +7,6 @@ import 'package:frontend/widgets/custom_flat_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
 import 'package:frontend/widgets/custom_text_field.dart';
 
-
 class FoodItemPage extends StatefulWidget {
   static String routeName = "/foodItem";
 
@@ -24,7 +23,14 @@ class _FoodItemPageState extends State<FoodItemPage> {
   final serving_size = TextEditingController();
   String dropdownValue = 'Vegetables';
 
-  final food = new Food();
+  final food = new Food(
+      name: "",
+      weight: 300,
+      date_produced: "2020-02-02",
+      expiry_date: "2020-03-03",
+      description: "",
+      category: "Meat and Poultry",
+      serving_size: "20kg");
 
   var _ScaffoldKey = new GlobalKey<ScaffoldState>();
 
