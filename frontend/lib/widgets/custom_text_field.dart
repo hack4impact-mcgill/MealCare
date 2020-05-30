@@ -12,6 +12,7 @@ class CTextField extends StatefulWidget {
   final Color focusedBorderColor;
   final EdgeInsets margin;
   final TextStyle hintTextStyle;
+  final TextInputType keyboard;
 
   CTextField(
     this.textEditingController, {
@@ -24,6 +25,7 @@ class CTextField extends StatefulWidget {
       this.focusedBorderColor = Colors.blue,
       this.margin = EdgeInsets.zero,
       this.hintTextStyle = const TextStyle(fontSize: 20),
+      this.keyboard = TextInputType.text,
     }
   );
 
@@ -48,6 +50,7 @@ class _CTextFieldState extends State<CTextField> {
         width: widget.width,
         height: widget.height,
         child: TextField(
+          keyboardType: widget.keyboard,
           controller: widget.textEditingController,
           obscureText: widget.secure,
           style: new TextStyle(color: widget.textColor),
