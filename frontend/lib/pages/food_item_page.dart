@@ -1,13 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:frontend/http/server.dart';
 import 'package:frontend/models/food.dart';
 import 'package:frontend/pages/current_session_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
 import 'package:frontend/widgets/custom_raised_button.dart';
 import 'package:frontend/widgets/custom_text_field.dart';
-import 'package:http/http.dart' as http;
+
 
 class FoodItemPage extends StatefulWidget {
   static String routeName = "/foodItem";
@@ -17,6 +16,7 @@ class FoodItemPage extends StatefulWidget {
 }
 
 class _FoodItemPageState extends State<FoodItemPage> {
+  final server = HttpClientService();
   final nameInput = TextEditingController();
   final weightInput = TextEditingController();
   final description = TextEditingController();
@@ -24,16 +24,7 @@ class _FoodItemPageState extends State<FoodItemPage> {
   final serving_size = TextEditingController();
   String dropdownValue = 'Vegetables';
 
-  final api = 'http://127.0.0.1:8000/add_food';
-
-  final food = new Food(
-      name: "",
-      weight: 300,
-      date_produced: "2020-02-02",
-      expiry_date: "2020-03-03",
-      description: "",
-      category: "Meat and Poultry",
-      serving_size: "20kg");
+  final food = new Food();
 
   var _ScaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -51,10 +42,8 @@ class _FoodItemPageState extends State<FoodItemPage> {
   }
 
   Future<void> createFood() async {
-    final response =
-        await http.post(this.api, body: json.encode(this.food.toJson()));
-    if (response.statusCode == 200) {
-      print("DONE!");
+    int code = await server.createFood(this.food);
+    if (code == 200) {
       setState(() {
         this.nameInput.text = "";
         this.weightInput.text = "";
@@ -62,7 +51,7 @@ class _FoodItemPageState extends State<FoodItemPage> {
         this.description.text = "";
       });
     } else {
-      print(response.statusCode);
+      print(code);
     }
   }
 
