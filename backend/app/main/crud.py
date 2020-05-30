@@ -1,3 +1,4 @@
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -44,6 +45,7 @@ def create_food(session: Session, food: schemas.FoodCreate):
         description=food.description,
         category=food.category,
         serving_size=food.serving_size,
+        food_collect_id=food.food_collect_id,
     )
     session.add(db_food)
     session.commit()
@@ -111,3 +113,43 @@ def update_food_collect(session: Session, food_collect: schemas.FoodCollect):
     ).update(food_collect)
     session.commit()
     return food_collect
+
+
+def get_user(session: Session, user_id: int):
+    return session.query(models.User).filter(models.User.id == user_id).first()
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+
+def create_user(session: Session, user: schemas.UserCreate):
+    hashed_password = get_password_hash(user.password)
+    db_user = models.User(
+        name=user.name,
+        username=user.username,
+        password=hashed_password,
+        is_vendor=user.is_vendor,
+        disabled=user.disabled,
+    )
+    session.add(db_user)
+    session.commit()
+    session.refresh(db_user)
+    return db_user
+
+
+def remove_user(session: Session, user_id: int):
+    session.query(models.User).filter(models.User.id == user_id).delete()
+    session.commit()
+    return user_id
+
+
+def get_session_food_items(session: Session, food_collect_id: int):
+    return (
+        session.query(models.Food)
+        .filter(models.Food.food_collect_id == food_collect_id)
+        .all()
+    )
