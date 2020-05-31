@@ -36,7 +36,7 @@ def remove_vendor(session: Session, vendor_id: int):
     return vendor_id
 
 
-def create_food(session: Session, food: schemas.FoodCreate):
+def create_food(session: Session, food: schemas.FoodCreate, food_collect_id: int):
     db_food = models.Food(
         name=food.name,
         weight=food.weight,
@@ -45,7 +45,7 @@ def create_food(session: Session, food: schemas.FoodCreate):
         description=food.description,
         category=food.category,
         serving_size=food.serving_size,
-        food_collect_id=food.food_collect_id,
+        food_collect_id=food_collect_id,
     )
     session.add(db_food)
     session.commit()
@@ -63,8 +63,12 @@ def get_all_food(session: Session):
     return session.query(models.Food).all()
 
 
-def create_tray(session: Session, tray: schemas.TrayCreate, vendor_id: int):
-    db_tray = models.Tray(**tray.dict(), vendor_id=vendor_id)
+def create_tray(
+    session: Session, tray: schemas.TrayCreate, vendor_id: int, food_collect_id: int
+):
+    db_tray = models.Tray(
+        **tray.dict(), vendor_id=vendor_id, food_collect_id=food_collect_id
+    )
     session.add(db_tray)
     session.commit()
     session.refresh(db_tray)
