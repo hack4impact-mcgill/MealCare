@@ -195,3 +195,19 @@ class MainTest(BasicApiTestCase):
         }
         response = self.app.post("/add_food", json=add_food_payload)
         assert response.status_code == 200
+
+    def test_create_tray_collect(self):
+        # Add a vendor first
+        vendor = {
+            "name": "ratata",
+            "address": "victory road",
+            "city": "sinnoh",
+        }
+        response = self.app.post("/add_vendor", json=vendor)
+
+        payload = {
+            "pickup_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": 1,
+        }
+        response = self.app.post("/add_tray_collect", json=payload)
+        assert response.status_code == 200

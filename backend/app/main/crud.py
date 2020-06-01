@@ -153,3 +153,13 @@ def get_session_food_items(session: Session, food_collect_id: int):
         .filter(models.Food.food_collect_id == food_collect_id)
         .all()
     )
+
+
+def create_tray_collect(session: Session, tray_collect: schemas.TrayCollectCreate):
+    db_tray_collect = models.TrayCollect(
+        pickup_time=tray_collect.pickup_time, vendor_id=tray_collect.vendor_id,
+    )
+    session.add(db_tray_collect)
+    session.commit()
+    session.refresh(db_tray_collect)
+    return db_tray_collect

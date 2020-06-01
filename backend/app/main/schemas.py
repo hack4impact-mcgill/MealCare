@@ -11,6 +11,7 @@ class TrayBase(BaseModel):
     date_acquired: datetime = datetime.now
     description: str = ""
     food_collect_id: int
+    tray_collect_id: int
 
 
 class TrayCreate(TrayBase):
@@ -95,6 +96,23 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+
+    class Config:
+        orm_mode = True
+
+
+class TrayCollectBase(BaseModel):
+    pickup_time: datetime
+    vendor_id: int
+
+
+class TrayCollectCreate(TrayCollectBase):
+    pass
+
+
+class TrayCollect(TrayCollectBase):
+    id: int
+    trays: List[Tray] = []
 
     class Config:
         orm_mode = True

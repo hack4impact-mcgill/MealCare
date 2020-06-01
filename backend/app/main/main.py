@@ -146,6 +146,7 @@ def create_tray_for_vendor(
         "date_acquired":"YYYY-MM-DD HH:MM:SS.ffffff",
         "vendor":"int",
         "decription":"str"
+        "tray_collect_id":"int",
     }
 
     :return: JSON response with created entry
@@ -290,3 +291,25 @@ def get_session_food_items(food_collect_id, session: Session = Depends(get_db)):
     if not db_session_food_items:
         raise HTTPException(status_code=404, detail="No food_collects")
     return db_session_food_items
+
+
+@router.post("/add_tray_collect", response_model=schemas.TrayCollect)
+def create_tray_collect(
+    tray_collect: schemas.TrayCollectCreate, session: Session = Depends(get_db)
+):
+
+    """
+    Adds a new tray_collect to the database - MealCare
+
+    :body: JSON of the form 
+    {
+        "pickup_time": "datetime", (Format: https://pydantic-docs.helpmanual.io/usage/types/#datetime-types, ex: "2032-04-23T10:20")
+        "vendor_id": "int"
+    } 
+
+    :return: JSON response with created entry
+    """
+    db_vendor_id = crud.get_vendor_by_id(session, id=tray_collect.vendor_id)
+    if db_vendor_id is None:
+        raise HTTPException(status_code=404, detail="Vendor not registered")
+    return crud.create_tray_collect(session=session, tray_collect=tray_collect)
