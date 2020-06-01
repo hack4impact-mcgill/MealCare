@@ -80,6 +80,13 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
     def test_vendors_tray(self):
+        # Add tray_collect first
+        payload = {
+            "pickup_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": 1,
+        }
+        response = self.app.post("/add_tray_collect", json=payload)
+
         # Add food_collects first
         payload = {
             "pickup_time": "2020-11-11 11:11:51.291273",
@@ -92,6 +99,7 @@ class MainTest(BasicApiTestCase):
             "date_acquired": "2020-05-09 22:56:51.291273",
             "description": "from the pizza",
             "food_collect_id": 1,
+            "tray_collect_id": 1,
         }
         response = self.app.post("/vendors/1/add_tray", json=payload)
         assert response.status_code == 200
