@@ -21,6 +21,7 @@ class TrayCreate(TrayBase):
 class Tray(TrayBase):
     id: int
     vendor_id: int
+    food_collect_id: int
 
     class Config:
         orm_mode = True
@@ -52,7 +53,6 @@ class FoodBase(BaseModel):
     description: str = ""
     category: FoodEnum
     serving_size: str = ""
-    food_collect_id: int
 
 
 class FoodCreate(FoodBase):
@@ -61,6 +61,7 @@ class FoodCreate(FoodBase):
 
 class Food(FoodBase):
     id: int
+    food_collect_id: int
 
     class Config:
         orm_mode = True

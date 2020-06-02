@@ -72,8 +72,10 @@ def create_vendor(vendor: schemas.VendorCreate, session: Session = Depends(get_d
     return crud.create_vendor(session=session, vendor=vendor)
 
 
-@router.post("/add_food", response_model=schemas.Food)
-def create_food(food: schemas.FoodCreate, session: Session = Depends(get_db)):
+@router.post("/add_food/{food_collect_id}", response_model=schemas.Food)
+def create_food(
+    food_collect_id: int, food: schemas.FoodCreate, session: Session = Depends(get_db)
+):
     """
     Adds a new food item to the database - MealCare
 
@@ -90,7 +92,7 @@ def create_food(food: schemas.FoodCreate, session: Session = Depends(get_db)):
 
     :return: JSON response with created entry
     """
-    return crud.create_food(session=session, food=food)
+    return crud.create_food(session=session, food=food, food_collect_id=food_collect_id)
 
 
 @router.delete("/remove_food/{food_id}", response_model=int)
@@ -133,9 +135,14 @@ def read_user(vendor_id: int, db: Session = Depends(get_db)):
     return db_vendor
 
 
-@router.post("/vendors/{vendor_id}/add_tray", response_model=schemas.Tray)
+@router.post(
+    "/vendors/{vendor_id}/{food_collect_id}/add_tray", response_model=schemas.Tray
+)
 def create_tray_for_vendor(
-    vendor_id: int, tray: schemas.TrayCreate, session: Session = Depends(get_db)
+    vendor_id: int,
+    food_collect_id: int,
+    tray: schemas.TrayCreate,
+    session: Session = Depends(get_db),
 ):
     """
     Adds a new tray item to the database - MealCare
@@ -151,7 +158,9 @@ def create_tray_for_vendor(
 
     :return: JSON response with created entry
     """
-    return crud.create_tray(session=session, tray=tray, vendor_id=vendor_id)
+    return crud.create_tray(
+        session=session, tray=tray, vendor_id=vendor_id, food_collect_id=food_collect_id
+    )
 
 
 @router.post("/add_food_collect", response_model=schemas.FoodCollect)
@@ -313,3 +322,35 @@ def create_tray_collect(
     if db_vendor_id is None:
         raise HTTPException(status_code=404, detail="Vendor not registered")
     return crud.create_tray_collect(session=session, tray_collect=tray_collect)
+
+    
+@router.post("/add_session_food/{food_collect_id}", response_model=int)
+def add_session_food(
+    food_collect_id: int,
+    trays: List[schemas.TrayCreate],
+    food: schemas.FoodCreate,
+    session: Session = Depends(get_db),
+):
+    """
+    Add food and trays in the specified food_collect_id given that the food_collect object has been created
+
+    :return: JSON response with id of the food_collect
+    """
+    db_session_food_collect = crud.get_food_collect(session, food_collect_id)
+    if not db_session_food_collect:
+        raise HTTPException(status_code=404, detail="NO food_collects")
+    else:
+        db_session_food = crud.create_food(
+            session=session, food=food, food_collect_id=food_collect_id
+        )
+        vendor_id = db_session_food_collect.vendor_id
+        for tray in trays:
+            db_session_tray = crud.create_tray(
+                session=session,
+                tray=tray,
+                vendor_id=vendor_id,
+                food_collect_id=food_collect_id,
+            )
+            if not db_session_tray:
+                raise HTTPException(status_code=500, detail="Could not create tray")
+        return food_collect_id

@@ -41,6 +41,10 @@ class MainTest(BasicApiTestCase):
         }
         response = self.app.post("/add_food_collect", json=payload)
 
+        data = json.loads(response.content)
+        food_collect_id = data["id"]
+        route = "/add_food/{0}".format(str(food_collect_id))
+
         payload = {
             "name": "Pepperoni pizza",
             "weight": 502,
@@ -49,14 +53,28 @@ class MainTest(BasicApiTestCase):
             "description": "The best pizza in town",
             "category": "Grains, Beans and Nuts",
             "serving_size": "4",
-            "food_collect_id": 1,
         }
-        response = self.app.post("/add_food", json=payload)
+        response = self.app.post(route, json=payload)
         assert response.status_code == 200
 
         # TODO: remove entry from db
 
     def test_remove_food(self):
+        vendor = {
+            "name": "Subway",
+            "address": "Mackay road",
+            "city": "Canada",
+        }
+        response = self.app.post("/add_vendor", json=vendor)
+        data = json.loads(response.content)
+        payload = {
+            "pickup_time": "2020-02-11 11:11:51.291273",
+            "vendor_id": data["id"],
+        }
+        response = self.app.post("/add_food_collect", json=payload)
+        data = json.loads(response.content)
+        food_collect_id = data["id"]
+        route = "/add_food/{0}".format(str(food_collect_id))
 
         add_food_payload = {
             "name": "ratata",
@@ -66,9 +84,8 @@ class MainTest(BasicApiTestCase):
             "decription": "victory hw",
             "category": "Vegetables",
             "serving_size": "1",
-            "food_collect_id": 1,
         }
-        response = self.app.post("/add_food", json=add_food_payload)
+        response = self.app.post(route, json=add_food_payload)
 
         all_food = self.app.get("/get_all_food")
 
@@ -93,6 +110,9 @@ class MainTest(BasicApiTestCase):
             "vendor_id": 1,
         }
         response = self.app.post("/add_food_collect", json=payload)
+        data = json.loads(response.content)
+        food_collect_id = data["id"]
+        route = "/vendors/1/{0}/add_tray".format(str(food_collect_id))
 
         payload = {
             "type": "metal",
@@ -101,7 +121,7 @@ class MainTest(BasicApiTestCase):
             "food_collect_id": 1,
             "tray_collect_id": 1,
         }
-        response = self.app.post("/vendors/1/add_tray", json=payload)
+        response = self.app.post(route, json=payload)
         assert response.status_code == 200
 
         # TODO remove entry from db
@@ -190,6 +210,7 @@ class MainTest(BasicApiTestCase):
         data = json.loads(all_food_collect.content)
         last = len(data) - 1
         food_collect_id = data[last]["id"]
+        route = "/add_food/{0}".format(str(food_collect_id))
 
         add_food_payload = {
             "name": "ratata",
@@ -199,9 +220,51 @@ class MainTest(BasicApiTestCase):
             "decription": "victory hw",
             "category": "Vegetables",
             "serving_size": "1",
-            "food_collect_id": food_collect_id,
         }
-        response = self.app.post("/add_food", json=add_food_payload)
+
+        response = self.app.post(route, json=add_food_payload)
+        assert response.status_code == 200
+
+    def test_add_session_food(self):
+        vendor = {
+            "name": "ratata",
+            "address": "Newton road",
+            "city": "Singapore",
+        }
+        response = self.app.post("/add_vendor", json=vendor)
+        data = json.loads(response.content)
+        payload = {
+            "pickup_time": "2020-11-11 11:11:51.291273",
+            "vendor_id": data["id"],
+        }
+        response = self.app.post("/add_food_collect", json=payload)
+        data = json.loads(response.content)
+        food_collect_id = data["id"]
+        route = "/add_session_food/{0}".format(str(food_collect_id))
+        payload = {
+            "trays": [
+                {
+                    "type": "metal",
+                    "date_acquired": "2020-05-13 22:56:51.291273",
+                    "description": "from the pizza",
+                },
+                {
+                    "type": "metal",
+                    "date_acquired": "2020-05-19 22:56:51.291273",
+                    "description": "from the cheese",
+                },
+            ],
+            "food": {
+                "name": "Eggplant pizza",
+                "weight": 500,
+                "date_produced": "2020-03-11",
+                "expiry_date": "2027-04-12",
+                "description": "The second best pizza in town",
+                "category": "Grains, Beans and Nuts",
+                "serving_size": "10",
+            },
+        }
+        response = self.app.post(route, json=payload)
         assert response.status_code == 200
 
     def test_create_tray_collect(self):
