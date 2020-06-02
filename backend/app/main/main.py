@@ -323,7 +323,7 @@ def create_tray_collect(
         raise HTTPException(status_code=404, detail="Vendor not registered")
     return crud.create_tray_collect(session=session, tray_collect=tray_collect)
 
-    
+
 @router.post("/add_session_food/{food_collect_id}", response_model=int)
 def add_session_food(
     food_collect_id: int,
