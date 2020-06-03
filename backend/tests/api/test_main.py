@@ -226,32 +226,47 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
     def test_add_session_food(self):
-        vendor = {
-            "name": "ratata",
-            "address": "Newton road",
-            "city": "Singapore",
+        vendor_payload = {
+            "name": "hotata",
+            "address": "du parc",
+            "city": "mtl",
         }
-        response = self.app.post("/add_vendor", json=vendor)
-        data = json.loads(response.content)
-        payload = {
+        vendor_response = self.app.post("/add_vendor", json=vendor_payload)
+        vendor_data = json.loads(vendor_response.content)
+
+        food_collect_payload = {
             "pickup_time": "2020-11-11 11:11:51.291273",
-            "vendor_id": data["id"],
+            "vendor_id": vendor_data["id"],
         }
-        response = self.app.post("/add_food_collect", json=payload)
-        data = json.loads(response.content)
-        food_collect_id = data["id"]
+        food_collect_response = self.app.post(
+            "/add_food_collect", json=food_collect_payload
+        )
+        food_collect_data = json.loads(food_collect_response.content)
+        food_collect_id = food_collect_data["id"]
         route = "/add_session_food/{0}".format(str(food_collect_id))
-        payload = {
+
+        tray_collect_payload = {
+            "pickup_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": 1,
+        }
+        tray_collect_response = self.app.post(
+            "/add_tray_collect", json=tray_collect_payload
+        )
+        tray_collect_data = json.loads(tray_collect_response.content)
+
+        session_food_payload = {
             "trays": [
                 {
                     "type": "metal",
                     "date_acquired": "2020-05-13 22:56:51.291273",
                     "description": "from the pizza",
+                    "tray_collect_id": tray_collect_data["id"],
                 },
                 {
                     "type": "metal",
                     "date_acquired": "2020-05-19 22:56:51.291273",
                     "description": "from the cheese",
+                    "tray_collect_id": tray_collect_data["id"],
                 },
             ],
             "food": {
@@ -264,7 +279,7 @@ class MainTest(BasicApiTestCase):
                 "serving_size": "10",
             },
         }
-        response = self.app.post(route, json=payload)
+        response = self.app.post(route, json=session_food_payload)
         assert response.status_code == 200
 
     def test_create_tray_collect(self):
