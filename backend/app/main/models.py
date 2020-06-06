@@ -67,10 +67,12 @@ class Tray(Base):
     # Foreign Keys
     vendor_id = Column(Integer, ForeignKey("vendors.id"))
     food_collect_id = Column(Integer, ForeignKey("food_collects.id"))
+    tray_collect_id = Column(Integer, ForeignKey("tray_collects.id"))
 
     # Relationships
     vendor = relationship("Vendor", back_populates="trays")
     food_collect = relationship("FoodCollect")
+    tray_collect = relationship("TrayCollect")
 
 
 class FoodCollect(Base):
@@ -103,3 +105,16 @@ class Token(Base):
     id = Column(Integer, primary_key=True, index=True)
     access_token = Column(String)
     token_type = Column(String)
+
+
+class TrayCollect(Base):
+    __tablename__ = "tray_collects"
+
+    id = Column(Integer, primary_key=True, index=True)
+    pickup_time = Column(DateTime, nullable=False)
+
+    # Foreign Keys
+    vendor_id = Column(Integer, ForeignKey("vendors.id"))
+
+    # Relationships
+    trays = relationship("Tray")
