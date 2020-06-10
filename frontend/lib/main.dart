@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
           LocationPage.routeName: (context) => LocationPage(),
           CurrentSessionPage.routeName: (context) => CurrentSessionPage(),
           WidgetsPage.routeName: (context) => WidgetsPage(),
-          FoodItemPage.routeName: (context) => FoodItemPage(),
           VendorListPage.routeName: (context) => VendorListPage()
         },
         onGenerateRoute: RouteGenerator.generateRoute,
