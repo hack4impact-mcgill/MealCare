@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/http/server.dart';
 import 'package:frontend/models/food.dart';
+import 'package:frontend/models/vendor.dart';
 import 'package:frontend/pages/current_session_page.dart';
 import 'package:frontend/widgets/abstract_button.dart';
 import 'package:frontend/widgets/custom_flat_button.dart';
@@ -9,6 +10,9 @@ import 'package:frontend/widgets/custom_text_field.dart';
 
 class FoodItemPage extends StatefulWidget {
   static String routeName = "/foodItem";
+  final Vendor data;
+
+  const FoodItemPage({Key key, this.data}) : super(key: key);
 
   @override
   _FoodItemPageState createState() => _FoodItemPageState();
@@ -103,147 +107,160 @@ class _FoodItemPageState extends State<FoodItemPage> {
         hintTextStyle: TextStyle(fontSize: 16.0, color: Colors.black));
 
     return Scaffold(
+        appBar: AppBar(
+          // App bar need to be edited
+          backgroundColor: Theme.of(context).accentColor,
+          title: Text(widget.data.name),
+        ),
         body: Center(
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Food Item Page",
-            style:
-                TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 55.0),
-                  child: name,
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Food Item Page",
+                style: TextStyle(
+                    color: Theme.of(context).accentColor, fontSize: 20),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 55.0),
+                      child: name,
+                    ),
+                    weight,
+                  ],
                 ),
-                weight,
-              ],
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 55.0),
-                child: RaisedButton(
-                    child: Text("Date Produced"),
-                    onPressed: () {
-                      showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2001),
-                              lastDate: DateTime(2040))
-                          .then((date) {
-                        setState(() {
-                          food.date_produced = date.toString().substring(0, 10);
-                        });
+              ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 55.0),
+                    child: RaisedButton(
+                        child: Text("Date Produced"),
+                        onPressed: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2001),
+                                  lastDate: DateTime(2040))
+                              .then((date) {
+                            setState(() {
+                              food.date_produced =
+                                  date.toString().substring(0, 10);
+                            });
+                          });
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(food.date_produced),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 55.0),
+                    child: RaisedButton(
+                        child: Text("Expiration Date"),
+                        onPressed: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2001),
+                                  lastDate: DateTime(2040))
+                              .then((date) {
+                            setState(() {
+                              food.expiry_date =
+                                  date.toString().substring(0, 10);
+                            });
+                          });
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(food.expiry_date),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.only(left: 55.0, right: 10),
+                      child: Text("Category: ")),
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.black),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.black,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                        food.category = newValue;
                       });
-                    }),
+                    },
+                    items: <String>[
+                      'Vegetables',
+                      'Fruits',
+                      'Grains, Beans and Nuts',
+                      'Meat and Poultry',
+                      'Fish and Seafood',
+                      'Dairy Foods'
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(food.date_produced),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 55.0, right: 10),
+                    child: Text("Serving Size in Kg: "),
+                  ),
+                  servingSize,
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 55.0),
-                child: RaisedButton(
-                    child: Text("Expiration Date"),
-                    onPressed: () {
-                      showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2001),
-                              lastDate: DateTime(2040))
-                          .then((date) {
-                        setState(() {
-                          food.expiry_date = date.toString().substring(0, 10);
-                        });
-                      });
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(food.expiry_date),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(left: 55.0, right: 10),
-                  child: Text("Category: ")),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(color: Colors.black),
-                underline: Container(
-                  height: 2,
-                  color: Colors.black,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                    food.category = newValue;
-                  });
+              desc,
+              CFButton(
+                () {
+                  print(this.server.getAllVendors());
                 },
-                items: <String>[
-                  'Vegetables',
-                  'Fruits',
-                  'Grains, Beans and Nuts',
-                  'Meat and Poultry',
-                  'Fish and Seafood',
-                  'Dairy Foods'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+                title: "get Vendors",
+              ),
+              CFButton(() {
+                setState(() {
+                  this.food.name = nameInput.text;
+                  this.food.weight = double.parse(weightInput.text);
+                  this.food.serving_size = serving_size.text;
+                  this.food.description = description.text;
+                });
+                createFood();
+              },
+                  title: "Create Data",
+                  margin: EdgeInsets.all(10),
+                  textColor: Theme.of(context).accentColor,
+                  borderColor: Theme.of(context).accentColor,
+                  borderType: BorderType.round),
+              Center(
+                child: CRButton(goToCurrentSession,
+                    title: "Check Current Session!",
+                    width: 300.0,
+                    height: 30.0,
+                    borderType: BorderType.rounded,
+                    margin: EdgeInsets.all(0)),
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 55.0, right: 10),
-                child: Text("Serving Size in Kg: "),
-              ),
-              servingSize,
-            ],
-          ),
-          desc,
-          CFButton(() {
-            setState(() {
-              this.food.name = nameInput.text;
-              this.food.weight = double.parse(weightInput.text);
-              this.food.serving_size = serving_size.text;
-              this.food.description = description.text;
-            });
-            createFood();
-          },
-              title: "Create Data",
-              margin: EdgeInsets.all(10),
-              textColor: Theme.of(context).accentColor,
-              borderColor: Theme.of(context).accentColor,
-              borderType: BorderType.round),
-          Center(
-            child: CRButton(goToCurrentSession,
-                title: "Check Current Session!",
-                width: 300.0,
-                height: 30.0,
-                borderType: BorderType.rounded,
-                margin: EdgeInsets.all(0)),
-          ),
-        ],
-      ),
-    ));
+        ));
   }
 }
