@@ -97,29 +97,54 @@ class MainTest(BasicApiTestCase):
         assert response.status_code == 200
 
     def test_vendors_tray(self):
-        # Add tray_collect first
-        payload = {
-            "pickup_time": "2020-10-08 11:11:51.291273",
-            "vendor_id": 1,
+        # Add vendor
+        vendor_payload = {
+            "name": "hatata",
+            "address": "road",
+            "city": "montreal",
         }
-        response = self.app.post("/add_tray_collect", json=payload)
+        vendor_response = self.app.post("/add_vendor", json=vendor_payload)
+        vendor_data = json.loads(vendor_response.content)
 
-        # Add food_collects first
-        payload = {
-            "pickup_time": "2020-11-11 11:11:51.291273",
-            "vendor_id": 1,
+        # Add tray_collect
+        tray_collect_payload = {
+            "pickup_time": "2020-10-10 11:11:51.290000",
+            "vendor_id": vendor_data["id"],
         }
-        response = self.app.post("/add_food_collect", json=payload)
-        data = json.loads(response.content)
-        food_collect_id = data["id"]
+        tray_collect_response = self.app.post(
+            "/add_tray_collect", json=tray_collect_payload
+        )
+        tray_collect_data = json.loads(tray_collect_response.content)
+
+        # Add tray_return
+        tray_return_payload = {
+            "return_time": "2020-10-20 20:20:20.200000",
+            "vendor_id": vendor_data["id"],
+        }
+        tray_return_response = self.app.post(
+            "/add_tray_return", json=tray_return_payload
+        )
+        tray_return_data = json.loads(tray_return_response.content)
+
+        # Add food_collect
+        food_collect_payload = {
+            "pickup_time": "2020-10-30 15:15:15.291273",
+            "vendor_id": vendor_data["id"],
+        }
+        food_collect_response = self.app.post(
+            "/add_food_collect", json=food_collect_payload
+        )
+        food_collect_data = json.loads(food_collect_response.content)
+        food_collect_id = food_collect_data["id"]
         route = "/vendors/1/{0}/add_tray".format(str(food_collect_id))
 
         payload = {
             "type": "metal",
             "date_acquired": "2020-05-09 22:56:51.291273",
             "description": "from the pizza",
-            "food_collect_id": 1,
-            "tray_collect_id": 1,
+            "food_collect_id": food_collect_data["id"],
+            "tray_collect_id": tray_collect_data["id"],
+            "tray_return_id": tray_return_data["id"],
         }
         response = self.app.post(route, json=payload)
         assert response.status_code == 200
@@ -247,12 +272,21 @@ class MainTest(BasicApiTestCase):
 
         tray_collect_payload = {
             "pickup_time": "2020-10-08 11:11:51.291273",
-            "vendor_id": 1,
+            "vendor_id": vendor_data["id"],
         }
         tray_collect_response = self.app.post(
             "/add_tray_collect", json=tray_collect_payload
         )
         tray_collect_data = json.loads(tray_collect_response.content)
+
+        tray_return_payload = {
+            "return_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": vendor_data["id"],
+        }
+        tray_return_response = self.app.post(
+            "/add_tray_return", json=tray_return_payload
+        )
+        tray_return_data = json.loads(tray_return_response.content)
 
         session_food_payload = {
             "trays": [
@@ -261,12 +295,14 @@ class MainTest(BasicApiTestCase):
                     "date_acquired": "2020-05-13 22:56:51.291273",
                     "description": "from the pizza",
                     "tray_collect_id": tray_collect_data["id"],
+                    "tray_return_id": tray_return_data["id"],
                 },
                 {
                     "type": "metal",
                     "date_acquired": "2020-05-19 22:56:51.291273",
                     "description": "from the cheese",
                     "tray_collect_id": tray_collect_data["id"],
+                    "tray_return_id": tray_return_data["id"],
                 },
             ],
             "food": {
@@ -296,4 +332,21 @@ class MainTest(BasicApiTestCase):
             "vendor_id": 1,
         }
         response = self.app.post("/add_tray_collect", json=payload)
+        assert response.status_code == 200
+
+    def test_create_tray_return(self):
+        # Add a vendor first
+        vendor_payload = {
+            "name": "hitata",
+            "address": "defeat road",
+            "city": "zootopia",
+        }
+        vendor_response = self.app.post("/add_vendor", json=vendor_payload)
+        vendor_data = json.loads(vendor_response.content)
+
+        payload = {
+            "return_time": "2020-10-08 11:11:51.291273",
+            "vendor_id": vendor_data["id"],
+        }
+        response = self.app.post("/add_tray_return", json=payload)
         assert response.status_code == 200
