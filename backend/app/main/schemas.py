@@ -121,6 +121,17 @@ class Token(TokenBase):
         orm_mode = True
 
 
+class TokenDataBase(BaseModel):
+    username: str = None
+
+
+class TokenData(TokenDataBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
 class TrayCollectBase(BaseModel):
     pickup_time: datetime
     vendor_id: int

@@ -1,8 +1,12 @@
 from datetime import datetime, timedelta
 
 import jwt
+from fastapi import Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from jwt import PyJWTError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
+from starlette.status import HTTP_401_UNAUTHORIZED
 
 from . import models, schemas
 
@@ -203,3 +207,35 @@ def create_tray_collect(session: Session, tray_collect: schemas.TrayCollectCreat
     session.commit()
     session.refresh(db_tray_collect)
     return db_tray_collect
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+
+
+def get_current_user(session: Session, SECRET_KEY: str, ALGORITHM: str, token: str = Depends(oauth2_scheme)):
+#    credentials_exception = HTTPException(
+#        status_code=HTTP_401_UNAUTHORIZED,
+#        detail="Could not validate credentials",
+#        headers={"WWW-Authenticate": "Bearer"},
+#    )
+    try:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        except jwt.ExpiredSignatureError:
+            raise HTTPException(status_code="405", detail="expired")
+        username: str = payload.get("sub")
+        print(username)
+        if username is None:
+            raise HTTPException(status_code="400", detail="username")
+        token_data = models.TokenData(username=username)
+    except PyJWTError:
+        raise HTTPException(status_code="401", detail="decode")
+    #FAILS IN ABOVE LINE
+    user = get_user(session, token_data.username)
+    if user is None:
+        raise HTTPException(status_code="404", detail="user")
+    return user
+#    if not user.is_super:
+#        raise HTTPException(status_code=401, detail="Unauthorized user")
+#    else:
+#        return user
