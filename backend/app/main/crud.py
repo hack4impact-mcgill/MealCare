@@ -203,3 +203,13 @@ def create_tray_collect(session: Session, tray_collect: schemas.TrayCollectCreat
     session.commit()
     session.refresh(db_tray_collect)
     return db_tray_collect
+
+
+def create_tray_return(session: Session, tray_return: schemas.TrayReturnCreate):
+    db_tray_return = models.TrayReturn(
+        return_time=tray_return.return_time, vendor_id=tray_return.vendor_id,
+    )
+    session.add(db_tray_return)
+    session.commit()
+    session.refresh(db_tray_return)
+    return db_tray_return

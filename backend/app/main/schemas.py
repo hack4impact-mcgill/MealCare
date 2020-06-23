@@ -19,6 +19,7 @@ class TrayBase(BaseModel):
     date_acquired: datetime = datetime.now
     description: str = ""
     tray_collect_id: int
+    tray_return_id: int
 
 
 class TrayCreate(TrayBase):
@@ -131,6 +132,23 @@ class TrayCollectCreate(TrayCollectBase):
 
 
 class TrayCollect(TrayCollectBase):
+    id: int
+    trays: List[Tray] = []
+
+    class Config:
+        orm_mode = True
+
+
+class TrayReturnBase(BaseModel):
+    return_time: datetime
+    vendor_id: int
+
+
+class TrayReturnCreate(TrayReturnBase):
+    pass
+
+
+class TrayReturn(TrayReturnBase):
     id: int
     trays: List[Tray] = []
 
