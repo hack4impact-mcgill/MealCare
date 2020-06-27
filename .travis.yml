@@ -1,31 +1,33 @@
 matrix:
- include:
+  include:
   - os:
-     - linux
+    - linux
     language: python
     python:
-     - 3.7
+    - 3.7
     before_install:
-     - cd backend
+    - cd backend
     before_script:
-     - python3 ./scripts/setup_db.py
+    - python3 ./scripts/setup_db.py
     script:
-     - python3 -m unittest discover tests/api
-     - python3 -m unittest discover tests/unit
-     - flake8 .
-     - isort --check-only
-     - black --check .
+    - python3 -m unittest discover tests/api
+    - python3 -m unittest discover tests/unit
+    - flake8 .
+    - isort --check-only
+    - black --check .
     services:
-     - postgresql
+    - postgresql
   - os:
-     - linux
+    - linux
     language: dart
     dart:
-     - stable
+    - stable
     before_script:
-     - cd frontend
-     - git clone https://github.com/flutter/flutter.git -b beta
-     - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
-     - ./flutter/bin/flutter doctor
+    - cd frontend
+    - git clone https://github.com/flutter/flutter.git -b beta
+    - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+    - "./flutter/bin/flutter doctor"
     script:
-     - flutter test
+    - flutter test
+env:
+  secure: IcK7immBC9l7+GhfSAv2hx1GW38koayCkacO7QbTP7GoL9PAGS8rYeyqEPf3pAkZsK2v2fIzzvT14+8pCUKRCTAbMls+rzPznTapTniKqKG7ZtxIgp4QY51NF8EvsNzdXM6DgHUAIqQmNhYBMbpmDOn7G4jEq4XLkJ4/rd6wVEF6Er/Sfa7OuQ0j3hwakiEuwZL0UA6si4ljBobwjw8QjJVc5bW1nVeiq5utxcA/kQHe7xIQf0HOvFjkZoeWFsq0HpI+lXWubrKqzKXnwK3yaiXWU/wtkCdfraQYCQJNxK0BLaduEctvBtCuyOQV9waDFPcSPU9R52Xp0d/BZH/owY22hImOE+c9JQVFWxmueMHyE+9d0J0Kcw6Jkp+KHWyiTH7IlQ/JBZbboY/4tBUGHJM7KIsJcXUhzKJ3SIoZ1kIxRJ8Xu4DAu49pAG2OXsqTAVSBPx/rhs4eFXzu2eJIefYP010Vkuac84MS3ugdYG05+YDCwvvs/I+eErpJsdlSN14kWC5QNldlzhcZCD6DKunBvxsLWwFVjOydiMut3e4OglL6USV0rtB/3LLcDlO5vjbGvH+Mrp3hFMSaCth0gYbp4NfLwG2pUjDtCZYgfe0M0f9KVxHLjELPRjPcmR9NJX807pp+KhUZJpycaSpQzzCxiKLV7n+SjtlKxmPcE5Q=
