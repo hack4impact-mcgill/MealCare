@@ -7,6 +7,7 @@ try:
     con = psycopg2.connect(dbname="template1")
 
     db_name = sql.Identifier("mealcare_dev")
+    db_test_name = sql.Identifier("mealcare_test")
     username = sql.Identifier("mealadmin")
     password = sql.Literal("happymeal")
 
@@ -15,6 +16,8 @@ try:
     cur = con.cursor()
 
     cur.execute(sql.SQL("CREATE DATABASE {}").format(db_name))
+    cur.execute(sql.SQL("CREATE DATABASE {}").format(db_test_name))
+
     cur.execute(sql.SQL("CREATE USER {} WITH PASSWORD {}").format(username, password))
     cur.execute(
         sql.SQL("GRANT ALL PRIVILEGES ON DATABASE {} to {}").format(db_name, username)
