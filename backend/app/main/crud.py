@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -36,7 +39,7 @@ def remove_vendor(session: Session, vendor_id: int):
     return vendor_id
 
 
-def create_food(session: Session, food: schemas.FoodCreate):
+def create_food(session: Session, food: schemas.FoodCreate, food_collect_id: int):
     db_food = models.Food(
         name=food.name,
         weight=food.weight,
@@ -45,7 +48,7 @@ def create_food(session: Session, food: schemas.FoodCreate):
         description=food.description,
         category=food.category,
         serving_size=food.serving_size,
-        food_collect_id=food.food_collect_id,
+        food_collect_id=food_collect_id,
     )
     session.add(db_food)
     session.commit()
@@ -63,8 +66,12 @@ def get_all_food(session: Session):
     return session.query(models.Food).all()
 
 
-def create_tray(session: Session, tray: schemas.TrayCreate, vendor_id: int):
-    db_tray = models.Tray(**tray.dict(), vendor_id=vendor_id)
+def create_tray(
+    session: Session, tray: schemas.TrayCreate, vendor_id: int, food_collect_id: int
+):
+    db_tray = models.Tray(
+        **tray.dict(), vendor_id=vendor_id, food_collect_id=food_collect_id
+    )
     session.add(db_tray)
     session.commit()
     session.refresh(db_tray)
@@ -96,11 +103,14 @@ def remove_food_collect(session: Session, food_collect_id: int):
 
 
 def get_food_collect(session: Session, food_collect_id: int):
-    return (
+    food_collect = (
         session.query(models.FoodCollect)
         .filter(models.FoodCollect.id == food_collect_id)
         .first()
     )
+    session.commit()
+    session.refresh(food_collect)
+    return food_collect
 
 
 def get_all_food_collect(session: Session):
@@ -115,8 +125,12 @@ def update_food_collect(session: Session, food_collect: schemas.FoodCollect):
     return food_collect
 
 
-def get_user(session: Session, user_id: int):
+def get_user_with_id(session: Session, user_id: int):
     return session.query(models.User).filter(models.User.id == user_id).first()
+
+
+def get_user(session: Session, username: str):
+    return session.query(models.User).filter(models.User.username == username).first()
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -145,3 +159,57 @@ def remove_user(session: Session, user_id: int):
     session.query(models.User).filter(models.User.id == user_id).delete()
     session.commit()
     return user_id
+
+
+def get_session_food_items(session: Session, food_collect_id: int):
+    return (
+        session.query(models.Food)
+        .filter(models.Food.food_collect_id == food_collect_id)
+        .all()
+    )
+
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def authenticate_user(session: Session, username: str, password: str):
+    user = get_user(session, username)
+    if not user:
+        return False
+    if not verify_password(password, user.password):
+        return False
+    return user
+
+
+def create_access_token(
+    *, data: dict, expires_delta: timedelta = None, SECRET_KEY: str, ALGORITHM: str
+):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+def create_tray_collect(session: Session, tray_collect: schemas.TrayCollectCreate):
+    db_tray_collect = models.TrayCollect(
+        pickup_time=tray_collect.pickup_time, vendor_id=tray_collect.vendor_id,
+    )
+    session.add(db_tray_collect)
+    session.commit()
+    session.refresh(db_tray_collect)
+    return db_tray_collect
+
+
+def create_tray_return(session: Session, tray_return: schemas.TrayReturnCreate):
+    db_tray_return = models.TrayReturn(
+        return_time=tray_return.return_time, vendor_id=tray_return.vendor_id,
+    )
+    session.add(db_tray_return)
+    session.commit()
+    session.refresh(db_tray_return)
+    return db_tray_return
