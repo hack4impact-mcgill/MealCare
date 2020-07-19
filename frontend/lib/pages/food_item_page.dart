@@ -47,8 +47,9 @@ class _FoodItemPageState extends State<FoodItemPage> {
     );
   }
 
+ //TODO FIX THAT.
   Future<void> createFood() async {
-    int code = await server.createFood(this.food);
+    int code = await server.addFood(this.food, -1);
     if (code == 200) {
       setState(() {
         this.nameInput.text = "";
