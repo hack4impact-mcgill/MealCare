@@ -1,5 +1,5 @@
 class FoodCollect {
-  num id;
+  int id;
   String pickup_time;
   num vendor_id;
 
