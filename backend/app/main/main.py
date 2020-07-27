@@ -66,7 +66,7 @@ def create_user(user: schemas.UserCreate, session: Session = Depends(get_db)):
         "username":"str",
         "password":"str",
         "is_vendor":"bool",
-        "disabled":"bool"
+        "is_super":"bool"
     }
 
     :return: JSON response with created entry
@@ -95,3 +95,16 @@ async def login_for_access_token(
         ALGORITHM=settings.algorithm,
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/users/me/", response_model=schemas.User)
+def read_users_me(
+        session: Session = Depends(get_db),
+        settings: schemas.Settings = Depends(get_settings),
+        ):
+    current_user = crud.get_current_user(
+        session=session,
+        SECRET_KEY=settings.secret_key, 
+        ALGORITHM=settings.algorithm, 
+    )
+    return current_user
