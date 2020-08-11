@@ -81,7 +81,7 @@ class HttpClientService {
     final response = await http.get(this.getAllFoodEndPoint);
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
+      var jsonData = json.decode(response.body) as List;
       var allFood = jsonData.map((food) => Food.fromJson(food)).toList();
 
       return allFood;
@@ -118,7 +118,7 @@ class HttpClientService {
     final response = await http.get(this.getFoodCollectEndPoint(foodCollectId));
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
+      var jsonData = json.decode(response.body) as List;
       var foodCollect = jsonData.map((food) => Food.fromJson(food)).toList();
 
       return (foodCollect == null || foodCollect.isEmpty)
@@ -254,8 +254,9 @@ class HttpClientService {
     final response = await http.get(this.getAllVendorsEndPoint);
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      var vendors = jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
+      List jsonData = json.decode(response.body) as List;
+
+      List<Vendor> vendors = jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
 
       return vendors;
     }
@@ -292,7 +293,7 @@ class HttpClientService {
     final response = await http.get(this.getVendorEndpoint(vendorId));
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
+      var jsonData = json.decode(response.body) as List;
       var vendor = jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
 
       return (vendor == null || vendor.isEmpty)

@@ -37,7 +37,10 @@ class _LoginPageState extends State<LoginPage> {
       height: 32,
       placeholder: "Email",
       margin: EdgeInsets.fromLTRB(10, 10, 10, 31),
-      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
+      hintTextStyle: TextStyle(
+        fontSize: 16.0, 
+        fontWeight: FontWeight.w600, 
+        color: Theme.of(context).primaryColor.withAlpha(205))
     );
 
     var password = CTextField(passwordInput,
@@ -46,7 +49,10 @@ class _LoginPageState extends State<LoginPage> {
       placeholder: "Password",
       margin: EdgeInsets.fromLTRB(10, 10, 10, 51),
       secure: true,
-      hintTextStyle: TextStyle(fontSize: 22.0, color: Theme.of(context).primaryColor.withAlpha(205))
+      hintTextStyle: TextStyle(
+        fontSize: 16.0, 
+        fontWeight: FontWeight.w600, 
+        color: Theme.of(context).primaryColor.withAlpha(205))
     );
 
     return new Scaffold(
@@ -60,15 +66,18 @@ class _LoginPageState extends State<LoginPage> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/bpic.png"), fit: BoxFit.cover)),
+                      image: AssetImage("assets/bpic.png"), 
+                      fit: BoxFit.cover)),
               child: Column(
                 children: <Widget>[
                   Center(
                       child: Container(
                     child: Text(
-                      "mealcare",
+                      "Mealcare",
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 50, letterSpacing: 0),
+                          color: Theme.of(context).primaryColor, 
+                          fontSize: 50, 
+                          letterSpacing: 0),
                     ),
                     padding: EdgeInsets.fromLTRB(20, 150, 20, 0),
                   )),
@@ -78,8 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text("Volunteer",
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                                letterSpacing: 6)
+                                fontSize: 10,
+                                letterSpacing: 6,
+                                fontWeight: FontWeight.bold)
                         )
                       )
                     ),
@@ -95,6 +105,10 @@ class _LoginPageState extends State<LoginPage> {
                           width: 252.0,
                           height: 52.0,
                           title: "LOGIN",
+                          titleStyle: TextStyle(
+                            fontSize: 14, 
+                            fontWeight: FontWeight.bold, 
+                            letterSpacing: 2),
                           margin: EdgeInsets.all(10),
                           borderType: BorderType.round,
                           highlightTextColor: Theme.of(context).accentColor,
