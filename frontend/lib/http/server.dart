@@ -15,26 +15,30 @@ class HttpException implements Exception {
 class HttpClientService {
   static final mainServer = 'http://127.0.0.1:8000';
 
-  final addFoodEndPoint = (foodCollectId) => mainServer + '/add_food/$foodCollectId';
+  final addFoodEndPoint =
+      (foodCollectId) => mainServer + '/add_food/$foodCollectId';
   final addVendorsEndPoint = mainServer + '/add_vendor';
   final addFoodCollectEndPoint = mainServer + '/add_food_collect';
-  final addTrayEndPoint = (vendorId, foodCollectId) => mainServer + '/vendors/$vendorId/$foodCollectId /add_tray';
+  final addTrayEndPoint = (vendorId, foodCollectId) =>
+      mainServer + '/vendors/$vendorId/$foodCollectId /add_tray';
   final addTrayCollectEndPoint = mainServer + '/add_tray_collect';
   final addTrayReturnEndPoint = mainServer + '/add_tray_return';
 
   final getAllFoodEndPoint = mainServer + '/food/';
   final getAllVendorsEndPoint = mainServer + '/vendors';
-  final getAllFoodCollectEndPoint =  mainServer + '/get_all_food_collect/';
+  final getAllFoodCollectEndPoint = mainServer + '/get_all_food_collect';
 
-  final getFoodCollectEndPoint = (foodCollectId) => mainServer + '/get_food_collect/$foodCollectId';
+  final getFoodCollectEndPoint =
+      (foodCollectId) => mainServer + '/get_food_collect/$foodCollectId';
   final getVendorEndpoint = (vendorId) => mainServer + '/vendors/$vendorId';
 
   final deleteFoodEndPoint = (foodId) => mainServer + '/remove_food/$foodId';
   final deleteVendorEndPoint = (vendorId) => mainServer + '/vendors/$vendorId';
-  final deleteFoodCollectEndPoint = (foodCollectId) => mainServer + '/remove_food_collect/$foodCollectId';
+  final deleteFoodCollectEndPoint =
+      (foodCollectId) => mainServer + '/remove_food_collect/$foodCollectId';
 
   final updateFoodCollectEndPoint = mainServer + '/update_food_collect';
-  
+
   /*
    * create food item.
    *
@@ -98,7 +102,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> addFoodCollect(FoodCollect foodCollect) async {
-    final response = await http.post(this.addFoodCollectEndPoint, body: json.encode(foodCollect.toJson()));
+    final response = await http.post(this.addFoodCollectEndPoint,
+        body: json.encode(foodCollect.toJson()));
 
     if (response.statusCode == 200) {
       return response.statusCode;
@@ -122,7 +127,8 @@ class HttpClientService {
       var foodCollect = jsonData.map((food) => Food.fromJson(food)).toList();
 
       return (foodCollect == null || foodCollect.isEmpty)
-          ? HttpException("There is no foodCollect with this id.", response.statusCode)
+          ? HttpException(
+              "There is no foodCollect with this id.", response.statusCode)
           : foodCollect.first;
     }
 
@@ -140,14 +146,17 @@ class HttpClientService {
     final response = await http.get(this.getAllFoodCollectEndPoint);
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      var allFoodCollect = jsonData.map((foodCollect) => FoodCollect.fromJson(foodCollect)).toList();
+      List jsonData = json.decode(response.body) as List;
+      List<FoodCollect> allFoodCollect = jsonData
+          .map((foodCollect) => FoodCollect.fromJson(foodCollect))
+          .toList();
 
       return allFoodCollect;
     }
 
     throw new HttpException(response.body, response.statusCode);
   }
+
   /*
    * delete foodCollect item.
    *
@@ -174,7 +183,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> updateFoodCollect(FoodCollect foodCollect) async {
-    final response = await http.put(this.updateFoodCollectEndPoint, body: json.encode(foodCollect.toJson()));
+    final response = await http.put(this.updateFoodCollectEndPoint,
+        body: json.encode(foodCollect.toJson()));
 
     if (response.statusCode == 200) {
       return response.statusCode;
@@ -191,7 +201,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> addTray(Tray tray, int vendorId, int foodCollectId) async {
-    final response = await http.post(this.addTrayEndPoint(vendorId, foodCollectId),
+    final response = await http.post(
+        this.addTrayEndPoint(vendorId, foodCollectId),
         body: json.encode(tray.toJson()));
 
     if (response.statusCode == 200) {
@@ -209,8 +220,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> addTrayCollect(Tray tray) async {
-    final response =
-        await http.post(this.addTrayCollectEndPoint, body: json.encode(tray.toJson()));
+    final response = await http.post(this.addTrayCollectEndPoint,
+        body: json.encode(tray.toJson()));
 
     return response.statusCode;
   }
@@ -223,8 +234,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> addTrayRetrun(Tray tray) async {
-    final response =
-        await http.post(this.addTrayReturnEndPoint, body: json.encode(tray.toJson()));
+    final response = await http.post(this.addTrayReturnEndPoint,
+        body: json.encode(tray.toJson()));
 
     return response.statusCode;
   }
@@ -237,8 +248,8 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> createVendor(Vendor vendor) async {
-    final response =
-        await http.post(this.addVendorsEndPoint, body: json.encode(vendor.toJson()));
+    final response = await http.post(this.addVendorsEndPoint,
+        body: json.encode(vendor.toJson()));
 
     return response.statusCode;
   }
@@ -256,7 +267,8 @@ class HttpClientService {
     if (response.statusCode == 200) {
       List jsonData = json.decode(response.body) as List;
 
-      List<Vendor> vendors = jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
+      List<Vendor> vendors =
+          jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
 
       return vendors;
     }
@@ -272,8 +284,7 @@ class HttpClientService {
    * @memberof HttpClientService
    */
   Future<int> deleteVendor(int vendorId) async {
-    final response =
-        await http.delete(this.deleteVendorEndPoint(vendorId));
+    final response = await http.delete(this.deleteVendorEndPoint(vendorId));
 
     if (response.statusCode == 200) {
       return response.statusCode;
@@ -282,7 +293,7 @@ class HttpClientService {
     throw new HttpException(response.body, response.statusCode);
   }
 
-   /*
+  /*
    * Get Vendor by id 
    *
    * @param vendorId 
@@ -297,7 +308,8 @@ class HttpClientService {
       var vendor = jsonData.map((vendor) => Vendor.fromJson(vendor)).toList();
 
       return (vendor == null || vendor.isEmpty)
-          ? HttpException("There is no vendor with this id.", response.statusCode)
+          ? HttpException(
+              "There is no vendor with this id.", response.statusCode)
           : vendor.first;
     }
 
