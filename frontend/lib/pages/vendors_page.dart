@@ -13,10 +13,12 @@ class VendorsPage extends StatefulWidget {
 
 class _VendorsPageeState extends State<VendorsPage> {
 
-  void goToCurrentSession() {
+  void goToEntryPage(vendor) {
+    print(vendor.name);
     Navigator.pushNamed(
       context,
       EntryPage.routeName,
+      arguments: vendor
     );
   }
 
@@ -74,7 +76,7 @@ class _VendorsPageeState extends State<VendorsPage> {
                         return GestureDetector(
                           // TODO: Change item.id to number of active trays
                           child: VendorTile(item.name, item.id, item.address),
-                          onTap: () => goToCurrentSession(),
+                          onTap: () => goToEntryPage(item),
                         );
                       }
                     )
