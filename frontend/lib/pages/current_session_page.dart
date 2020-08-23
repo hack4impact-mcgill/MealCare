@@ -16,7 +16,7 @@ class CurrentSessionPage extends StatelessWidget {
         backgroundColor: Theme.of(context).accentColor,
         title: Column(
           children: [
-            Text(arguments.vendor.name),
+            Text(arguments?.vendor?.name ?? ""),
             Text(formatDate(DateTime.parse(arguments.foodCollect.pickup_time),
                 [M, ' ', dd, ', ', yyyy]))
           ],
