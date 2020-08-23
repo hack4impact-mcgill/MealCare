@@ -137,7 +137,7 @@ class _EntriesPageState extends State<EntryPage> {
                   final item = archives[index];
                   return GestureDetector(
                     child: item,
-                    onTap: () => goToCurrentSession(null),
+                    // onTap: () => goToCurrentSession(),
                   );
                 })),
       ]),
