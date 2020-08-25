@@ -25,15 +25,10 @@ def create_app(config_name):
         debug=app_config.debug,
     )
 
-    origins = [
-        "http://localhost:8080",
-        "http://localhost",
-        "http://192.168.50.37:8080/",
-    ]
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
