@@ -9,9 +9,11 @@
        <li><a href="#contact">Settings</a></li>
      </ul>
    </Sidebar>
-    <h1>{{info.name}}</h1>
-    <p>{{info.city}}</p>
-    <p>{{info.address}}</p>
+    <div class="store-info">
+      <h1>{{info.name}}</h1>
+      <p>{{info.city}}</p>
+      <p>{{info.address}}</p>
+    </div>
     <div class="table-container">
         <h2>Recent Tray Collects</h2>
         <Table></Table>
@@ -34,6 +36,24 @@
         />
         </div>
     </div>
+    <div class="table-container">
+        <h2>Pie Chart Example</h2>
+        <div style="margin-right: 10%; margin-left: 10%;">
+        <pie-chart 
+        :chartData="getTrayCollectsPerType()"
+        :options="getOptions()"
+        />
+        </div>
+    </div>
+    <div class="table-container">
+        <h2>Line Chart Example</h2>
+        <div style="margin-right: 10%; margin-left: 10%;">
+        <line-chart 
+        :chartData="getLineChartData()"
+        :options="getOptions()"
+        />
+        </div>
+    </div>
 
   </div>
 </template>
@@ -44,6 +64,8 @@
     import Sidebar from '../components/Sidebar.vue';
     import Table from '../components/widgets/Table.vue';
     import BarChart from '../components/widgets/BarChart.vue';
+    import LineChart from '../components/widgets/LineChart.vue';
+    import PieChart from '../components/widgets/PieChart.vue';
 
     export default {
         components: {
@@ -51,6 +73,8 @@
             Sidebar,
             Table, 
             BarChart,
+            LineChart,
+            PieChart
         },
         data () {
             return {       
@@ -87,7 +111,7 @@
                     labels: labels,
                     datasets: [
                         {
-                        label: 'Tray Collects by Months',
+                        label: 'Tray Collects',
                         backgroundColor: '#f87979',
                         data: data
                         }
@@ -95,6 +119,55 @@
                 }
 
                 return result
+            },
+            getTrayCollectsPerType() {
+                /*
+                var dict = {};
+
+                for (let i = 0; i < this.trays.length; i++) {
+                    // console.log(this.trays[i])
+                    if !(this.trays[i].type in dict) {
+                        let month
+                        if (this.trays[i].date_acquired[5] === "0") {
+                            month = parseInt(this.trays[i].date_acquired.slice(6, 7))
+                        }
+                        else {
+                            month = parseInt(this.trays[i].date_acquired.slice(5, 7))
+                        }
+
+                        data[month-1] += 1
+                    }
+                }
+                console.log(data)
+                */
+                const result = {
+                    labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+                    datasets: [
+                        {
+                        backgroundColor: [
+                            '#41B883',
+                            '#E46651',
+                            '#00D8FF',
+                            '#DD1B16'
+                        ],
+                        data: [40, 20, 80, 10]
+                        }
+                    ]
+                }
+
+                return result
+            },
+            getLineChartData() {
+                return {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                        {
+                        label: 'Data One',
+                        backgroundColor: '#f87979',
+                        data: [40, 39, 10, 40, 39, 80, 40]
+                        }
+                    ]
+                }
             },
 
             getOptions() {
@@ -134,8 +207,15 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        width:100vw;
-        height:120vh;
+    }
+
+    .store-info {
+        background-color: rgb(74, 162, 90);
+        border-radius: 50%;
+        margin: auto;
+        display: block;
+        width: 15%;
+        padding: 5%;
     }
 
     .main-nav {
