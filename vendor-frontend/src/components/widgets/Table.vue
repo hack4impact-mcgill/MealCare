@@ -84,7 +84,7 @@ th {
   background-color: #dddddd;
 }
 
-input[type=text], select {
+input[type=text] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;

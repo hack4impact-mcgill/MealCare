@@ -3,7 +3,8 @@
     <MenuButton></MenuButton>
     <Sidebar>
      <ul class="sidebar-panel-nav">
-       <li><a href="#home">Dashboard</a></li>
+       <img alt="MealCare logo" src="../assets/textlogo-white.png" width=150 style="margin-bottom: 20px;">
+       <li><a href="#dashboard">Dashboard</a></li>
        <li><a href="#about">User Profile</a></li>
        <li><a href="#contact">Settings</a></li>
      </ul>
@@ -16,15 +17,22 @@
         <Table></Table>
     </div>
     <div class="table-container">
-        <h2>Tray Collects by Months</h2>
-        <BarChart
-        class="chart"
-        :data-set="getTrayCollectsPerMonth('2032')"
-        :margin-left="40"
-        :margin-top="40"
-        :tick-count="5"
-        :bar-padding="0.1"
+        <div class="header">
+            <h2>Tray Collects by Months</h2>
+            <select v-model="selected" class="select-year">
+                <option disabled value="">Please select the year</option>
+                <option>2020</option>
+                <option>2021</option>
+                <option>2032</option>
+                <option>2042</option>
+            </select>
+        </div>
+        <div style="margin-right: 10%; margin-left: 10%;">
+        <bar-chart 
+        :chartData="getTrayCollectsPerMonth(selected)"
+        :options="getOptions()"
         />
+        </div>
     </div>
 
   </div>
@@ -42,18 +50,24 @@
             MenuButton,
             Sidebar,
             Table, 
-            BarChart
+            BarChart,
         },
         data () {
             return {       
                 info: "",
                 bar: [],
                 trays: [],
+                selected: '2032',
             }   
         },
         methods: {
-            getTrayCollectsPerMonth(year) {
-                var dict = {}
+            getTrayCollectsPerMonth(year="2032") {
+                var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                var data = [];
+                for (var i = 0; i < 12; i++) {
+                    data[i] = 0;
+                }
+
                 for (let i = 0; i < this.trays.length; i++) {
                     // console.log(this.trays[i])
                     if (this.trays[i].date_acquired.startsWith(year)) {
@@ -65,22 +79,36 @@
                             month = parseInt(this.trays[i].date_acquired.slice(5, 7))
                         }
 
-                        if (!(month in dict)) {
-                            dict[month] = 1
-                        }
-                        else {
-                            dict[month] += 1
-                        }
+                        data[month-1] += 1
                     }
                 }
-                console.log(dict)
-                var values = [["January", 0], ["February", 0], ["March", 0], ["April", 0], ["May", 0], ["June", 0],
-                ["July", 0], ["August", 0], ["September", 0], ["October", 0], ["November", 0], ["December", 0]];
-
-                for (var key in dict) {
-                    values[key - 1][1] = dict[key]
+                console.log(data)
+                const result = { 
+                    labels: labels,
+                    datasets: [
+                        {
+                        label: 'Tray Collects by Months',
+                        backgroundColor: '#f87979',
+                        data: data
+                        }
+                    ]
                 }
-                return values
+
+                return result
+            },
+
+            getOptions() {
+                return {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }]
+                    },
+                }
             }
         },
         mounted(){
@@ -101,13 +129,13 @@
 <style scoped>
     .container {
         background-image:url(../assets/bg-opacity.png);
-        background-repeat: repeat-y;
+        background-repeat: repeat;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
         width:100vw;
-        height:100vh;
+        height:120vh;
     }
 
     .main-nav {
@@ -145,5 +173,19 @@
         color: white;
         text-align: left;
         margin-left: 5%;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-year {
+        width: 20%;
+        padding: 12px 20px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-right: 5%;
     }
 </style>
