@@ -30,7 +30,7 @@ class _EntriesPageState extends State<EntryPage> {
 
   var client = HttpClientService();
 
-  Future showDialog2() {
+  Future addEntry() {
     return showDialog(
         context: context,
         builder: (context) {
@@ -109,7 +109,7 @@ class _EntriesPageState extends State<EntryPage> {
                                     style: BorderStyle.solid),
                                 borderRadius: BorderRadius.circular(50)),
                             onPressed: () {
-                              showDialog2();
+                              addEntry();
                             },
                             child: Text(
                               "+ Add",
