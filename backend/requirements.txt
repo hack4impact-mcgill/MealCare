@@ -14,6 +14,9 @@ dataclasses==0.6
 entrypoints==0.3
 fastapi==0.49.1
 flake8==3.7.9
+google-cloud==0.34.0
+google-cloud-secret-manager==1.0.0
+gunicorn==20.0.4
 h11==0.9.0
 httptools==0.1.1
 idna==2.9
@@ -27,6 +30,7 @@ more-itertools==8.2.0
 packaging==20.1
 passlib==1.7.2
 pathspec==0.8.0
+pg8000==1.16.5
 pluggy==0.13.1
 pony==0.7.12
 psycopg2-binary==2.8.4
