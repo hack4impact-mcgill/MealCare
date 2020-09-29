@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/profile_page.dart';
+import 'package:frontend/pages/vendors_page.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'package:frontend/pages/widgets_page.dart';
 import 'package:frontend/widgets/side_bar.dart';
-import 'package:frontend/pages/food_item_page.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -78,13 +78,16 @@ class _HomePageState extends State<HomePage> {
           Text(
             page[pageIndex],
             textAlign: TextAlign.center,
-            style: TextStyle(color: Theme.of(context).accentColor, fontSize: 25),
+            style: TextStyle(color: Theme.of(context).accentColor, 
+            fontSize: 25),
           ),
           Text(
             "Volunteer",
             textAlign: TextAlign.center,
             style:
-                TextStyle(color: Theme.of(context).accentColor, fontSize: 12, letterSpacing: 3),
+                TextStyle(color: Theme.of(context).accentColor, 
+                fontSize: 12, 
+                letterSpacing: 3),
           )
         ],
       ),
@@ -102,7 +105,7 @@ class _HomePageState extends State<HomePage> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: <Widget>[
-          FoodItemPage(),
+          VendorsPage(),
           ProfilePage(),
           SettingsPage(),
           WidgetsPage(), // need to remove this before deployment.

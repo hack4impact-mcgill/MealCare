@@ -57,7 +57,10 @@ class _LocationPageState extends State<LocationPage> {
       highlightTextColor: Theme.of(context).accentColor,
       backgroundColor: Colors.transparent,
       highlightBackgroundColor: Theme.of(context).primaryColor,
-      titleStyle: TextStyle(fontWeight: FontWeight.bold),
+      titleStyle: TextStyle(
+        fontWeight: FontWeight.bold, 
+        fontSize: 14, 
+        letterSpacing: 2),
       borderType: BorderType.rounded,
       margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
       borderWidth: 2.0,
@@ -92,7 +95,9 @@ class _LocationPageState extends State<LocationPage> {
                         child: Text(
                           "Select Your Location",
                           style: TextStyle(
-                              color: Colors.white, fontSize: 30, letterSpacing: 0),
+                              color: Colors.white, 
+                              fontWeight: FontWeight.w600, 
+                              fontSize: 24),
                         ),
                         padding: EdgeInsets.fromLTRB(20, 150, 20, 20),
                       ),
