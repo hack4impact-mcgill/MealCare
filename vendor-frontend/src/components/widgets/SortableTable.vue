@@ -1,30 +1,37 @@
 <template>
-    <div id="table-body">
-        <input type="text" placeholder="Filter by Name or Description" v-model="filter" />
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Date Acquired</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(row, index) in filteredRows" :key="`employee-${index}`">
-                <td v-html="row.type"></td>
-                <td v-html="row.description"></td>
-                <td v-html="row.date_acquired"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+  <div id="table-body">
+    <input
+      v-model="filter"
+      type="text"
+      placeholder="Filter by Name or Description" 
+    >
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date Acquired</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr 
+          v-for="(row, index) in filteredRows" 
+          :key="`employee-${index}`"
+        >
+          <td> {{ row.type }} </td>
+          <td> {{ row.description }} </td>
+          <td> {{ row.date_acquired }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-  name: "table",
+  name: "SortableTable",
   props: {
   },
   
@@ -33,9 +40,6 @@ export default {
         filter: "",
         rows: []
     }
-  },
-
-  methods: {
   },
   computed: {
     filteredRows() {
@@ -55,7 +59,9 @@ export default {
     .get("http://127.0.0.1:8000/vendors/3")
     .then(response => this.rows = response.data.trays)
     .catch(error => console.log(error))
-  }
+  },
+  methods: {
+  },
 };
 
 </script>

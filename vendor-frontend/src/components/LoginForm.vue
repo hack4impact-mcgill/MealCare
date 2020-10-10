@@ -1,23 +1,46 @@
 <template>
-    <div class="container">
-        <a href="https://www.mealcare.org" target="_blank">
-            <img alt="MealCare logo" src="../assets/textlogo-white.png">
-        </a>
-        <form action="" method="POST">
-            <div class="inputcontainer">
-                <label for="uname">Username</label>
-                <input type="text" name="uname" required>
-            </div>
-            <div class="inputcontainer">
-                <label for="psw">Password</label>
-                <input type="password" name="psw" required>
-            </div>
-            <button type="submit">LOGIN</button>
-            <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
-        </form>
-    </div>
+  <div class="container">
+    <a
+      href="https://www.mealcare.org"
+      target="_blank"
+    >
+      <img
+        alt="MealCare logo"
+        src="../assets/textlogo-white.png"
+      >
+    </a>
+    <form
+      action=""
+      method="POST"
+    >
+      <div class="inputcontainer">
+        <label for="uname">Username</label>
+        <input
+          type="text"
+          name="uname"
+          required
+        >
+      </div>
+      <div class="inputcontainer">
+        <label for="psw">Password</label>
+        <input
+          type="password"
+          name="psw"
+          required
+        >
+      </div>
+      <button type="submit">
+        LOGIN
+      </button>
+      <label>
+        <input
+          type="checkbox"
+          checked="checked"
+          name="remember"
+        > Remember me
+      </label>
+    </form>
+  </div>
 </template>
 
 <script>

@@ -1,60 +1,72 @@
 <template>
   <div class="container">
-    <MenuButton></MenuButton>
+    <MenuButton />
     <Sidebar>
-     <ul class="sidebar-panel-nav">
-       <img alt="MealCare logo" src="../assets/textlogo-white.png" width=150 style="margin-bottom: 20px;">
-       <li><a href="#dashboard">Dashboard</a></li>
-       <li><a href="#about">User Profile</a></li>
-       <li><a href="#contact">Settings</a></li>
-     </ul>
-   </Sidebar>
+      <ul class="sidebar-panel-nav">
+        <img
+          alt="MealCare logo"
+          src="../assets/textlogo-white.png"
+          width="150"
+          style="margin-bottom: 20px;"
+        >
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#about">User Profile</a></li>
+        <li><a href="#contact">Settings</a></li>
+      </ul>
+    </Sidebar>
     <div class="store-info">
-      <h1>{{info.name}}</h1>
-      <p>{{info.city}}</p>
-      <p>{{info.address}}</p>
+      <h1>{{ info.name }}</h1>
+      <p>{{ info.city }}</p>
+      <p>{{ info.address }}</p>
     </div>
     <div class="table-container">
-        <h2>Recent Tray Collects</h2>
-        <SortableTable></SortableTable>
+      <h2>Recent Tray Collects</h2>
+      <SortableTable />
     </div>
     <div class="table-container">
-        <div class="header">
-            <h2>Tray Collects by Months</h2>
-            <select v-model="selected" class="select-year">
-                <option disabled value="">Please select the year</option>
-                <option>2020</option>
-                <option>2021</option>
-                <option>2032</option>
-                <option>2042</option>
-            </select>
-        </div>
-        <div style="margin-right: 10%; margin-left: 10%;">
+      <div class="header">
+        <h2>Tray Collects by Months</h2>
+        <select
+          v-model="selected"
+          class="select-year"
+        >
+          <option
+            disabled
+            value=""
+          >
+            Please select the year
+          </option>
+          <option>2020</option>
+          <option>2021</option>
+          <option>2032</option>
+          <option>2042</option>
+        </select>
+      </div>
+      <div style="margin-right: 10%; margin-left: 10%;">
         <bar-chart 
-        :chartData="getTrayCollectsPerMonth(selected)"
-        :options="getOptions()"
+          :chart-data="getTrayCollectsPerMonth(selected)"
+          :options="getOptions()"
         />
-        </div>
+      </div>
     </div>
     <div class="table-container">
-        <h2>Pie Chart Example</h2>
-        <div style="margin-right: 10%; margin-left: 10%;">
+      <h2>Pie Chart Example</h2>
+      <div style="margin-right: 10%; margin-left: 10%;">
         <pie-chart 
-        :chartData="getTrayCollectsPerType()"
-        :options="getOptions()"
+          :chart-data="getTrayCollectsPerType()"
+          :options="getOptions()"
         />
-        </div>
+      </div>
     </div>
     <div class="table-container">
-        <h2>Line Chart Example</h2>
-        <div style="margin-right: 10%; margin-left: 10%;">
+      <h2>Line Chart Example</h2>
+      <div style="margin-right: 10%; margin-left: 10%;">
         <line-chart 
-        :chartData="getLineChartData()"
-        :options="getOptions()"
+          :chart-data="getLineChartData()"
+          :options="getOptions()"
         />
-        </div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -83,6 +95,17 @@
                 trays: [],
                 selected: '2032',
             }   
+        },
+        mounted(){
+            axios
+            .get("http://127.0.0.1:8000/vendors/3")
+            .then(response => {
+                this.info = response.data
+                this.trays = response.data.trays 
+                console.log(response.data)
+                }
+            )
+            .catch(error => console.log(error))
         },
         methods: {
             getTrayCollectsPerMonth(year="2032") {
@@ -183,17 +206,6 @@
                     },
                 }
             }
-        },
-        mounted(){
-            axios
-            .get("http://127.0.0.1:8000/vendors/3")
-            .then(response => {
-                this.info = response.data
-                this.trays = response.data.trays 
-                console.log(response.data)
-                }
-            )
-            .catch(error => console.log(error))
         }
     }
 
