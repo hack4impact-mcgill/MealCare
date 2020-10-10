@@ -1,7 +1,6 @@
 import os
 
 import sqlalchemy
-# Import the Secret Manager client library.
 from google.cloud import secretmanager
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,7 +8,6 @@ from sqlalchemy.orm import sessionmaker
 
 mode = os.getenv("DEPLOY_MODE", "LOCAL")
 engine = None
-print(mode)
 if mode == "GCP":
     # Create the Secret Manager client.
     client = secretmanager.SecretManagerServiceClient()
