@@ -1,12 +1,12 @@
 import os
-import sqlalchemy
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
+import sqlalchemy
 
 # Import the Secret Manager client library.
 from google.cloud import secretmanager
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 mode = os.getenv("DEPLOY_MODE", "LOCAL")
 engine = None
@@ -49,9 +49,7 @@ if mode == "GCP":
         # ... Specify additional properties here.
     )
 else:
-    SQLALCHEMY_DATABASE_URL = (
-        "postgresql://mealadmin:happymeal@localhost/mealcare_dev"
-    )
+    SQLALCHEMY_DATABASE_URL = "postgresql://mealadmin:happymeal@localhost/mealcare_dev"
 
     engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
