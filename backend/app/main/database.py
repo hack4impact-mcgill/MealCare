@@ -1,7 +1,6 @@
 import os
 
 import sqlalchemy
-
 # Import the Secret Manager client library.
 from google.cloud import secretmanager
 from sqlalchemy import create_engine
