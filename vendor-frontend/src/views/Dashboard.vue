@@ -16,7 +16,7 @@
     </div>
     <div class="table-container">
         <h2>Recent Tray Collects</h2>
-        <Table></Table>
+        <SortableTable></SortableTable>
     </div>
     <div class="table-container">
         <div class="header">
@@ -62,7 +62,7 @@
     import axios from 'axios';
     import MenuButton from '../components/MenuButton.vue';
     import Sidebar from '../components/Sidebar.vue';
-    import Table from '../components/widgets/Table.vue';
+    import SortableTable from '../components/widgets/SortableTable.vue';
     import BarChart from '../components/widgets/BarChart.vue';
     import LineChart from '../components/widgets/LineChart.vue';
     import PieChart from '../components/widgets/PieChart.vue';
@@ -71,7 +71,7 @@
         components: {
             MenuButton,
             Sidebar,
-            Table, 
+            SortableTable, 
             BarChart,
             LineChart,
             PieChart
@@ -190,6 +190,7 @@
             .then(response => {
                 this.info = response.data
                 this.trays = response.data.trays 
+                console.log(response.data)
                 }
             )
             .catch(error => console.log(error))
@@ -210,12 +211,8 @@
     }
 
     .store-info {
-        background-color: rgb(74, 162, 90);
-        border-radius: 50%;
         margin: auto;
         display: block;
-        width: 15%;
-        padding: 5%;
     }
 
     .main-nav {

@@ -6,6 +6,7 @@ import Dashboard from "../views/Dashboard";
 Vue.use(VueRouter)
 
 const routes = [
+    
     {
         path:"/",
         name:"Login",
@@ -19,5 +20,6 @@ const routes = [
 ]
 
 export default new VueRouter({
+    mode: 'history',
     routes
 })

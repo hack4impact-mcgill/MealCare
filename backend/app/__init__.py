@@ -25,7 +25,6 @@ def create_app(config_name):
         debug=app_config.debug,
     )
 
-
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
