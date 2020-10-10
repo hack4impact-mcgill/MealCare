@@ -10,6 +10,7 @@ from google.cloud import secretmanager
 
 mode = os.getenv("DEPLOY_MODE", "LOCAL")
 engine = None
+print(mode)
 if mode == "GCP":
     # Create the Secret Manager client.
     client = secretmanager.SecretManagerServiceClient()
@@ -49,7 +50,7 @@ if mode == "GCP":
     )
 else:
     SQLALCHEMY_DATABASE_URL = (
-        "postgresql://mealadmin:happymeal@35.237.71.58/mealcare_dev"
+        "postgresql://mealadmin:happymeal@localhost/mealcare_dev"
     )
 
     engine = create_engine(SQLALCHEMY_DATABASE_URL)
