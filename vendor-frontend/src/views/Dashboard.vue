@@ -67,6 +67,7 @@
         />
       </div>
     </div>
+    <hr>
   </div>
 </template>
 
@@ -135,7 +136,7 @@
                     datasets: [
                         {
                         label: 'Tray Collects',
-                        backgroundColor: '#f87979',
+                        backgroundColor: '#4AA25A',
                         data: data
                         }
                     ]
@@ -186,7 +187,7 @@
                     datasets: [
                         {
                         label: 'Data One',
-                        backgroundColor: '#f87979',
+                        backgroundColor: '#4AA25A',
                         data: [40, 39, 10, 40, 39, 80, 40]
                         }
                     ]
@@ -214,8 +215,8 @@
 
 <style scoped>
     .container {
-        background-image:url(../assets/bg-opacity.png);
-        background-repeat: repeat;
+        background-color: #ffffff;
+        background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -239,7 +240,7 @@
     }
 
     ul.sidebar-panel-nav > li > a {
-        color: #fff;
+        color: black;
         text-decoration: none;
         font-size: 1.5rem;
         display: block;
@@ -248,7 +249,8 @@
 
     .table-container {
         margin-top: 30px;
-        background-color: rgb(74, 162, 90);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        background-color: rgb(255, 255, 255);
         width: 90%;
         margin-right: auto;
         margin-left: auto;
@@ -259,7 +261,7 @@
     }
 
     .table-container h2 {
-        color: white;
+        color: black;
         text-align: left;
         margin-left: 5%;
     }
@@ -268,6 +270,7 @@
         display: flex;
         justify-content: space-between;
     }
+
     .select-year {
         width: 20%;
         padding: 12px 20px;
@@ -276,5 +279,12 @@
         border-radius: 4px;
         box-sizing: border-box;
         margin-right: 5%;
+    }
+
+    hr {
+        margin-top: 3rem;
+        width: 80%;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
     }
 </style>

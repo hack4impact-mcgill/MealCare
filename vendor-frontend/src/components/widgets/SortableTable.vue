@@ -8,9 +8,33 @@
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Date Acquired</th>
+          <th @click="sort('type')">
+            Name
+            <span
+              v-if="'type' === currentSort"
+              class="sort-arrow"
+            >
+              <i :class="[currentSortDir ==='asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down' ]" /> 
+            </span> 
+          </th>
+          <th @click="sort('description')">
+            Description
+            <span
+              v-if="'description' === currentSort"
+              class="sort-arrow"
+            >
+              <i :class="[currentSortDir ==='asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down' ]" /> 
+            </span>
+          </th>
+          <th @click="sort('date_acquired')">
+            Date Acquired
+            <span
+              v-if="'date_acquired' === currentSort"
+              class="sort-arrow"
+            >
+              <i :class="[currentSortDir ==='asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down' ]" /> 
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +48,16 @@
         </tr>
       </tbody>
     </table>
+    <p
+      v-if="pageSize < rows.length"
+    >
+      <button @click="prevPage">
+        Previous
+      </button> 
+      <button @click="nextPage">
+        Next
+      </button>
+    </p>
   </div>
 </template>
 
@@ -38,7 +72,11 @@ export default {
   data() {
     return {
         filter: "",
-        rows: []
+        rows: [],
+        currentSort:'type',
+        currentSortDir:'asc',
+        pageSize:10,
+        currentPage:1
     }
   },
   computed: {
@@ -51,6 +89,18 @@ export default {
         return (
           name.includes(searchTerm) || description.includes(searchTerm)
         );
+      })
+      .sort((a,b) => {
+        let modifier = 1;
+        if(this.currentSortDir === 'desc') modifier = -1;
+        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      })
+      .filter((row, index) => {
+        let start = (this.currentPage-1)*this.pageSize;
+        let end = this.currentPage*this.pageSize;
+        if(index >= start && index < end) return true;
       });
     }
   },
@@ -61,6 +111,19 @@ export default {
     .catch(error => console.log(error))
   },
   methods: {
+    sort:function(s) {
+      //if s == current sort, reverse
+      if(s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+      }
+      this.currentSort = s;
+    },
+    nextPage:function() {
+      if((this.currentPage*this.pageSize) < this.rows.length) this.currentPage++;
+    },
+    prevPage:function() {
+      if(this.currentPage > 1) this.currentPage--;
+    }
   },
 };
 
@@ -99,5 +162,9 @@ input[type=text] {
   border-radius: 4px;
   box-sizing: border-box;
   margin-top: 25px;
+}
+
+.sort-arrow {
+  text-align: right !important;
 }
 </style>
