@@ -20,6 +20,7 @@ class CurrentSessionArgument {
 }
 
 class _EntriesPageState extends State<EntryPage> {
+  final _formKey = GlobalKey<FormState>();
   Vendor vendor;
   void goToCurrentSession(foodCollect) {
     Navigator.pushNamed(context, CurrentSessionPage.routeName,
@@ -28,6 +29,31 @@ class _EntriesPageState extends State<EntryPage> {
   }
 
   var client = HttpClientService();
+
+  Future addEntry() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Add a new Entry to " + this.vendor.name),
+            actions: [
+              MaterialButton(
+                color: Theme.of(context).accentColor,
+                elevation: 5.0,
+                child: Text("Add a new Entry"),
+                onPressed: () {
+                  this.client.addFoodCollect(FoodCollect(
+                      pickup_time: DateTime.now().toString(),
+                      vendor_id: this.vendor.id));
+                  // print(this.newEntryController.text);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   Future<List<FoodCollect>> foodCollects;
 
   @override
@@ -39,9 +65,6 @@ class _EntriesPageState extends State<EntryPage> {
       print(error.toString());
     }
   }
-
-  final activeEntries =
-      List<DateTile>.generate(5, (i) => DateTile("March 10th, 2020", true, i));
 
   final archives =
       List<DateTile>.generate(5, (i) => DateTile("March 10th, 2020", false, i));
@@ -65,13 +88,35 @@ class _EntriesPageState extends State<EntryPage> {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(20, 27, 0, 0),
-                    child: Text(
-                      "ACTIVE ENTRIES",
-                      style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
-                          color: Color.fromRGBO(139, 139, 139, 1)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ACTIVE ENTRIES",
+                          style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              color: Color.fromRGBO(139, 139, 139, 1)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 1,
+                                    style: BorderStyle.solid),
+                                borderRadius: BorderRadius.circular(50)),
+                            onPressed: () {
+                              addEntry();
+                            },
+                            child: Text(
+                              "+ Add",
+                            ),
+                          ),
+                        )
+                      ],
                     )))),
         FutureBuilder<List<FoodCollect>>(
           future: foodCollects,
