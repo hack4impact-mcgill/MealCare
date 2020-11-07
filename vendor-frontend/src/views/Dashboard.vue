@@ -20,29 +20,50 @@
       <p>{{ info.address }}</p>
     </div>
     <div class="table-container">
-      <h2>Recent Tray Collects</h2>
-      <SortableTable />
-    </div>
-    <div class="table-container">
       <div class="header">
-        <h2>Tray Collects by Months</h2>
-        <select
-          v-model="selected"
-          class="select-year"
+        <h2>Recent Tray Collects</h2>
+        <button 
+          class="export-btn"
+          @click="exportTableToCSV('food-data-' + new Date().toLocaleDateString() + '.csv')"
         >
-          <option
-            disabled
-            value=""
-          >
-            Please select the year
-          </option>
-          <option>2020</option>
-          <option>2021</option>
-          <option>2032</option>
-          <option>2042</option>
-        </select>
+          Export
+          <i class="fas fa-download" />
+        </button>
       </div>
-      <div style="margin-right: 10%; margin-left: 10%;">
+      <SortableTable
+        :rows="trays"
+      />
+    </div>
+    <div class="flexbox">
+      <div class="cards">
+        <Card
+          :title="'Collects'"
+          :values="getCollectsThisMonth()"
+        />
+        <Card
+          :title="'Total Weight'"
+          :values="getCollectsThisMonth()"
+        />
+      </div>
+      <div class="table-container-flex">
+        <div class="header">
+          <h2>Tray Collects by Months</h2>
+          <select
+            v-model="yearSelected"
+            class="select-year"
+          >
+            <option
+              disabled
+              value=""
+            >
+              Please select the year
+            </option>
+            <option>2020</option>
+            <option>2021</option>
+            <option>2032</option>
+            <option>2042</option>
+          </select>
+        </div>
         <bar-chart 
           :chart-data="getTrayCollectsPerMonth(selected)"
           :options="getOptions()"
@@ -50,22 +71,34 @@
       </div>
     </div>
     <div class="table-container">
-      <h2>Pie Chart Example</h2>
-      <div style="margin-right: 10%; margin-left: 10%;">
-        <pie-chart 
-          :chart-data="getTrayCollectsPerType()"
-          :options="getOptions()"
-        />
+      <div class="header">
+        <h2>Top Surplus Food Item</h2>
+        <select
+          v-model="filterTypeSelected"
+          class="select-year"
+        >
+          <option
+            disabled
+            value=""
+          >
+            Please select the filter type
+          </option>
+          <option>This Week</option>
+          <option>This Month</option>
+          <option>This Year</option>
+        </select>
       </div>
+      <pie-chart 
+        :chart-data="getTrayCollectsPerType()"
+        :options="getOptions()"
+      />
     </div>
     <div class="table-container">
       <h2>Line Chart Example</h2>
-      <div style="margin-right: 10%; margin-left: 10%;">
-        <line-chart 
-          :chart-data="getLineChartData()"
-          :options="getOptions()"
-        />
-      </div>
+      <line-chart 
+        :chart-data="getLineChartData()"
+        :options="getOptions()"
+      />
     </div>
     <hr>
   </div>
@@ -79,6 +112,8 @@
     import BarChart from '../components/widgets/BarChart.vue';
     import LineChart from '../components/widgets/LineChart.vue';
     import PieChart from '../components/widgets/PieChart.vue';
+    import Card from '../components/widgets/Card.vue';
+    import exportTableToCSV from '../helpers/csv-helpers.js'
 
     export default {
         components: {
@@ -87,14 +122,17 @@
             SortableTable, 
             BarChart,
             LineChart,
-            PieChart
+            PieChart,
+            Card,
         },
         data () {
-            return {       
+            return {
+                exportTableToCSV,
                 info: "",
                 bar: [],
                 trays: [],
-                selected: '2032',
+                yearSelected: '2032',
+                filterTypeSelected: 'This Week',
             }   
         },
         mounted(){
@@ -110,24 +148,17 @@
         },
         methods: {
             getTrayCollectsPerMonth(year="2032") {
-                var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                var labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 var data = [];
                 for (var i = 0; i < 12; i++) {
                     data[i] = 0;
                 }
 
                 for (let i = 0; i < this.trays.length; i++) {
-                    // console.log(this.trays[i])
-                    if (this.trays[i].date_acquired.startsWith(year)) {
-                        let month
-                        if (this.trays[i].date_acquired[5] === "0") {
-                            month = parseInt(this.trays[i].date_acquired.slice(6, 7))
-                        }
-                        else {
-                            month = parseInt(this.trays[i].date_acquired.slice(5, 7))
-                        }
+                    var traysDate = new Date(this.trays[i].date_acquired)
 
-                        data[month-1] += 1
+                    if (traysDate.getFullYear() == year) {
+                        data[traysDate.getMonth()] += 1
                     }
                 }
                 console.log(data)
@@ -165,7 +196,7 @@
                 console.log(data)
                 */
                 const result = {
-                    labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+                    labels: ['Beef', 'Bread', 'Cheese', 'Chicken'],
                     datasets: [
                         {
                         backgroundColor: [
@@ -206,6 +237,41 @@
                         }]
                     },
                 }
+            },
+
+            getCollectsThisMonth() {
+                const today = new Date()
+                const currentMonth = today.getMonth()
+                const currentYear = today.getYear()
+
+                var counter = 0;
+                var previousMonth = 0;
+                var percentage;
+
+                for (let i = 0; i < this.trays.length; i++) {
+                    var traysDate = new Date(this.trays[i].date_acquired)
+                    if (traysDate.getMonth() == currentMonth && traysDate.getYear() == currentYear) {
+                        counter++;
+                    }
+
+                    if (traysDate.getMonth() == currentMonth - 1 && traysDate.getYear() == currentYear) {
+                        previousMonth++;
+                    }
+                }
+                if (previousMonth) {
+                    percentage = (counter - previousMonth) / previousMonth
+                }
+                else {
+                    percentage = "± N/A"
+                }
+
+                const results = {
+                    value: counter,
+                    percentage: percentage,
+                }
+
+                console.log(results)
+                return results;
             }
         }
     }
@@ -256,8 +322,16 @@
         margin-left: auto;
         display: block;
         border-radius: 1em;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding: 2.5%;
+    }
+
+    .table-container-flex {
+      margin-top: 30px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      background-color: rgb(255, 255, 255);
+      width: 65%;
+      border-radius: 1em;
+      padding: 30px;
     }
 
     .table-container h2 {
@@ -278,7 +352,6 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        margin-right: 5%;
     }
 
     hr {
@@ -286,5 +359,38 @@
         width: 80%;
         border: 0;
         border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .flexbox {
+      display: flex;
+      justify-content: space-between;
+      width: 95%;
+      margin: auto;
+      padding: 30px 0;
+    }
+
+    .cards {
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pie-chart, .line-chart, .bar-chart {
+      margin: auto;
+      display: block;
+    }
+
+    .export-btn {
+      cursor: pointer;
+      border: none;
+      background-color: white;
+      margin-right: 5%;
+      font-size: 15px;
+      color: rgb(74, 162, 90);
+    }
+
+    .export-btn:hover {
+      opacity: 0.5;
     }
 </style>

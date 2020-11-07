@@ -67,12 +67,15 @@ import axios from 'axios';
 export default {
   name: "SortableTable",
   props: {
+    rows: {
+      type: Array,
+      required: true,
+    },
   },
   
   data() {
     return {
         filter: "",
-        rows: [],
         currentSort:'type',
         currentSortDir:'asc',
         pageSize:10,
@@ -103,12 +106,6 @@ export default {
         if(index >= start && index < end) return true;
       });
     }
-  },
-  mounted(){
-    axios
-    .get("http://127.0.0.1:8000/vendors/3")
-    .then(response => this.rows = response.data.trays)
-    .catch(error => console.log(error))
   },
   methods: {
     sort:function(s) {
@@ -143,10 +140,12 @@ table {
 }
 
 td, th {
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: none;
+  border-left: none;
   background-color: white;
   text-align: left;
-  padding: 8px;
+  padding: 15px;
 }
 
 th {
