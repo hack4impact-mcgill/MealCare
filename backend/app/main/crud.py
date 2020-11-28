@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-import jwt
+from jose import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -134,7 +134,6 @@ def get_user(session: Session, username: str):
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 def get_password_hash(password):
     return pwd_context.hash(password)

@@ -108,6 +108,12 @@ class Token(Base):
     access_token = Column(String)
     token_type = Column(String)
 
+class TokenData(Base):
+    __tablename__ = "token_data"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, nullable=True)
+
 
 class TrayCollect(Base):
     __tablename__ = "tray_collects"

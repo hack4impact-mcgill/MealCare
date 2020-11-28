@@ -26,7 +26,7 @@ def create_app(config_name):
 
     # TODO: Get the router from the main file and other files later on
     from app.main import main
-    from app.main.routers import food, food_collect, vendors, session, trays
+    from app.main.routers import food, food_collect, vendors, session, trays, users
 
     app.include_router(main.router)
     app.include_router(food.router)
@@ -34,5 +34,6 @@ def create_app(config_name):
     app.include_router(vendors.router)
     app.include_router(session.router)
     app.include_router(trays.router)
+    app.include_router(users.router)
 
     return app

@@ -216,6 +216,15 @@ class MainTest(BasicApiTestCase):
 
         # TODO: remove entry from db
 
+    def test_login_user(self):
+        login_info = {
+            "username" : "in",
+            "password" : "wonderland"
+        }
+        response = self.app.post("/token", json=login_info)
+        assert response.status_code == 200
+
+
     def test_get_session_food_items(self):
         # Add a vendor first
         vendor = {
