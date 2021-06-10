@@ -12,7 +12,7 @@ chardet==3.0.4
 Click==7.0
 dataclasses==0.6
 entrypoints==0.3
-fastapi==0.49.1
+fastapi==0.65.2
 flake8==3.7.9
 h11==0.9.0
 httptools==0.1.1
